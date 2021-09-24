@@ -1,0 +1,67 @@
+<!Doctype html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+
+    <title>강만다</title>
+
+    <!-- style -->
+    <style type="text/css">
+    </style>
+    <script>
+        function save() {
+            var form_data = new FormData($('#upload-file')[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/fileupload',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("파일이 업로드 되었습니다!!");
+                },
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+<div class="header">
+    <img class="logo" src="/static/logo.png">
+</div>
+<div class="wrap">
+    <div class="jumbotron">
+        <h1 class="display-4">마루 사진 들어갈곳</h1>
+    </div>
+</div>
+<div id="cards-box" class="card-columns">
+    <div class="card">
+        <img class="card-img-top"
+             src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
+             alt="Card image cap">
+        <div class="card-body">
+            <a href="#" class="card-title">이름</a>
+            <p class="card-text">프로필 내용 요약</p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+</html>

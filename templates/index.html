@@ -1,11 +1,82 @@
+<!Doctype html>
+<html lang="ko">
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+
+    <title>강만다</title>
+
+    <!-- style -->
+    <style type="text/css">
+    </style>
+    <script>
+        $(document).ready(function () {
+            show_profile();
+        });
+
+        function show_profile() {
+            $.ajax({
+                type: 'GET',
+                url: '/profile_list',
+                data: {},
+                success: function (response) {
+                    let profile = response['all_profile']
+                    for (let i = 0; i < profile.length; i++) {
+                        let image = profile[i]['image']
+                        let name = profile[i]['name']
+                        let age = profile[i]['age']
+                        let gender = profile[i]['gender']
+                        let descrip = profile[i]['descrip']
+
+                        let temp_html = `<div class="card">
+                                        <img class="card-img-top"
+                                             src="${image}"
+                                             alt="Card image cap">
+                                        <div class="card-body">
+                                        <a href="#" class="card-title">${name}</a>
+                                        <p class="card-text age">${age}</p>
+                                        <p class="card-text gender">${gender}</p>
+                                        <p class="card-text description">${descrip}</p>
+                                        </div>
+                                      </div>`
+
+                        $('#cards-box').append(temp_html)
+                    }
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+<div class="header">
+    <img class="logo" src="/static/logo.png">
+    <input type="button" value="게시물보기" onclick="location.href='/posts'">
+</div>
+<div class="wrap">
+    <div class="jumbotron">
+        <h1 class="display-4">마루 사진 들어갈곳</h1>
+    </div>
+</div>
+<div id="cards-box" class="card-columns">
+
+</div>
+</div>
 </body>
+
 </html>
