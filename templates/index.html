@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -47,10 +49,10 @@
                                              src="${image}"
                                              alt="Card image cap">
                                         <div class="card-body">
-                                        <a href="#" class="card-title">${name}</a>
-                                        <p class="card-text age">${age}</p>
-                                        <p class="card-text gender">${gender}</p>
-                                        <p class="card-text description">${descrip}</p>
+                                        <a href="#" class="card-title">이름 : ${name}</a>
+                                        <p class="card-text age">나이 : ${age}</p>
+                                        <p class="card-text gender">성별 : ${gender}</p>
+                                        <p class="card-text description">자기소개 : ${descrip}</p>
                                         </div>
                                       </div>`
 
@@ -59,25 +61,30 @@
                 }
             });
         }
+
+
     </script>
 
 </head>
 
 <body>
-<div class="header">
-    <img class="logo" src="/static/logo.png">
-    <input type="button" value="게시물보기" onclick="location.href='/posts'">
-</div>
-
-
-<div class="wrap">
-    <div class="jumbotron">
-        <h1 class="display-4">마루 사진 들어갈곳</h1>
+<div class="navbar">
+    <div class="navbar_logo">
+        <img class="logo" src="/static/logo2.png">
+    </div>
+    <div class="navbar_menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/posts">게시물 보기</a></li>
     </div>
 </div>
-<div id="cards-box" class="card-columns">
+    <div class="wrap">
+        <div class="jumbotron">
+            <h1 class="display-4">마루 사진 들어갈곳</h1>
+        </div>
+    </div>
+    <div id="cards-box" class="card-columns">
 
-</div>
+    </div>
 </div>
 </body>
 

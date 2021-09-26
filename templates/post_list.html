@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,45 +23,80 @@
 
     <!-- style -->
     <style type="text/css">
+
+
+
     </style>
     <script>
-        function save() {
-            var form_data = new FormData($('#upload-file')[0]);
+        $(document).ready(function () {
+            show_post_list();
+        });
+
+        function show_post_list() {
             $.ajax({
-                type: 'POST',
-                url: '/fileupload',
-                data: form_data,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    alert("파일이 업로드 되었습니다!!");
-                },
-            });
+                type: 'GET',
+                url: '/post_list',
+                data: {},
+                success: function (response) {
+                    let all_articles = response['all_profile']
+                    for (let i = 0; i < profile.length; i++) {
+                        let image = profile[i]['image']
+                        let name = profile[i]['name']
+                        let age = profile[i]['age']
+                        let gender = profile[i]['gender']
+                        let descrip = profile[i]['descrip']
+
+                        let temp_html = `<div class="item">
+                                           <div class="num">5</div>
+                                           <div class="title"><a href="#">마루입니다</a></div>
+                                           <div class="author">마루 언니</div>
+                                           <div class="date">2021-09-26</div>
+                                         </div>`
+
+                        $('#post_list_body').append(temp_html)
+                    }
+                ,
+                });
         }
     </script>
 
 </head>
 
 <body>
-<div class="header">
-    <img class="logo" src="/static/logo.png">
+<div class="navbar">
+    <div class="navbar_logo">
+        <img class="logo" src="/static/logo2.png">
+    </div>
+    <div class="navbar_menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/posts/create">게시물 작성</a></li>
+    </div>
 </div>
 <div class="wrap">
     <div class="jumbotron">
-        <h1 class="display-4">마루 사진 들어갈곳</h1>
+        <h1 class="display-4">게시글 모아보기</h1>
     </div>
 </div>
-<div id="cards-box" class="card-columns">
-    <div class="card">
-        <img class="card-img-top"
-             src="https://www.eurail.com/content/dam/images/eurail/Italy%20OCP%20Promo%20Block.adaptive.767.1535627244182.jpg"
-             alt="Card image cap">
-        <div class="card-body">
-            <a href="#" class="card-title">이름</a>
-            <p class="card-text">프로필 내용 요약</p>
+<div class="post_list_wrap">
+    <div class="post_list">
+        <div class="post_list_head">
+            <div class="num">번호</div>
+            <div class="title">제목</div>
+            <div class="author">글쓴이</div>
+            <div class="date">작성일</div>
+        </div>
+        <div class="post_list_body">
+            <div class="item">
+                <div class="num">1</div>
+                <div class="title"><a href="#">마루입니다</a></div>
+                <div class="author">마루 언니</div>
+                <div class="date">2021-09-26</div>
+            </div>
         </div>
     </div>
+
 </div>
+
 </div>
 </body>
 
