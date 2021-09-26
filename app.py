@@ -4,7 +4,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
-db = client.dogMeet
+db = client.marumaru
 
 
 # 메인페이지 불러오기
@@ -33,6 +33,30 @@ def detail(id):
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     print(articles)
     return render_template("detail.html", id=id, detail_db=articles)
+
+
+# 게시물 작성페이지 불러오기
+@app.route('/posts/create')
+def show_posts_upload():
+    return render_template('post upload.html')
+
+
+@app.route('/posts/create', methods=['POST'])
+def post_upload():
+    author_receive = request.form['author_give']
+    title_receive = request.form['title_give']
+    address_receive = request.form['address_give']
+    contents_receive = request.form['contents_give']
+
+    doc = {
+        'author': author_receive,
+        'title': title_receive,
+        'contents': contents_receive,
+        'address': address_receive
+    }
+
+    db.posts_create.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
 
 
 if __name__ == '__main__':
