@@ -50,7 +50,7 @@
             let address = $("#address-box").val()
             let contents = $("#contents_box").val()
 
-
+            console.log(contents)
 
             $.ajax({
                 type: "POST",
@@ -58,7 +58,8 @@
                 data: {author_give: author, title_give: title, address_give: address, contents_give: contents},
                 success: function (response) { // 성공하면
                     alert(response["msg"])
-                    window.location.reload()
+                    //window.location.reload()
+                    location.replace('/posts')
                 }
             })
         }

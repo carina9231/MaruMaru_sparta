@@ -25,7 +25,6 @@
     <style type="text/css">
 
 
-
     </style>
     <script>
         $(document).ready(function () {
@@ -35,28 +34,27 @@
         function show_post_list() {
             $.ajax({
                 type: 'GET',
-                url: '/post_list',
+                url: '/posts_list',
                 data: {},
                 success: function (response) {
-                    let all_articles = response['all_profile']
-                    for (let i = 0; i < profile.length; i++) {
-                        let image = profile[i]['image']
-                        let name = profile[i]['name']
-                        let age = profile[i]['age']
-                        let gender = profile[i]['gender']
-                        let descrip = profile[i]['descrip']
+                    let articles = response['all_articles']
+                    for (let i = 0; i < articles.length; i++) {
+                        //let image = articles[i]['image']
+                        let author = articles[i]['author']
+                        let title = articles[i]['title']
+                        let contents = articles[i]['contents']
+                        let address = articles[i]['address']
 
                         let temp_html = `<div class="item">
                                            <div class="num">5</div>
-                                           <div class="title"><a href="#">마루입니다</a></div>
-                                           <div class="author">마루 언니</div>
+                                           <div class="title"><a href="#">${title}</a></div>
+                                           <div class="author">${author}</div>
                                            <div class="date">2021-09-26</div>
                                          </div>`
-
-                        $('#post_list_body').append(temp_html)
+                        $('#post_body').append(temp_html)
                     }
-                ,
-                });
+                }
+            });
         }
     </script>
 
@@ -85,7 +83,7 @@
             <div class="author">글쓴이</div>
             <div class="date">작성일</div>
         </div>
-        <div class="post_list_body">
+        <div class="post_list_body" div id="post_body">
             <div class="item">
                 <div class="num">1</div>
                 <div class="title"><a href="#">마루입니다</a></div>
