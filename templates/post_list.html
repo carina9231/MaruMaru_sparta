@@ -44,10 +44,12 @@
                         let title = articles[i]['title']
                         let contents = articles[i]['contents']
                         let address = articles[i]['address']
+                        let number = articles[i]['number']
+
 
                         let temp_html = `<div class="item">
                                            <div class="num">5</div>
-                                           <div class="title"><a href="#">${title}</a></div>
+                                           <div class="title"><a href="/detail/${number}">${title}</a></div>
                                            <div class="author">${author}</div>
                                            <div class="date">2021-09-26</div>
                                          </div>`
