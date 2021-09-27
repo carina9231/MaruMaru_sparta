@@ -18,10 +18,12 @@ def main():
 def show_posts():
     return render_template('post_list.html')
 
+
 @app.route('/posts_list', methods=['GET'])
-def posts_list() :
+def posts_list():
     articles = list(db.articles.find({}, {'_id': False}))
     return jsonify({'all_articles': articles})
+
 
 # 메인페이지에 프로필 카드 보여주기
 @app.route('/profile_list', methods=['GET'])
@@ -39,6 +41,11 @@ def detail(id):
     return render_template("detail.html", id=id, detail_db=articles)
 
 
+@app.route('/detail/<id>/upload')
+def detail_upload(id):
+    return render_template("detail_upload.html")
+
+
 # 게시물 작성페이지 불러오기
 @app.route('/posts/create')
 def show_posts_upload():
@@ -47,7 +54,6 @@ def show_posts_upload():
 
 @app.route('/posts/create', methods=['POST'])
 def post_upload():
-
     author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
@@ -60,10 +66,10 @@ def post_upload():
 
     count = db.articles.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
-    if count == 0 :
+    if count == 0:
         count = 1
-    elif count >0 :
-        count = count+1
+    elif count > 0:
+        count = count + 1
 
     doc = {
         'author': author_receive,

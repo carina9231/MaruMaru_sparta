@@ -80,6 +80,7 @@
     line-height: 56px;
     font-family: "BinggraeSamanco-Bold";
 }
+
 .wrap h2 {
     font-family: "BinggraeSamanco-Bold";
     font-size: 50px;
@@ -97,9 +98,10 @@
 
 
 /*게시물 목록 페이지*/
-.category{
+.category {
     padding: 10px 150px;
 }
+
 .category h1 {
     font-size: 48px;
     font-weight: 700;
@@ -155,28 +157,41 @@
 /*디테일 페이지*/
 
 .user_info {
-    border: solid black 1px;
-    width: 150px;
-    text-align: center;
-    margin-right: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    float: right;
+    margin: 50px 30px 10px 10px;
+    font-size: 1.5rem;
+    font-weight: 100;
+    color: #FF2442;
 }
 
 .detail_title {
-    border: solid black 1px;
-    width: 900px;
-    height: 50px;
-    margin: auto;
+    font-size: 3rem;
+    font-weight: bolder;
+    color: #3DB2FF;
+    padding-top: 100px
 }
 
 .detail_content {
-    border: solid black 1px;
-    width: 900px;
-    height: 500px;
-    margin: auto;
+    display: flex;
+    margin-top: 50px;
+
 }
 
 .detail_button {
-    border: solid black 1px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.btn_map {
+    margin-top: 50px;
+}
 
+.detail_comment {
+    padding-top: 50px;
+    margin-bottom: 100px;
+}

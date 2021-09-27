@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+
+    <title>상세페이지</title>
+
+    <style>
+
+        .detail_button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            console.log('ready')
+            getPosts();
+        })
+
+        function getPosts () {
+            $.ajax({
+                type: "GET",
+                url: "/detail/{{ id }}/upload",
+                data: {},
+                success: function (response) {
+                    console.log(response)
+
+
+                    $("#title_box").val('test');
+                    $("#contents_box").val('test');
+                }
+            })
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar_logo">
+        <img class="logo" src="/static/logo2.png">
+    </div>
+    <div class="navbar_menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/posts">게시물 보기</a></li>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-md-12">
+            <!-- 작성자 -->
+            <div class="user_info">{{ detail_db['author'] }}</div>
+            <div class="title">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <input id="title_box" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <div class="contents">
+                <div class="input-group mb-3">
+                    <textarea class="form-control" placeholder="내용을 작성해주세요!" aria-label="With textarea"
+                              id="contents_box"></textarea>
+                </div>
+            </div>
+            <!-- 버튼 그룹 -->
+            <div class="detail_button">
+                <button type="button" class="btn btn-primary ui button"><i class="fas fa-arrow-circle-up"></i> 수정
+                </button>
+                &nbsp;
+                <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"> 삭제</i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
