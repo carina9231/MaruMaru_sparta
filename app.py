@@ -52,12 +52,19 @@ def post_upload():
     address_receive = request.form['address_give']
     contents_receive = request.form['contents_give']
 
+    file = request.files['file_give']
+    print(file)
+
+    save_to = 'static/mypicture.jpg'
+    file.save(save_to)
+
     count = db.articles.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0 :
         count = 1
     elif count >0 :
         count = count+1
+
     doc = {
         'author': author_receive,
         'title': title_receive,

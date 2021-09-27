@@ -16,6 +16,9 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <title>강만다</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
     <style>
 
         .all {
@@ -30,7 +33,7 @@
         .author {
             float: right;
             width: 50%;
-            margin: 130px 0px 0px 0px;
+            margin: 25px 0px 0px 0px;
         }
 
         .save {
@@ -38,30 +41,49 @@
             color: #3DB2FF;
         }
 
+        .image {
+            width: 100px;
+            margin: auto;
+        }
+
 
 
 
     </style>
     <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        })
 
         function post_upload() {
             let author = $("#author_box").val()
             let title = $("#title_box").val()
             let address = $("#address-box").val()
-            let contents = $("#contents_box").val()
+            let content = $("#contents_box").val()
 
-            console.log(contents)
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+            form_data.append("author_give", author)
+            form_data.append("title_give", title)
+            form_data.append("address_give", address)
+            form_data.append("content_give", content)
+
+            console.log(form_data)
 
             $.ajax({
                 type: "POST",
                 url: "/posts/create",
-                data: {author_give: author, title_give: title, address_give: address, contents_give: contents},
-                success: function (response) { // 성공하면
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
                     alert(response["msg"])
-                    //window.location.reload()
                     location.replace('/posts')
                 }
-            })
+            });
         }
 
 
@@ -77,6 +99,9 @@
             </div>
 
             <div class="author">
+                <div class="image">
+                    <img class="image mb-3" src="/static/maru.png">
+                </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">이름</span>
                     <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
@@ -84,7 +109,7 @@
             </div>
 
         </div>
-        <!--제목, 내용(contents_box)-->
+        <!--제목, 사진 업로드, 내용(contents_box)-->
         <div class="contents_box">
 
             <div class="title">
@@ -98,6 +123,11 @@
                 <div class="input-group mb-3">
                     <textarea class="form-control" placeholder="내용을 작성해주세요!" aria-label="With textarea" id="contents_box"></textarea>
                 </div>
+            </div>
+
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="file">
+                <label class="custom-file-label" for="file">사진 선택하기</label>
             </div>
 
         </div>
