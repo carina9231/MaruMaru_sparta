@@ -1,9 +1,18 @@
+@font-face {
+    font-family: 'BinggraeSamanco-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/BinggraeSamanco-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #FFB830;
     padding: 8px 12px;
+    font-family: 'BinggraeSamanco-Bold';
+    font-size: 20px;
 }
 
 .navbar a {
@@ -36,10 +45,6 @@
     border-radius: 4px;
 }
 
-.card-columns {
-    display: inline-flex;
-}
-
 @media screen and (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -58,6 +63,47 @@
         text-align: center;
     }
 
+}
+
+.wrap {
+    background-color: #FFB830;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.wrap h1 {
+    margin: 0 0px 20px 0;
+    font-size: 100px;
+    font-weight: 700;
+    line-height: 56px;
+    font-family: "BinggraeSamanco-Bold";
+}
+.wrap h2 {
+    font-family: "BinggraeSamanco-Bold";
+    font-size: 50px;
+}
+
+.main_img .image {
+    width: 400px;
+    height: 350px;
+}
+
+.card-wrap {
+    margin: auto;
+    width: 900px;
+}
+
+
+/*게시물 목록 페이지*/
+.category{
+    padding: 10px 150px;
+}
+.category h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
 }
 
 .post_list_wrap {
@@ -132,3 +178,5 @@
 .detail_button {
     border: solid black 1px;
 }
+
+
