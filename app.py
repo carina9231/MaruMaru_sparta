@@ -47,13 +47,13 @@ def show_posts_upload():
 
 @app.route('/posts/create', methods=['POST'])
 def post_upload():
+
     author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
-    contents_receive = request.form['contents_give']
+    contents_receive = request.form['content_give']
 
     file = request.files['file_give']
-    print(file)
 
     save_to = 'static/mypicture.jpg'
     file.save(save_to)
