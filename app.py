@@ -39,7 +39,6 @@ def mapping():
     id = request.args["id"]
     address = db.articles.find_one({'number': int(id)}, {'_id': False})['address']
 
-    print(address)
     return render_template('locate_map.html')
 
 # 디테일 페이지

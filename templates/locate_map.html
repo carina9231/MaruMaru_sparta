@@ -200,6 +200,8 @@
 
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68c4dd4493e9a8de93e6ebb024d38d2f&libraries=services"></script>
+
+
 <script>
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
     var placeOverlay = new kakao.maps.CustomOverlay({zIndex: 1}),
@@ -217,10 +219,6 @@
     // 지도를 생성합니다
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    $(document).ready(function () {
-            setTimeout(function(){ map.relayout(); }, 1000);
-
-    });
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places(map);
 
