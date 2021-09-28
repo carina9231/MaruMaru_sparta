@@ -80,9 +80,8 @@
                 <button type="button" class="btn btn-danger"><i class="far fa-thumbs-up"> 좋아요0</i></button>
             </div>
             <!-- 댓글이랑 지도 버튼-->
-            &nbsp;
             <div class="btn_map">
-{#                <button type="button" onclick="modal_open()" class="btn btn-primary" id="open_modal_button">지도</button>#}
+                <span>{{ detail_db['address'] }}</span>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
             </div>
             <div class="detail_comment">
