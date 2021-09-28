@@ -31,13 +31,21 @@ def show_profile():
     profiles = list(db.profile.find({}, {'_id': False}))
     return jsonify({'all_profile': profiles})
 
+# 지도 맵핑
+@app.route('/map', methods=['GET'] )
+def mapping():
+    id = request.args["id"]
+    address = db.articles.find_one({'number': int(id)}, {'_id': False})['address']
+
+    print(address)
+    return render_template('locate_map.html')
 
 # 디테일 페이지
 @app.route('/detail/<id>')
 def detail(id):
     # find 쓰면 pymongo.cursor.Cursor 오류나요
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
-    print(articles)
+    # print(articles)
     return render_template("detail.html", id=id, detail_db=articles)
 
 
