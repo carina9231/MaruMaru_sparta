@@ -38,6 +38,7 @@
                 data: {},
                 success: function (response) {
                     let articles = response['all_articles']
+                    let list_num = 0
                     for (let i = 0; i < articles.length; i++) {
                         //let image = articles[i]['image']
                         let author = articles[i]['author']
@@ -45,13 +46,17 @@
                         let contents = articles[i]['contents']
                         let address = articles[i]['address']
                         let number = articles[i]['number']
-
+                        let time = articles[i]['present_time']
+                        if (articles.length > list_num)
+                            list_num = list_num + 1
+                        else
+                            list_num = list_num
 
                         let temp_html = `<div class="item">
-                                           <div class="num">${number}</div>
+                                           <div class="num">${list_num}</div>
                                            <div class="title"><a href="/detail/${number}">${title}</a></div>
                                            <div class="author">${author}</div>
-                                           <div class="date">2021-09-26</div>
+                                           <div class="date">${time}</div>
                                          </div>`
                         $('#post_body').append(temp_html)
                     }
@@ -87,7 +92,7 @@
             <div class="author">글쓴이</div>
             <div class="date">작성일</div>
         </div>
-        <div class="post_list_body" div id="post_body">
+        <div class="post_list_body" id="post_body">
 
         </div>
     </div>
