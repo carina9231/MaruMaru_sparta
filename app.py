@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 
+from datetime import datetime
+
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
@@ -55,21 +57,29 @@ def detail_upload(id):
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts/create')
+@app.route('/posts/')
 def show_posts_upload():
     return render_template('post upload.html')
 
 
-@app.route('/posts/create', methods=['POST'])
+@app.route('/posts/', methods=['POST'])
 def post_upload():
     author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
+    filename_receive = request.form['filename_give']
 
     file = request.files['file_give']
 
-    save_to = 'static/mypicture.jpg'
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y년 %m월 %d일 %H:%M:%S')
+
+    filename = f'{filename_receive}-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
     file.save(save_to)
 
     count = db.articles.count()
@@ -84,7 +94,9 @@ def post_upload():
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        "number": count,
+        'number': count,
+        'file': f'{filename}.{extension}',
+        'present_time': mytime
     }
 
     db.articles.insert_one(doc)

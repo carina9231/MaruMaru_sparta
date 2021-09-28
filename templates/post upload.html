@@ -29,7 +29,7 @@
         }
         .logo {
             float: left;
-            width: 200px;
+            width: 400px;
         }
 
         .author {
@@ -96,31 +96,40 @@
             let address = $("#address-box").val()
             let content = $("#contents_box").val()
 
-            let file = $('#file')[0].files[0]
-            let form_data = new FormData()
+            //파일명 출력//
+            var fileInput = document.getElementsByClassName("file");
 
-            form_data.append("file_give", file)
-            form_data.append("author_give", author)
-            form_data.append("title_give", title)
-            form_data.append("address_give", address)
-            form_data.append("content_give", content)
+            for (var i = 0; i < fileInput.length; i++) {
+                if (fileInput[i].files.length > 0) {
+                    for (var j = 0; j < fileInput[i].files.length; j++) {
+                        let filename = fileInput[i].files[j].name //
 
-            console.log(form_data)
+                        let file = $('#file')[0].files[0]
+                        let form_data = new FormData()
 
-            $.ajax({
-                type: "POST",
-                url: "/posts/create",
-                data: form_data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    alert(response["msg"])
-                    location.replace('/posts')
+                        form_data.append("file_give", file)
+                        form_data.append("author_give", author)
+                        form_data.append("title_give", title)
+                        form_data.append("address_give", address)
+                        form_data.append("content_give", content)
+                        form_data.append("filename_give", filename)
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/posts/",
+                            data: form_data,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                alert(response["msg"])
+                                location.replace('/posts')
+                            }
+                        });
+                    }
                 }
-            });
+            }
         }
-
 
     </script>
 </head>
@@ -129,9 +138,13 @@
         <!--로고, 작성자(top_box)-->
         <div class="top_box">
 
+            <div class="logo ml-5">
+                <img class="logo mt-5" src="/static/logo2.PNG" onclick="location.href='/'">
+            </div>
+
             <div class="author">
                 <div class="image">
-                    <img class="image mb-3" src="/static/maru.png">
+                    <img class="image mb-2" src="/static/maru.png">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">이름</span>
@@ -157,7 +170,7 @@
             </div>
 
             <div class="custom-file mb-3">
-                <input type="file" class="custom-file-input" id="file">
+                <input type="file" class="custom-file-input file" id="file">
                 <label class="custom-file-label" for="file">사진 선택하기</label>
             </div>
 
@@ -171,7 +184,7 @@
         </div>
         <!--저장(save)-->
         <div class="save">
-            <button onclick="post_upload()" type="button" class="btn btn-info">저장하기</button>
+            <button onclick="post_upload()" onchange="post_upload()" type="button" class="btn btn-info">저장하기</button>
         </div>
     </div>
 </body>
