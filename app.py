@@ -73,14 +73,14 @@ def post_upload():
 
     file = request.files['file_give']
 
-    extension = file.filename.split('.')[-1]
+    extension = file.filename.split('.')
 
     today = datetime.now()
     mytime = today.strftime('%Y년 %m월 %d일 %H:%M:%S')
 
-    filename = f'{filename_receive}-{mytime}'
+    filename = f'{mytime}-{extension[0]}'
 
-    save_to = f'static/{filename}.{extension}'
+    save_to = f'static/{filename}.{extension[1]}'
     file.save(save_to)
 
     count = db.articles.count()
@@ -96,7 +96,7 @@ def post_upload():
         'contents': contents_receive,
         'address': address_receive,
         'number': count,
-        'file': f'{filename}.{extension}',
+        'file': f'{filename}.{extension[1]}',
         'present_time': mytime
     }
 
