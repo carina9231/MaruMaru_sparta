@@ -87,8 +87,8 @@
 }
 
 .main_img .image {
-    width: 400px;
-    height: 350px;
+    width: 350px;
+    height: 400px;
 }
 
 .card-wrap {
@@ -96,6 +96,10 @@
     width: 900px;
 }
 
+.card-body a {
+    text-decoration: none;
+    color: black;
+}
 
 /*게시물 목록 페이지*/
 .category {
@@ -104,6 +108,7 @@
 
 .category h1 {
     font-size: 48px;
+    font-family: "BinggraeSamanco-Bold";
     font-weight: 700;
     line-height: 56px;
 }
