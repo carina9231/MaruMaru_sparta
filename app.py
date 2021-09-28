@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 
 from datetime import datetime
+import getLating
 
 app = Flask(__name__)
 
@@ -38,8 +39,9 @@ def show_profile():
 def mapping():
     id = request.args["id"]
     address = db.articles.find_one({'number': int(id)}, {'_id': False})['address']
-
-    return render_template('locate_map.html')
+    address_coor = getLating.getLatLng(address)
+    print(address_coor)
+    return render_template('locate_map.html', lat=address_coor[0], lon=address_coor[1])
 
 # 디테일 페이지
 @app.route('/detail/<id>')
