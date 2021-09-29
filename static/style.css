@@ -4,7 +4,7 @@
     font-weight: normal;
     font-style: normal;
 }
-
+/*메인페이지*/
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -88,17 +88,72 @@
 
 .main_img .image {
     width: 350px;
-    height: 400px;
+    height: 450px;
+}
+/*메인페이지 프로필카드 슬라이더*/
+.slider {
+    font-family: BinggraeSamanco-Bold;
+    margin-bottom: 30px;
+    background: #f7f7f7;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
-.card-wrap {
-    margin: auto;
-    width: 900px;
+.slider > .title {
+    font-size: 50px;
+    padding: 50px 15px 25px 15px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.card-body a {
-    text-decoration: none;
-    color: black;
+.slider .swiper-container {
+    padding: 30px 60px;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-slide {
+    font-size: 25px;
+    background: #fff;
+    display: block;
+    padding: 30px;
+    width: 232.5px;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-slide .tag > span {
+    display: inline-block;
+    padding: 5px 7.5px;
+    background: #1259a7;
+    color: #fff;
+    font-size: 15px;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-slide .title {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-slide .date {
+    color: #666;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-button-next,
+.slider .swiper-container .swiper-wrapper .swiper-button-prev {
+    padding: 0 25px;
+    --swiper-navigation-color: #fff;
+}
+
+.slider .swiper-container .swiper-wrapper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #fff;
+}
+
+@media (max-width: 991px) {
+    .slider .swiper-container .swiper-wrapper .swiper-slide {
+        width: 100%;
+    }
 }
 
 /*게시물 목록 페이지*/

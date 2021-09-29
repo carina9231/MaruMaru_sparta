@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
     <title>강만다</title>
 
@@ -46,7 +46,8 @@
                         let contents = articles[i]['contents']
                         let address = articles[i]['address']
                         let number = articles[i]['number']
-                        let time = articles[i]['present_time']
+                        let time = formatDate(articles[i]['present_time'])
+
                         if (articles.length > list_num)
                             list_num = list_num + 1
                         else
@@ -56,13 +57,23 @@
                                            <div class="num">${list_num}</div>
                                            <div class="title"><a href="/detail/${number}">${title}</a></div>
                                            <div class="author">${author}</div>
-                                           <div class="date">${time}</div>
+                                           <div class="date" id="time">${time}</div>
                                          </div>`
                         $('#post_body').append(temp_html)
                     }
                 }
             });
         }
+
+        function formatDate(date) {
+            var dateFormat = date.split(" ");
+            var newDateYear = dateFormat[0];
+            var newDateMM = dateFormat[1];
+            var newDateDD = dateFormat[2];
+            return [newDateYear, newDateMM, newDateDD].join('-');
+        };
+
+
     </script>
 
 </head>
