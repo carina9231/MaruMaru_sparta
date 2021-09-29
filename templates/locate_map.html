@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>카테고리별 장소 검색하기</title>
+    <link rel="stylesheet" href="/static/style.css">
+
     <style>
         .map_wrap, .map_wrap * {
             margin: 0;
@@ -62,9 +64,16 @@
             height: 28px;
         }
 
-        #category li .category_bg {
-            background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;
-        }
+        /*#category li .category_bg {
+            background: url('static/') no-repeat;
+        }*/
+
+        /*#category-coffee{background-image: url('/static/map/coffee.png') no-repeat;}
+        #category-groom{background-image: url('/static/map/cut.png') no-repeat;}
+        #category-park{background-image: url('/static/map/dog.png') no-repeat;}
+        #category-hospital{background-image: url('/static/map/hospital.png') no-repeat;}
+        #category-hotel{background-image: url('/static/map/hotel.png') no-repeat;}
+        #category-mart{background-image: url('/static/map/shopping.png') no-repeat;}*/
 
         #category li .bank {
             background-position: -10px 0;
@@ -164,6 +173,12 @@
             font-size: 11px;
             margin-top: 0;
         }
+
+        #category-img{
+            width: 35px;
+            height: 35px;
+            margin: 0px auto;
+        }
     </style>
 </head>
 <body>
@@ -171,28 +186,34 @@
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
     <ul id="category">
-        <li id="BK9" data-order="0">
-            <span class="category_bg bank"></span>
+        <li id="coffee" data-order="0">
+{#            <span id="category-coffee" class="category_bg bank"></span>#}
+            <img id="category-img" src="/static/map/coffee.png" >
             애견카페
         </li>
-        <li id="MT1" data-order="1">
-            <span class="category_bg mart"></span>
+        <li id="shopping" data-order="1">
+{#            <span id="category-mart" class="category_bg mart"></span>#}
+            <img id="category-img" src="/static/map/shopping.png" >
             애견용품
         </li>
-        <li id="PM9" data-order="2">
-            <span class="category_bg pharmacy"></span>
+        <li id="hospital" data-order="2">
+{#            <span id="category-hospital" class="category_bg pharmacy"></span>#}
+            <img id="category-img" src="/static/map/hospital.png" >
             동물병원
         </li>
-        <li id="OL7" data-order="3">
-            <span class="category_bg oil"></span>
+        <li id="dog" data-order="3">
+{#            <span id="category-park" class="category_bg oil"></span>#}
+            <img id="category-img" src="/static/map/dog.png" >
             공원
         </li>
-        <li id="CE7" data-order="4">
-            <span class="category_bg cafe"></span>
+        <li id="cut" data-order="4">
+{#            <span id="category-groom" class="category_bg cafe"></span>#}
+            <img id="category-img" src="/static/map/cut.png" >
             애견미용
         </li>
-        <li id="CS2" data-order="5">
-            <span class="category_bg store"></span>
+        <li id="hotel" data-order="5">
+            <!--<span id="category-hotel" class="category_bg store"></span>-->
+            <img id="category-img" src="/static/map/hotel.png" >
             애견호텔
         </li>
     </ul>
@@ -211,7 +232,7 @@
         contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
         markers = [], // 마커를 담을 배열입니다
         currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-    currCategoryID = ''; // 카테고리 id를 저장
+        currCategoryID = ''; // 카테고리 id를 저장
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -309,14 +330,11 @@
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-            imageSize = new kakao.maps.Size(27, 28),  // 마커 이미지의 크기
-            imgOptions = {
-                spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-                spriteOrigin: new kakao.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-                offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-            },
-            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+        var imageSrc = '/static/map/'+currCategoryID+'.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+            //imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png',
+            imageSize = new kakao.maps.Size(33, 34),  // 마커 이미지의 크기
+
+            markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, {}),
             marker = new kakao.maps.Marker({
                 position: position, // 마커의 위치
                 image: markerImage
