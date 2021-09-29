@@ -1,0 +1,26 @@
+    .all {
+        width: 80%;
+        margin: auto;
+    }
+
+    .author {
+        float: right;
+        width: 50%;
+        margin-top: 100px;
+    }
+
+    .save {
+        float: right;
+        color: #3DB2FF;
+    }
+
+    .image {
+        width: 50%;
+        float: left;
+    }
+
+    .image_in {
+        display: block;
+        width: 100px;
+        margin: auto;
+    }
