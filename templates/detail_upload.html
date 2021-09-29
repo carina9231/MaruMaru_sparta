@@ -84,7 +84,7 @@
 <body>
 <div class="navbar">
     <div class="navbar_logo">
-        <img class="logo" src="/static/logo2.png">
+        <a href="/"><img class="logo" src="/static/logo2.png"></a>
     </div>
     <div class="navbar_menu">
         <li><a href="/">Home</a></li>
@@ -124,8 +124,8 @@
                 <button onclick="save_upload()" type="button" class="btn btn-primary ui button"><i
                         class="fas fa-arrow-circle-up"></i> 저장
                 </button>
-                <button onclick="save_upload()" type="button" class="btn btn-secondary ui button"><i
-                        class="fas fa-arrow-circle-up"></i> 취소
+                <button onclick="window.location.href='/detail/{{ id }}'" type="button"
+                        class="btn btn-secondary ui button"><i class="fa fa-undo" aria-hidden="true"></i> 취소
                 </button>
                 &nbsp;
             </div>

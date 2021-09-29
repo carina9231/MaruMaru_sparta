@@ -54,7 +54,7 @@ def detail(id):
     return render_template("detail.html", id=id, detail_db=articles)
 
 
-# 수정 create 위한 페이지 불러오기
+# 디테일 수정 화면 GET
 @app.route('/detail/<id>/upload', methods=['GET'])
 def detail_upload(id):
     print(id)
@@ -63,7 +63,7 @@ def detail_upload(id):
     return render_template("detail_upload.html", post=post, id=id)
 
 
-# 수정 api
+# 디테일 수정 api
 @app.route('/detail/upload', methods=['POST'])
 def detail_post_upload():
     id_receive = request.form["id_give"]
@@ -78,7 +78,7 @@ def detail_post_upload():
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
-# 삭제  api
+# 디테일 삭제 api
 @app.route('/detail/delete', methods=['POST'])
 def post_delete():
     id_receive = request.form["id_give"]
@@ -130,11 +130,24 @@ def post_upload():
         'address': address_receive,
         'number': count,
         'file': f'{filename}.{extension[1]}',
-        'present_time': mytime
+        'present_time': mytime,
+        'comment': list()
     }
 
     db.articles.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
+
+@app.route('/comment/upload', methods=['POST'])
+def comment_upload():
+    id_receive = request.form["id_give"]
+    comment = request.form["comment_give"]
+
+    doc = {"comment": comment, "user": "오지조"}
+    db.articles.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
+    save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
+    print(save_comment)
+    return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
 
 if __name__ == '__main__':
