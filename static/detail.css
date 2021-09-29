@@ -37,3 +37,43 @@
     .content {
         height: 300px;
     }
+
+    .user_info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        float: right;
+        margin: 50px 30px 10px 10px;
+        font-size: 1.5rem;
+        font-weight: 100;
+        color: #FF2442;
+    }
+
+    .detail_title {
+        font-size: 3rem;
+        font-weight: bolder;
+        color: #3DB2FF;
+        padding-top: 100px
+    }
+
+    .detail_content {
+        display: flex;
+        margin-top: 50px;
+
+    }
+
+    .detail_button {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn_map {
+        margin-top: 50px;
+    }
+
+    .detail_comment {
+        padding-top: 50px;
+        margin-bottom: 100px;
+    }

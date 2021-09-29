@@ -91,8 +91,27 @@
                         form_data.append("content_give", content)
                         form_data.append("filename_give", filename)
 
-
-                        $.ajax({
+                        if ($("#author_box").val().length == 0) {
+                            alert("작성자를 입력하세요!");
+                            $("#author_box").focus();
+                            return false;
+                        }
+                        if ($("#title_box").val().length == 0) {
+                            alert("제목을 입력하세요!");
+                            $("#title_boxl").focus();
+                            return false;
+                        }
+                        if ($("#contents_box").val().length == 0) {
+                            alert("내용을 입력하세요!");
+                            $("#contents_box").focus();
+                            return false;
+                        }
+                        if ($("#address-box").val().length == 0) {
+                            alert("주소를 입력하세요!");
+                            $("#address-box").focus();
+                            return false;
+                        }  else {
+                            $.ajax({
                             type: "POST",
                             url: "/posts/",
                             data: form_data,
@@ -100,37 +119,15 @@
                             contentType: false,
                             processData: false,
                             success: function (response) {
-
-                                if ($("#author_box").val().length == 0) {
-                                    alert("작성자를 입력하세요!");
-                                    $("#author_box").focus();
-                                    return false;
-                                }
-                                if ($("#title_box").val().length == 0) {
-                                    alert("제목을 입력하세요!");
-                                    $("#title_boxl").focus();
-                                    return false;
-                                }
-                                if ($("#contents_box").val().length == 0) {
-                                    alert("내용을 입력하세요!");
-                                    $("#contents_box").focus();
-                                    return false;
-                                }
-                                if ($("#address-box").val().length == 0) {
-                                    alert("주소를 입력하세요!");
-                                    $("#address-box").focus();
-                                    return false;
-                                } else {
                                     alert(response["msg"])
                                     location.replace('/posts')
                                 }
-                            }
-                        });
+                            })
+                        }
                     }
                 }
             }
         }
-
     </script>
 </head>
 <body>
