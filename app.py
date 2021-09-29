@@ -34,8 +34,9 @@ def show_profile():
     profiles = list(db.profile.find({}, {'_id': False}))
     return jsonify({'all_profile': profiles})
 
+
 # 지도 맵핑
-@app.route('/map', methods=['GET'] )
+@app.route('/map', methods=['GET'])
 def mapping():
     id = request.args["id"]
     address = db.articles.find_one({'number': int(id)}, {'_id': False})['address']
@@ -43,7 +44,8 @@ def mapping():
     print(address_coor)
     return render_template('locate_map.html', lat=address_coor[0], lon=address_coor[1])
 
-# 디테일 페이지
+
+# 디테일 페이지 불러오기
 @app.route('/detail/<id>')
 def detail(id):
     # find 쓰면 pymongo.cursor.Cursor 오류나요
@@ -52,9 +54,36 @@ def detail(id):
     return render_template("detail.html", id=id, detail_db=articles)
 
 
-@app.route('/detail/<id>/upload')
+# 수정 create 위한 페이지 불러오기
+@app.route('/detail/<id>/upload', methods=['GET'])
 def detail_upload(id):
-    return render_template("detail_upload.html")
+    print(id)
+    post = db.articles.find_one({'number': int(id)}, {'_id': False})
+    print(post)
+    return render_template("detail_upload.html", post=post, id=id)
+
+
+# 수정 api
+@app.route('/detail/upload', methods=['POST'])
+def detail_post_upload():
+    id_receive = request.form["id_give"]
+    title_receive = request.form["title_give"]
+    contents_receive = request.form["contents_give"]
+    print(id_receive)
+    print(title_receive)
+    print(contents_receive)
+    db.articles.update_one({'number': int(id_receive)}, {'$set': {'title': title_receive}})
+    db.articles.update_one({'number': int(id_receive)}, {'$set': {'contents': contents_receive}})
+
+    return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
+
+
+# 삭제  api
+@app.route('/detail/delete', methods=['POST'])
+def post_delete():
+    id_receive = request.form["id_give"]
+    db.articles.delete_one({'number': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '게시글을 정말 삭제하시려구요!?'})
 
 
 # 게시물 작성페이지 불러오기

@@ -29,21 +29,52 @@
 
     <title>상세페이지</title>
     <style>
-
         .detail_button {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        iframe {
+            margin: auto;
+        }
+
+
     </style>
     <script>
         $(document).ready(function () {
             //iframe url 삽입
             let id = {{ id }};
-            let href = '/map?id='+id
-            $('#go-map').attr("src",href)
+            let href = '/map?id=' + id
+            $('#go-map').attr("src", href)
         });
+
+        function detail_upload() {
+            let id = "{{ id }}"
+            console.log(id)
+
+            $.ajax({
+                type: "GET",
+                url: `/detail/${id}/upload`,
+                data: {},
+                success: function (response) {
+                    window.location.href = `/detail/${id}/upload`
+                }
+            })
+
+        }
+
+        function delete_post() {
+            $.ajax({
+                type: "POST",
+                url: `/detail/delete`,
+                data: {id_give: "{{ id }}"},
+                success: function (response) {
+                    alert(response["msg"])
+                    window.location.href = `/posts`
+                }
+            });
+        }
 
 
     </script>
@@ -75,9 +106,17 @@
             </div>
             <!-- 버튼 그룹 -->
             <div class="detail_button">
-                <button type="button" class="btn btn-primary ui button">수정</button>
+                <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
+                    <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
+                </button>
                 &nbsp;
-                <button type="button" class="btn btn-danger"><i class="far fa-thumbs-up"> 좋아요0</i></button>
+                <button onclick="delete_post()" type="button" class="btn btn-danger">
+                    <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
+                </button>
+                &nbsp;
+                <button type="button" class="btn btn-danger">
+                    <i class="far fa-thumbs-up"> 좋아요0</i>
+                </button>
             </div>
             <!-- 댓글이랑 지도 버튼-->
             <div class="btn_map">
@@ -98,7 +137,7 @@
 <div class="modal fade" id="map-modal" role="map" aria-labelledby="map"
      aria-hidden="true" tabindex="-1">
     <!--modal-dailog : 모달 창 영역 설정-->
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!--modal-content : 모달 창 콘텐츠 영역 설정-->
         <div class="modal-content">
             <!--modal-header : 모달 창 콘텐츠의 헤더영역-->
@@ -108,7 +147,7 @@
             <!--modal-body : 모달 창 콘텐츠의 바디영역-->
             <div class="modal-body" id="map-body">
                 <!-- iframe src="/map?id={id}" -->
-                <iframe id="go-map" ></iframe>
+                <iframe id="go-map" width="760px" height="400px"></iframe>
             </div>
             <!--modal-footer : 모달 창 콘텐츠의 푸터영역-->
             <div class="modal-footer">
