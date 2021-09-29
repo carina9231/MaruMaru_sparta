@@ -108,7 +108,11 @@ def post_upload():
     mytime = today.strftime('%Y년 %m월 %d일 %H:%M:%S')
 
     filename = f'{mytime}-{extension[0]}'
+    print(filename)
 
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+
+    print(filename)
     save_to = f'static/{filename}.{extension[1]}'
     file.save(save_to)
 
