@@ -72,6 +72,7 @@
             let address = $("#address-box").val()
             let content = $("#contents_box").val()
 
+
             //파일명 출력//
             var fileInput = document.getElementsByClassName("file");
 
@@ -89,6 +90,7 @@
                         form_data.append("address_give", address)
                         form_data.append("content_give", content)
                         form_data.append("filename_give", filename)
+
 
                         $.ajax({
                             type: "POST",
