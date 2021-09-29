@@ -10,6 +10,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/detail.css">
     <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
 
     <!-- JS -->
@@ -27,13 +28,9 @@
             crossorigin="anonymous"></script>
 
 
-
-
-
     <title>상세페이지</title>
-    <link rel="stylesheet" href="detail.css" type="text/css">
-    <style>
 
+    <style>
 
 
     </style>
@@ -77,48 +74,81 @@
 </head>
 
 <body>
-<div class="navbar">
-    <div class="navbar_logo">
-        <img class="logo" src="/static/logo2.png">
+    <div class="navbar">
+        <div class="navbar_logo">
+            <a href="/"><img class="logo" src="/static/logo2.png"></a>
+        </div>
+        <div class="navbar_menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts">게시물 보기</a></li>
+        </div>
     </div>
-    <div class="navbar_menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/posts">게시물 보기</a></li>
-    </div>
-</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col col-md-12">
-            <!-- 작성자 -->
-            <div class="user_info">{{ detail_db['author'] }}</div>
-            <!-- 제목 -->
-            <div class="detail_title">
-                <h1>{{ detail_db['title'] }}</h1>
+    <div class="all">
+        <!-- 작성자(top_box)-->
+        <div class="top_box">
+            <div class="image">
+                <img class="image_in" src="/static/maru.png">
             </div>
-            <!-- 게시글 -->
-            <div class="detail_content">
-                <h2>{{ detail_db['contents'] }}</h2>
+            <div class="author">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">작성자</span>
+                    <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
+                         aria-describedby="basic-addon1">
+                        {{ detail_db['author'] }}
+                    </div>
+                </div>
             </div>
-            <!-- 버튼 그룹 -->
-            <div class="detail_button">
-                <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
-                    <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
-                </button>
-                &nbsp;
-                <button onclick="delete_post()" type="button" class="btn btn-danger">
-                    <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
-                </button>
-                &nbsp;
-                <button type="button" class="btn btn-danger">
-                    <i class="far fa-thumbs-up"> 좋아요0</i>
-                </button>
+        </div>
+
+        <div class="contents_box">
+            <!-- 제목, 내용 -->
+            <div class="title">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <div id="title_box" type="text" class="form-control" aria-label="Username"
+                         aria-describedby="basic-addon1">
+                        {{ detail_db['title'] }}
+                    </div>
+                </div>
             </div>
-            <!-- 댓글이랑 지도 버튼-->
-            <div class="btn_map">
-                <span>{{ detail_db['address'] }}</span>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
+
+            <div class="contents">
+                <div class="input-group mb-3">
+                    <div class="form-control content" aria-label="With textarea" id="contents_box">{{ detail_db['contents'] }}
+                    </div>
+                </div>
             </div>
+        </div>
+        <!--주소, 지도버튼-->
+        <div class="address_box">
+            <div class="address mt-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">주소</span>
+                    <div id="address-box" type="text" class="form-control address" aria-label="Username"
+                         aria-describedby="basic-addon1">{{ detail_db['address'] }}
+                    </div>
+                    <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 버튼 그룹 -->
+        <div class="detail_button">
+            <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
+                <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
+            </button>
+            &nbsp;
+            <button onclick="delete_post()" type="button" class="btn btn-danger">
+                <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-danger">
+                <i class="far fa-thumbs-up"> 좋아요0</i>
+            </button>
+        </div>
+        <!-- 댓글-->
+        <div>
             <div class="detail_comment">
                 <div class="input-group">
                     <span class="input-group-text">댓글 입력</span>
@@ -127,36 +157,35 @@
             </div>
         </div>
     </div>
-</div>
 
 <!--모달 창-->
-<div class="modal fade" id="map-modal" role="map" aria-labelledby="map"
-     aria-hidden="true" tabindex="-1">
-    <!--modal-dailog : 모달 창 영역 설정-->
-    <div class="modal-dialog modal-lg">
-        <!--modal-content : 모달 창 콘텐츠 영역 설정-->
-        <div class="modal-content">
-            <!--modal-header : 모달 창 콘텐츠의 헤더영역-->
-            <div class="modal-header modal-header-custom">
-                <h4 class="modal-title modal-title-custom">지도</h4>
-            </div>
-            <!--modal-body : 모달 창 콘텐츠의 바디영역-->
-            <div class="modal-body" id="map-body">
-                <!-- iframe src="/map?id={id}" -->
-                <iframe id="go-map" width="760px" height="400px"></iframe>
-            </div>
-            <!--modal-footer : 모달 창 콘텐츠의 푸터영역-->
-            <div class="modal-footer">
-                <div class="modal-footer-custom">
-                    <button type="button" class="btn btn-danger"
-                            data-bs-dismiss="modal">
-                        닫기
-                    </button>
+    <div class="modal fade" id="map-modal" role="map" aria-labelledby="map"
+         aria-hidden="true" tabindex="-1">
+        <!--modal-dailog : 모달 창 영역 설정-->
+        <div class="modal-dialog modal-lg">
+            <!--modal-content : 모달 창 콘텐츠 영역 설정-->
+            <div class="modal-content">
+                <!--modal-header : 모달 창 콘텐츠의 헤더영역-->
+                <div class="modal-header modal-header-custom">
+                    <h4 class="modal-title modal-title-custom">지도</h4>
+                </div>
+                <!--modal-body : 모달 창 콘텐츠의 바디영역-->
+                <div class="modal-body" id="map-body">
+                    <!-- iframe src="/map?id={id}" -->
+                    <iframe id="go-map" width="760px" height="400px"></iframe>
+                </div>
+                <!--modal-footer : 모달 창 콘텐츠의 푸터영역-->
+                <div class="modal-footer">
+                    <div class="modal-footer-custom">
+                        <button type="button" class="btn btn-danger"
+                                data-bs-dismiss="modal">
+                            닫기
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

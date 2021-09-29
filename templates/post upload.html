@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/post_upload.css">
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,33 +24,6 @@
     <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>     <!-- 주소검색 api-->
 
     <style>
-
-        .all {
-            width: 80%;
-            margin: auto;
-        }
-        .logo {
-            float: left;
-            width: 400px;
-        }
-
-        .author {
-            float: right;
-            width: 50%;
-            margin: 25px 0px 0px 0px;
-        }
-
-        .save {
-            float: right;
-            color: #3DB2FF;
-        }
-
-        .image {
-            width: 100px;
-            margin: auto;
-        }
-
-
 
 
     </style>
@@ -157,18 +132,19 @@
     </script>
 </head>
 <body>
-    <div class="all mt-5">
+    <div class="navbar">
+        <div class="navbar_logo">
+            <a href="/"><img class="logo" src="/static/logo2.png"></a>
+        </div>
+    </div>
+    <div class="all">
         <!--로고, 작성자(top_box)-->
+
         <div class="top_box">
-
-            <div class="logo ml-5">
-                <img class="logo mt-5" src="/static/logo2.PNG" onclick="location.href='/'">
+            <div class="image">
+                <img class="image_in" src="/static/maru.png">
             </div>
-
             <div class="author">
-                <div class="image">
-                    <img class="image mb-2" src="/static/maru.png">
-                </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">작성자</span>
                     <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
@@ -198,7 +174,7 @@
             </div>
 
         </div>
-
+        <!--주소-->
         <div class="address">
             <div class="input-group mb-3" >
                 <span class="input-group-text">주소</span>
