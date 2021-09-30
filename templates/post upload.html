@@ -76,6 +76,12 @@
             //파일명 출력//
             var fileInput = document.getElementsByClassName("file");
 
+            //사진이 들어가지 않았을 때
+            if(fileInput[0].files.length==0){
+                alert("사진을 넣어주세요!");
+                $("#file").focus();
+                return false;
+            }
             for (var i = 0; i < fileInput.length; i++) {
                 if (fileInput[i].files.length > 0) {
                     for (var j = 0; j < fileInput[i].files.length; j++) {
