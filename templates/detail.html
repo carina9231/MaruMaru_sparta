@@ -86,9 +86,20 @@
                     const arr_comment = response["save_comment"]["comment"].reverse();
                     arr_comment.forEach((e) => {
                         comment_text += `
-                            <div class="comment_item">
-                                <div>작성자: ${e.user}</div>
-                                <div>내용: ${e.comment}</div>
+                            &nbsp;
+                            <div class="card mb-2">
+                                <div class="card-header bg-light">
+                                    <i class="fa fa-comment fa"></i> 작성자: ${e.user}
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="comment_wrote">내용: ${e.comment}</div>
+                                            <button type="button" class="btn btn-dark mt-3">수정</button>
+                                            <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             &nbsp;
                         `
@@ -192,14 +203,25 @@
 
             <div id="comment_list_{{ id }}">
                 {% for comment in detail_db['comment'] %}
-                    <div class="comment_item">
-                        <div class="comment_user">작성자: {{ comment.user }}</div>
-                        <div class="comment_wrote">내용: {{ comment.comment }}</div>
-                    </div>
                     &nbsp;
+                    <div class="card mb-2">
+                        <div class="card-header bg-light">
+                            <i class="fa fa-comment fa"></i> 작성자: {{ comment.user }}
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="comment_wrote">내용: {{ comment.comment }}</div>
+                                    <button type="button" class="btn btn-dark mt-3">수정</button>
+                                    <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
+
     </div>
 </div>
 
@@ -218,7 +240,7 @@
             <div class="modal-body" id="map-body">
                 <!-- iframe src="/map?id={id}" -->
                 <div id="map-area">
-                   <iframe id="go-map" ></iframe>
+                    <iframe id="go-map"></iframe>
                 </div>
 
             </div>
