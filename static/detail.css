@@ -77,3 +77,13 @@
         padding-top: 50px;
         margin-bottom: 100px;
     }
+
+    /*댓글*/
+
+    .comment_user {
+        background-color: #3DB2FF;
+        width: 15%;
+        border-radius: 50%;
+        text-align: center;
+        padding: 10px;
+    }
