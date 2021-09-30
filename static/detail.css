@@ -78,15 +78,6 @@
         margin-bottom: 100px;
     }
 
-    /*댓글*/
-
-    .comment_user {
-        background-color: #3DB2FF;
-        width: 15%;
-        border-radius: 50%;
-        text-align: center;
-        padding: 10px;
-    }
 
     #map-area {
       position: relative; /* absolute는 부모가 relative일 때 부모를 따라간다. */
