@@ -17,12 +17,12 @@ def main():
 
 
 # 게시물목록 페이지 불러오기
-@app.route('/posts')
+@app.route('/list')
 def show_posts():
     return render_template('post_list.html')
 
 
-@app.route('/posts_list', methods=['GET'])
+@app.route('/post_list', methods=['GET'])
 def posts_list():
     articles = list(db.articles.find({}, {'_id': False}))
     return jsonify({'all_articles': articles})
@@ -87,12 +87,12 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts/')
+@app.route('/posts')
 def show_posts_upload():
     return render_template('post upload.html')
 
 
-@app.route('/posts/', methods=['POST'])
+@app.route('/posts', methods=['POST'])
 def post_upload():
     author_receive = request.form['author_give']
     title_receive = request.form['title_give']
