@@ -65,15 +65,8 @@
         }
 
         /*#category li .category_bg {
-            background: url('static/') no-repeat;
+            background: url('/static/map/shopping.png') no-repeat;
         }*/
-
-        /*#category-coffee{background-image: url('/static/map/coffee.png') no-repeat;}
-        #category-groom{background-image: url('/static/map/cut.png') no-repeat;}
-        #category-park{background-image: url('/static/map/dog.png') no-repeat;}
-        #category-hospital{background-image: url('/static/map/hospital.png') no-repeat;}
-        #category-hotel{background-image: url('/static/map/hotel.png') no-repeat;}
-        #category-mart{background-image: url('/static/map/shopping.png') no-repeat;}*/
 
         #category li .bank {
             background-position: -10px 0;
@@ -188,32 +181,37 @@
     <ul id="category">
         <li id="coffee" data-order="0">
 {#            <span id="category-coffee" class="category_bg bank"></span>#}
-            <img id="category-img" src="/static/map/coffee.png" >
+            <div><img id="category-img" src="/static/map/coffee.png" ></div>
             애견카페
         </li>
         <li id="shopping" data-order="1">
 {#            <span id="category-mart" class="category_bg mart"></span>#}
-            <img id="category-img" src="/static/map/shopping.png" >
+            <div><img id="category-img" src="/static/map/shopping.png" ></div>
             애견용품
         </li>
         <li id="hospital" data-order="2">
 {#            <span id="category-hospital" class="category_bg pharmacy"></span>#}
-            <img id="category-img" src="/static/map/hospital.png" >
+            <div><img id="category-img" src="/static/map/hospital.png" ></div>
             동물병원
         </li>
         <li id="dog" data-order="3">
 {#            <span id="category-park" class="category_bg oil"></span>#}
-            <img id="category-img" src="/static/map/dog.png" >
+            <div><img id="category-img" src="/static/map/dog.png" ></div>
+
             공원
         </li>
         <li id="cut" data-order="4">
 {#            <span id="category-groom" class="category_bg cafe"></span>#}
+            <div>
             <img id="category-img" src="/static/map/cut.png" >
+            </div>
             애견미용
         </li>
         <li id="hotel" data-order="5">
-            <!--<span id="category-hotel" class="category_bg store"></span>-->
-            <img id="category-img" src="/static/map/hotel.png" >
+{#            <span id="category-hotel" class="category_bg store" ></span>#}
+            <div>
+                <img id="category-img" src="/static/map/hotel.png" >
+            </div>
             애견호텔
         </li>
     </ul>
