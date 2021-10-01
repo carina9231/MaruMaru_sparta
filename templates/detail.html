@@ -44,7 +44,6 @@
 
         function detail_upload() {
             let id = "{{ id }}"
-            console.log(id)
 
             $.ajax({
                 type: "GET",
@@ -71,7 +70,6 @@
 
         function comment_upload() {
             let comment_input = $("#comment_content").val();
-            console.log(comment_input);
 
             $.ajax({
                 type: "POST",
@@ -160,8 +158,10 @@
 
         <div class="contents">
             <div class="input-group mb-3">
-                <div class="form-control content" aria-label="With textarea"
-                     id="contents_box">{{ detail_db['contents'] }}
+                <div class="form-control content" aria-label="With textarea" id="contents_box">
+                    <img id="content-img" src="/static/postimg/{{ detail_db['file'] }}" height="200px" width="200px"><br>
+
+                    {{ detail_db['contents'] }}
                 </div>
             </div>
         </div>
@@ -241,7 +241,7 @@
             <div class="modal-body" id="map-body">
                 <!-- iframe src="/map?id={id}" -->
                 <div id="map-area">
-                    <iframe id="go-map"></iframe>
+                    <iframe id="go-map" ></iframe>
                 </div>
 
             </div>
