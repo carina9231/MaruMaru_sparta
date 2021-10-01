@@ -2,19 +2,26 @@
 ### 🐶강만다(강아지를 만나다) - 스파르타 내일배움캠프 1차 프로젝트
 
 <p align='center'>
-  <img src="./static/logo2.png" width="300px" />
+  <img src="./static/logo2.png" width="500ㅔㅌ" />
 </p>
 
+<br/>
 
-### 🏠 소개
+
+## 🏠 소개
+
 + 반려견을 위한 반려견의 의한 반려 동반자의 커뮤니티 사이트
 
+<br/>
 
-### ⏲️ 개발기간
+
+## ⏲️ 개발기간
+
 + 2021.09.23 ~ 2021.10.01
+<br/>
 
 
-### 🧙 맴버구성
+## 🧙 맴버구성
 
 <table>
     <tr>
@@ -44,25 +51,28 @@
 
 </table>
 
+<br/>
 
 
-### 📌 기술 선택 이유!
+## 📌 기술 선택 이유!
 
 <p align='center'>
-    <img src="https://img.shields.io/badge/React-v17.0.2-blue?logo=React"/>
-    <img src="https://img.shields.io/badge/Redux-v4.1.0-purple?logo=Redux"/>
-    <img src="https://img.shields.io/badge/Immer-v9.0.1-00E7C3?logo=Immer"/>
-    <img src="https://img.shields.io/badge/Lodash-v4.17.21-blue"/>
-    <img src="https://img.shields.io/badge/ReduxToolkit-v1.5.1-purple"/>
-    <img src="https://img.shields.io/badge/StyledComponents-v5.2.3-pink?logo=styled-components"/>
-    <img src="https://img.shields.io/badge/SpringBoot-v2.4.4-6db33f?logo=Spring"/>
-    <img src="https://img.shields.io/badge/yarn-^1.22.10-yellow?logo=yarn" />
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/flask-232F3E?style=flat-square&logo=flask&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Amazon AWS-BD8B13?style=flat-square&logo=Amazon%20AWS&logoColor=white"/></a> 
 </p>
 
 + 내일배움캠프를 통해 배운 기술들을 더 발전시키기 위하여 강의를 통해 배운 HTML, JavaScript, Ajax, Flask, MongoDB 등을 활용
 
+<br/>
 
-### 📌 주요 기능
+
+
+## 📌 주요 기능
+
 1. 슬라이드 기능이 들어간 프로필 소개
 2. 카카오 API 를 활용한 지도 모달창
 3. 지도 카데고리별 커스텀 검색 결과 제공
@@ -70,8 +80,9 @@
 5. jinja2 템플릿 언어를 사용한 상세페이지 기능
 6. Ajax와 mongoDB 기능을 활용한 비동기 댓글 기능
 
+<br/>
 
-### 📌 문제를 이렇게 해결했어요!
+## 📌 문제를 이렇게 해결했어요!
 #### 문제 상황 
 ```
  1. 상세페이지의 Delete 기능이 시 댓글 DB가 삭제되지 않는 점
@@ -84,6 +95,7 @@
    + 조건식을 이용하여 특수문자 제거 후 DB 저장
 
 ```
----
+<br/>
+
 ### 🔗 라이브
 [![오지조 1차 발표](http://img.youtube.com/vi/4BzMYLfXwS0/0.jpg)](https://www.youtube.com/watch?v=4BzMYLfXwS0) 
