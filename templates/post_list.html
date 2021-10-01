@@ -34,7 +34,7 @@
         function show_post_list() {
             $.ajax({
                 type: 'GET',
-                url: '/posts_list',
+                url: '/post_list',
                 data: {},
                 success: function (response) {
                     let articles = response['all_articles']
@@ -66,10 +66,10 @@
         }
 
         function formatDate(date) {
-            var dateFormat = date.split(" ");
-            var newDateYear = dateFormat[0];
-            var newDateMM = dateFormat[1];
-            var newDateDD = dateFormat[2];
+            let dateFormat = date.split(" ");
+            let newDateYear = dateFormat[0];
+            let newDateMM = dateFormat[1];
+            let newDateDD = dateFormat[2];
             return [newDateYear, newDateMM, newDateDD].join('-');
         };
 
@@ -86,7 +86,7 @@
     </div>
     <div class="navbar_menu">
         <li><a href="/">Home</a></li>
-        <li><a href="/posts/">게시물 작성</a></li>
+        <li><a href="/posts">게시물 작성</a></li>
     </div>
 
 </div>
