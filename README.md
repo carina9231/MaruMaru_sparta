@@ -4,7 +4,7 @@
 <p align='center'>
   <img src="./static/logo2.png" width="500ㅔㅌ" />
 </p>
-
+배포 링크 : http://ec2-13-124-236-87.ap-northeast-2.compute.amazonaws.com/
 <br/>
 
 
