@@ -41,25 +41,20 @@ def mapping():
     id = request.args["id"]
     address = db.articles.find_one({'number': int(id)}, {'_id': False})['address']
     address_coor = getLating.getLatLng(address)
-    print(address_coor)
     return render_template('locate_map.html', lat=address_coor[0], lon=address_coor[1])
 
 
 # 디테일 페이지 불러오기
 @app.route('/detail/<id>')
 def detail(id):
-    # find 쓰면 pymongo.cursor.Cursor 오류나요
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
-    # print(articles)
     return render_template("detail.html", id=id, detail_db=articles)
 
 
 # 디테일 수정 화면 GET
 @app.route('/detail/<id>/upload', methods=['GET'])
 def detail_upload(id):
-    print(id)
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
-    print(post)
     return render_template("detail_upload.html", post=post, id=id)
 
 
@@ -69,9 +64,7 @@ def detail_post_upload():
     id_receive = request.form["id_give"]
     title_receive = request.form["title_give"]
     contents_receive = request.form["contents_give"]
-    print(id_receive)
-    print(title_receive)
-    print(contents_receive)
+
     db.articles.update_one({'number': int(id_receive)}, {'$set': {'title': title_receive}})
     db.articles.update_one({'number': int(id_receive)}, {'$set': {'contents': contents_receive}})
 
@@ -89,7 +82,7 @@ def post_delete():
 # 게시물 작성페이지 불러오기
 @app.route('/posts/')
 def show_posts_upload():
-    return render_template('post upload.html')
+    return render_template('post_upload.html')
 
 
 @app.route('/posts/', methods=['POST'])
@@ -105,15 +98,14 @@ def post_upload():
     extension = file.filename.split('.')
 
     today = datetime.now()
-    mytime = today.strftime('%Y년 %m월 %d일 %H:%M:%S')
+    mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
 
     filename = f'{mytime}-{extension[0]}'
-    print(filename)
 
     filename = "".join(i for i in filename if i not in "\/:*?<>|")
 
-    print(filename)
-    save_to = f'static/{filename}.{extension[1]}'
+    filename = filename.strip()
+    save_to = f'static/postimg/{filename}.{extension[1]}'
     file.save(save_to)
 
     count = db.articles.count()
@@ -146,7 +138,6 @@ def comment_upload():
     doc = {"comment": comment, "user": "오지조"}
     db.articles.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
-    print(save_comment)
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
 
