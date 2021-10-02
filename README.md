@@ -60,6 +60,7 @@
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a> 
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a> 
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/python-5483B1?style=flat-square&logo=python&logoColor=white"/></a> 
 <img src="https://img.shields.io/badge/flask-232F3E?style=flat-square&logo=flask&logoColor=white"/></a> 
 <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Amazon AWS-BD8B13?style=flat-square&logo=Amazon%20AWS&logoColor=white"/></a> 
