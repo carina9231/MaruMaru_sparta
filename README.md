@@ -43,7 +43,7 @@
             <a href="https://github.com/carina9231">배소영</a>
       </td>
       <td align="center" width="130px" height="160px">
-                  <a href="https://github.com/jenny0325"><img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/89081374?v=4" /></a>
+                  <a href="https://github.com/jenny0325"><img height="100px" width="100px" src="![KakaoTalk_20211002_153919354](https://user-images.githubusercontent.com/42319300/135706447-06ba949f-ec19-462b-81c6-c5b297bbfc45.jpg)" /></a>
                 <br />
                   <a href="https://github.com/jenny0325">김재은</a>
             </td>
