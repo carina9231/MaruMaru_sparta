@@ -68,6 +68,9 @@
 
 + 내일배움캠프를 통해 배운 기술들을 더 발전시키기 위하여 강의를 통해 배운 HTML, JavaScript, Ajax, Flask, MongoDB 등을 활용
 
+코딩 컨벤션
+스네이크 표기법 (Snake case)
+
 <br/>
 
 
