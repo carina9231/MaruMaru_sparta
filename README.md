@@ -33,7 +33,7 @@
       <td align="center" width="130px" height="160px">
                   <a href="https://github.com/sendkite1"><img height="100px" width="100px" src="https://user-images.githubusercontent.com/42319300/135604950-2cf4e5fd-8cf4-4941-8a00-77e0cd982751.jpg" /></a>
                 <br />
-                  <a href="https://github.com/sendkite1">전송연</a>
+                  <a href="https://github.com/sendkite">전송연</a>
             </td>
   </tr>
   <tr>
