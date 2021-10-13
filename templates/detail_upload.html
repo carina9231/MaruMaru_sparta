@@ -1,95 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
+{% block title %} 수정페이지 {% endblock %}
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <title>수정페이지</title>
 
+{% block js %}
+    <script src="/static/js/detail_upload.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-
     <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+{% endblock %}
 
-    <style>
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/detail_upload.css">
+{% endblock %}
 
-        .detail_button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .author {
-            float: right;
-            width: 50%;
-            margin-top: 100px;
-        }
-
-    </style>
+{% block innerjs %}
     <script>
-        let g_id = "{{ post['number'] }}"
-        let g_title = "{{ post['title'] }}"
-        let g_contents = "{{ post['contents'] }}"
+    let g_id = "{{ post['number'] }}"
+    let g_title = "{{ post['title'] }}"
+    let g_contents = "{{ post['contents'] }}"
 
-        $(document).ready(function () {
-            get_db_post()
-        })
+    $(document).ready(function () {
+        get_db_post()
+    })
 
-        function get_db_post() {
-            let title = "{{ post["title"]}}"
-            let content = "{{ post["contents"]}}"
+    function get_db_post() {
+        let title = "{{ post["title"]}}"
+        let content = "{{ post["contents"]}}"
 
-            $("#title_box").val(title)
-            $("#contents_box").val(content)
-        }
-
-
-        function save_upload() {
-            let new_title = $("#title_box").val()
-            let new_content = $("#contents_box").val()
-            $.ajax({
-                type: "POST",
-                url: `/detail/upload`,
-                data: {
-                    id_give: g_id,
-                    title_give: new_title,
-                    contents_give: new_content
-                },
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.href = `/detail/{{ id }}`
-                }
-            });
-        }
+        $("#title_box").val(title)
+        $("#contents_box").val(content)
+    }
 
 
+    function save_upload() {
+        let new_title = $("#title_box").val()
+        let new_content = $("#contents_box").val()
+        $.ajax({
+            type: "POST",
+            url: `/detail/upload`,
+            data: {
+                id_give: g_id,
+                title_give: new_title,
+                contents_give: new_content
+            },
+            success: function (response) {
+                alert(response["msg"])
+                window.location.href = `/detail/{{ id }}`
+            }
+        });
+    }
     </script>
+{% endblock %}
 
-
-</head>
-<body>
-<div class="navbar">
-    <div class="navbar_logo">
-        <a href="/"><img class="logo" src="/static/logo2.png"></a>
-    </div>
-    <div class="navbar_menu">
-        <li><a href="/">Home</a></li>
+{% block libutton %}
         <li><a href="/list">게시물 보기</a></li>
-    </div>
-</div>
+    {% endblock %}
 
+
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col col-md-12">
@@ -120,7 +89,7 @@
             <!-- 버튼 그룹 -->
             <div class="detail_button">
                 <button onclick="save_upload()" type="button" class="btn btn-primary ui button"><i
-                        class="fas fa-arrow-circle-up"></i> 저장
+                    class="fas fa-arrow-circle-up"></i> 저장
                 </button>
                 <button onclick="window.location.href='/detail/{{ id }}'" type="button"
                         class="btn btn-secondary ui button"><i class="fa fa-undo" aria-hidden="true"></i> 취소
@@ -132,5 +101,4 @@
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}
