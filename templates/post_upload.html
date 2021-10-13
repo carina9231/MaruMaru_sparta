@@ -1,41 +1,24 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'base.html' %}
 
-    <title>강만다</title>
+{% block title %} 강만다 - 파일 업로드 {% endblock %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/style.css">
+{% block csslink %}
     <link rel="stylesheet" href="/static/css/post_upload.css">
+{% endblock %}
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>     <!-- 주소검색 api-->
+{% block js %}
     <script src="/static/js/post_upload.js"></script>
+    <!-- 주소검색 api-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+{% endblock %}
+
+{% block libutton %}
+    <li><a href="/list">게시물 보기</a></li>
+{% endblock %}
 
 
-</head>
-<body>
-<div class="navbar">
-    <div class="navbar_logo">
-        <a href="/"><img class="logo" src="/static/logo2.png"></a>
-    </div>
-    <div class="navbar_menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/list">게시물 보기</a></li>
-    </div>
-</div>
+{% block content %}
 <div class="all">
     <!--로고, 작성자(top_box)-->
 
@@ -90,5 +73,4 @@
         </button>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}

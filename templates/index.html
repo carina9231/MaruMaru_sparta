@@ -1,30 +1,8 @@
-<!Doctype html>
-<html lang="ko">
+{% extends 'base.html'%}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block title %} 강만다 {% endblock %}
 
-    <!-- Bootstrap CSS -->
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.8/swiper-bundle.min.js"></script>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
-
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="/static/js/index.js"></script>
-
-    <title>강만다</title>
-
-    <!-- style -->
-    <style type="text/css">
+{% block innerjs %}
     </style>
     {#    <script>#}
     {#        $(document).ready(function () {#}
@@ -65,18 +43,13 @@
     {##}
     {#    </script>#}
 
-</head>
+{% endblock %}
 
-<body>
-<div class="navbar">
-    <div class="navbar_logo">
-        <a href="/"><img class="logo" src="/static/logo2.png" alt="logo"></a>
-    </div>
-    <div class="navbar_menu">
-        <li><a href="/">Home</a></li>
+{% block libutton %}
         <li><a href="/list">게시물 보기</a></li>
-    </div>
-</div>
+{% endblock %}
+
+{% block content %}
 <div class="wrap">
     <div class="main_wrap">
         <h1>강아지를 만나다</h1>
@@ -168,6 +141,4 @@
     </div>
 </div>
 
-</body>
-
-</html>
+{% endblock %}

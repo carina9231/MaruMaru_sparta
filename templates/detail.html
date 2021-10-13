@@ -1,36 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'base.html' %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/detail.css">
-    <script src="https://kit.fontawesome.com/7a46ceb137.js" crossorigin="anonymous"></script>
+{% block title %} 상세페이지 {% endblock %}
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
-            integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
-            integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
-            crossorigin="anonymous"></script>
 
+{% block js %}
     <script src="/static/js/detail.js"></script>
+{% endblock %}
 
-    <title>상세페이지</title>
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/detail.css">
+{% endblock %}
 
+{% block innerjs %}
     <script>
         $(document).ready(function () {
             //iframe url 삽입
@@ -111,149 +92,144 @@
 
 
     </script>
-</head>
+{% endblock %}
 
-<body>
-<div class="navbar">
-    <div class="navbar_logo">
-        <a href="/"><img class="logo" src="/static/logo2.png"></a>
-    </div>
-    <div class="navbar_menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/list">게시물 보기</a></li>
-    </div>
-</div>
 
-<div class="all">
-    <!-- 작성자(top_box)-->
-    <div class="top_box">
-        <div class="image">
-            <img class="image_in" src="/static/maru.png">
-        </div>
-        <div class="author">
-            <div class="input-group mb-3">
-                <span class="input-group-text">작성자</span>
-                <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
-                     aria-describedby="basic-addon1">
-                    {{ detail_db['author'] }}
-                </div>
+{% block libutton %}
+    <li><a href="/list">게시물 보기</a></li>
+{% endblock %}
+
+{% block content %}
+    <div class="all">
+        <!-- 작성자(top_box)-->
+        <div class="top_box">
+            <div class="image">
+                <img class="image_in" src="/static/maru.png">
             </div>
-        </div>
-    </div>
-
-    <div class="contents_box">
-        <!-- 제목, 내용 -->
-        <div class="title">
-            <div class="input-group mb-3">
-                <span class="input-group-text">제목</span>
-                <div id="title_box" type="text" class="form-control" aria-label="Username"
-                     aria-describedby="basic-addon1">
-                    {{ detail_db['title'] }}
-                </div>
-            </div>
-        </div>
-
-        <div class="contents">
-            <div class="input-group mb-3">
-                <div class="form-control content" aria-label="With textarea" id="contents_box">
-                    <img id="content-img" src="/static/postimg/{{ detail_db['file'] }}" height="200px" width="200px"><br>
-
-                    {{ detail_db['contents'] }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--주소, 지도버튼-->
-    <div class="address_box">
-        <div class="address mt-3">
-            <div class="input-group mb-3">
-                <span class="input-group-text">주소</span>
-                <div id="address-box" type="text" class="form-control address" aria-label="Username"
-                     aria-describedby="basic-addon1">{{ detail_db['address'] }}
-                </div>
-                <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 버튼 그룹 -->
-    <div class="detail_button">
-        <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
-            <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
-        </button>
-        &nbsp;
-        <button onclick="delete_post()" type="button" class="btn btn-danger">
-            <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
-        </button>
-        &nbsp;
-        <button type="button" class="btn btn-danger">
-            <i class="far fa-thumbs-up"> 좋아요0</i>
-        </button>
-    </div>
-    <!-- 댓글-->
-    <div class="comment_wrap">
-        <div class="detail_comment">
-            <div class="input-group">
-                <span class="input-group-text">댓글 입력</span>
-                <textarea id="comment_content" class="form-control" aria-label="comment"></textarea>
-                <button onclick="comment_upload()" class="btn btn-primary">확인</button>
-            </div>
-
-            <div id="comment_list_{{ id }}">
-                {% for comment in detail_db['comment'] %}
-                    &nbsp;
-                    <div class="card mb-2">
-                        <div class="card-header bg-light">
-                            <i class="fa fa-comment fa"></i> 작성자: {{ comment.user }}
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="comment_wrote">내용: {{ comment.comment }}</div>
-                                    <button type="button" class="btn btn-dark mt-3">수정</button>
-                                    <button type="button" class="btn btn-dark mt-3">삭제</button>
-                                </li>
-                            </ul>
-                        </div>
+            <div class="author">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">작성자</span>
+                    <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
+                         aria-describedby="basic-addon1">
+                        {{ detail_db['author'] }}
                     </div>
-                {% endfor %}
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!--모달 창-->
-<div class="modal fade" id="map-modal" role="map" aria-labelledby="map"
-     aria-hidden="true" tabindex="-1">
-    <!--modal-dailog : 모달 창 영역 설정-->
-    <div class="modal-dialog modal-lg">
-        <!--modal-content : 모달 창 콘텐츠 영역 설정-->
-        <div class="modal-content">
-            <!--modal-header : 모달 창 콘텐츠의 헤더영역-->
-            <div class="modal-header modal-header-custom">
-                <h4 class="modal-title modal-title-custom">지도</h4>
-            </div>
-            <!--modal-body : 모달 창 콘텐츠의 바디영역-->
-            <div class="modal-body" id="map-body">
-                <!-- iframe src="/map?id={id}" -->
-                <div id="map-area">
-                    <iframe id="go-map" ></iframe>
-                </div>
-
-            </div>
-            <!--modal-footer : 모달 창 콘텐츠의 푸터영역-->
-            <div class="modal-footer">
-                <div class="modal-footer-custom">
-                    <button type="button" class="btn btn-danger"
-                            data-bs-dismiss="modal">
-                        닫기
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-</body>
-</html>
+        <div class="contents_box">
+            <!-- 제목, 내용 -->
+            <div class="title">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <div id="title_box" type="text" class="form-control" aria-label="Username"
+                         aria-describedby="basic-addon1">
+                        {{ detail_db['title'] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="contents">
+                <div class="input-group mb-3">
+                    <div class="form-control content" aria-label="With textarea" id="contents_box">
+                        <img id="content-img" src="/static/postimg/{{ detail_db['file'] }}" height="200px"
+                             width="200px"><br>
+
+                        {{ detail_db['contents'] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--주소, 지도버튼-->
+        <div class="address_box">
+            <div class="address mt-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">주소</span>
+                    <div id="address-box" type="text" class="form-control address" aria-label="Username"
+                         aria-describedby="basic-addon1">{{ detail_db['address'] }}
+                    </div>
+                    <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 버튼 그룹 -->
+        <div class="detail_button">
+            <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
+                <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
+            </button>
+            &nbsp;
+            <button onclick="delete_post()" type="button" class="btn btn-danger">
+                <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-danger">
+                <i class="far fa-thumbs-up"> 좋아요0</i>
+            </button>
+        </div>
+        <!-- 댓글-->
+        <div class="comment_wrap">
+            <div class="detail_comment">
+                <div class="input-group">
+                    <span class="input-group-text">댓글 입력</span>
+                    <textarea id="comment_content" class="form-control" aria-label="comment"></textarea>
+                    <button onclick="comment_upload()" class="btn btn-primary">확인</button>
+                </div>
+
+                <div id="comment_list_{{ id }}">
+                    {% for comment in detail_db['comment'] %}
+                        &nbsp;
+                        <div class="card mb-2">
+                            <div class="card-header bg-light">
+                                <i class="fa fa-comment fa"></i> 작성자: {{ comment.user }}
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="comment_wrote">내용: {{ comment.comment }}</div>
+                                        <button type="button" class="btn btn-dark mt-3">수정</button>
+                                        <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--모달 창-->
+    <div class="modal fade" id="map-modal" role="map" aria-labelledby="map"
+         aria-hidden="true" tabindex="-1">
+        <!--modal-dailog : 모달 창 영역 설정-->
+        <div class="modal-dialog modal-lg">
+            <!--modal-content : 모달 창 콘텐츠 영역 설정-->
+            <div class="modal-content">
+                <!--modal-header : 모달 창 콘텐츠의 헤더영역-->
+                <div class="modal-header modal-header-custom">
+                    <h4 class="modal-title modal-title-custom">지도</h4>
+                </div>
+                <!--modal-body : 모달 창 콘텐츠의 바디영역-->
+                <div class="modal-body" id="map-body">
+                    <!-- iframe src="/map?id={id}" -->
+                    <div id="map-area">
+                        <iframe id="go-map"></iframe>
+                    </div>
+
+                </div>
+                <!--modal-footer : 모달 창 콘텐츠의 푸터영역-->
+                <div class="modal-footer">
+                    <div class="modal-footer-custom">
+                        <button type="button" class="btn btn-danger"
+                                data-bs-dismiss="modal">
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
