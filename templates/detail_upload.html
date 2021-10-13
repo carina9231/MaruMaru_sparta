@@ -37,8 +37,8 @@
         let new_title = $("#title_box").val()
         let new_content = $("#contents_box").val()
         $.ajax({
-            type: "POST",
-            url: `/detail/upload`,
+            type: "PUT",
+            url: `/detail`,
             data: {
                 id_give: g_id,
                 title_give: new_title,
