@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify,redirect,url_for
 from pymongo import MongoClient
 
-from datetime import datetime
+from datetime import datetime,timedelta
 import getLating
 
 import jwt  # install PyJWT
@@ -24,6 +24,13 @@ def main():
 @app.route('/list')
 def show_posts():
     return render_template('post_list.html')
+
+
+# 게시물 리스트 불러오기
+@app.route('/post_list', methods=['GET'])
+def posts_list():
+    articles = list(db.articles.find({}, {'_id': False}))
+    return jsonify({'all_articles': articles})
 
 
 # 이벤트 작성 페이지 불러오기
@@ -68,7 +75,6 @@ def event_upload():
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        'number': count,
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
         'date': date_receive,
@@ -79,10 +85,18 @@ def event_upload():
     return jsonify({'msg': '저장 완료!'})
 
 
-@app.route('/post_list', methods=['GET'])
-def posts_list():
-    articles = list(db.articles.find({}, {'_id': False}))
-    return jsonify({'all_articles': articles})
+# 이벤트 목록 페이지 불러오기
+@app.route('/event/list')
+def show_events_list():
+    return render_template('event_list.html')
+
+
+# 이벤트 리스트 불러오기
+@app.route('/events/list', methods=['GET'])
+def event_list():
+    events = list(db.events.find({}, {'_id': False}))
+    print(events)
+    return jsonify({'result': 'success', 'all_events': events})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -275,8 +289,14 @@ def sign_up():
         "baby": list()  # 아가들 리스트
     }
     db.users.insert_one(doc)
-    return jsonify({'result': 'success'})
 
+    payload = {
+        'id': username_receive,
+        'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 4)  # 로그인 4시간 유지
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+    return jsonify({'result': 'success', 'token': token})
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():

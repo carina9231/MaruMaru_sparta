@@ -41,3 +41,11 @@ body {
 .help {
     color: gray;
 }
+
+.modal-card-foot{
+    justify-content: center;
+}
+
+#my-modal{
+    z-index: 9;
+}
