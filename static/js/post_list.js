@@ -11,14 +11,10 @@ function show_post_list() {
             let articles = response['all_articles']
             let list_num = 0
             for (let i = 0; i < articles.length; i++) {
-                //let image = articles[i]['image']
                 let author = articles[i]['author']
                 let title = articles[i]['title']
-                let contents = articles[i]['contents']
-                let address = articles[i]['address']
                 let number = articles[i]['number']
                 let time = formatDate(articles[i]['present_time'])
-
                 if (articles.length > list_num)
                     list_num = list_num + 1
                 else
@@ -37,9 +33,8 @@ function show_post_list() {
 }
 
 function formatDate(date) {
-    let dateFormat = date.split(" ");
-    let newDateYear = dateFormat[0];
-    let newDateMM = dateFormat[1];
-    let newDateDD = dateFormat[2];
+    let newDateYear = date.substring(0,5)
+    let newDateMM = date.substring(5,8)
+    let newDateDD = date.substring(8,11)
     return [newDateYear, newDateMM, newDateDD].join('-');
 };
