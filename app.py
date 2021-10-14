@@ -22,6 +22,59 @@ def show_posts():
     return render_template('post_list.html')
 
 
+# 이벤트 작성 페이지 불러오기
+@app.route('/events')
+def show_events():
+    return render_template('event_upload.html')
+
+
+# 이벤트 작성
+@app.route('/events', methods=['POST'])
+def event_upload():
+    author_receive = request.form['author_give']
+    title_receive = request.form['title_give']
+    address_receive = request.form['address_give']
+    contents_receive = request.form['content_give']
+    date_receive = request.form['date_give']
+
+    file = request.files['file_give']
+
+    extension = file.filename.split('.')
+
+    today = datetime.now()
+    mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
+
+    filename = f'{mytime}-{extension[0]}'
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+    filename = filename.strip()
+
+    save_to = f'static/eventimg/{filename}.{extension[1]}'
+
+    file.save(save_to)
+
+    count = db.events.count()
+    if count == 0:
+        max_value = 1
+    else:
+        max_value = db.events.find_one(sort=[("idx", -1)])['idx'] + 1
+
+    doc = {
+        'idx': max_value,
+        'author': author_receive,
+        'title': title_receive,
+        'contents': contents_receive,
+        'address': address_receive,
+        'number': count,
+        'file': f'{filename}.{extension[1]}',
+        'present_time': mytime,
+        'date': date_receive,
+        'comment': list()
+    }
+
+    db.events.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
+
+
 @app.route('/post_list', methods=['GET'])
 def posts_list():
     articles = list(db.articles.find({}, {'_id': False}))
@@ -45,21 +98,21 @@ def mapping():
 
 
 # 디테일 페이지 불러오기
-@app.route('/detail/<id>', methods=['GET'])
+@app.route('/detail/<id>')
 def detail(id):
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail.html", id=id, detail_db=articles)
 
 
 # 디테일 수정 화면 GET
-@app.route('/per-detail/<id>/', methods=['GET'])
+@app.route('/detail/<id>/upload', methods=['GET'])
 def detail_upload(id):
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail_upload.html", post=post, id=id)
 
 
 # 디테일 수정 api
-@app.route('/detail', methods=['PUT'])
+@app.route('/detail/upload', methods=['POST'])
 def detail_post_upload():
     id_receive = request.form["id_give"]
     title_receive = request.form["title_give"]
@@ -72,7 +125,7 @@ def detail_post_upload():
 
 
 # 디테일 삭제 api
-@app.route('/detail', methods=['DELETE'])
+@app.route('/detail/delete', methods=['POST'])
 def post_delete():
     id_receive = request.form["id_give"]
     db.articles.delete_one({'number': int(id_receive)})
@@ -85,6 +138,7 @@ def show_posts_upload():
     return render_template('post_upload.html')
 
 
+# 게시물 작성
 @app.route('/posts', methods=['POST'])
 def post_upload():
     author_receive = request.form['author_give']
@@ -130,7 +184,7 @@ def post_upload():
     return jsonify({'msg': '저장 완료!'})
 
 
-@app.route('/comment', methods=['POST'])
+@app.route('/comment/upload', methods=['POST'])
 def comment_upload():
     id_receive = request.form["id_give"]
     comment = request.form["comment_give"]
@@ -139,11 +193,6 @@ def comment_upload():
     db.articles.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
-
-
-@app.route('/comment', methods=['DELETE'])
-def comment_delete():
-    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
