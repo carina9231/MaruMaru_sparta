@@ -101,7 +101,10 @@ def mapping():
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
-    return render_template("detail.html", id=id, detail_db=articles)
+    if articles:
+        return render_template("detail.html", id=id, detail_db=articles)
+    else:
+        return render_template("error.html")
 
 
 # 디테일 수정 화면 GET
@@ -182,6 +185,7 @@ def post_upload():
 
     db.articles.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
 
 # 댓글 작성
 @app.route('/comment', methods=['POST'])
