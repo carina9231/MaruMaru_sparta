@@ -20,24 +20,11 @@
             $('#go-map').attr("src", href)
         });
 
-        function detail_upload() {
-            let id = "{{ id }}"
-
-            $.ajax({
-                type: "GET",
-                url: `/detail/${id}/upload`,
-                data: {},
-                success: function (response) {
-                    window.location.href = `/detail/${id}/upload`
-                }
-            })
-
-        }
 
         function delete_post() {
             $.ajax({
-                type: "POST",
-                url: `/detail/delete`,
+                type: "DELETE",
+                url: `/detail`,
                 data: {id_give: "{{ id }}"},
                 success: function (response) {
                     alert(response["msg"])
@@ -51,7 +38,7 @@
 
             $.ajax({
                 type: "POST",
-                url: `/comment/upload`,
+                url: `/comment`,
                 data: {
                     id_give: "{{ id }}",
                     comment_give: comment_input
@@ -155,7 +142,7 @@
 
         <!-- 버튼 그룹 -->
         <div class="detail_button">
-            <button onclick="detail_upload()" type="button" class="btn btn-primary ui button">
+            <button onclick="location.href='/per-detail/{{ id }}'" type="button" class="btn btn-primary ui button">
                 <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
             </button>
             &nbsp;
