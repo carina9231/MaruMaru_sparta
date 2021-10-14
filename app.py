@@ -86,13 +86,13 @@ def event_upload():
 
 
 # 이벤트 목록 페이지 불러오기
-@app.route('/event_list')
+@app.route('/event/list')
 def show_events_list():
     return render_template('event_list.html')
 
 
 # 이벤트 리스트 불러오기
-@app.route('/event_list', methods=['GET'])
+@app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
     print(events)

@@ -5,7 +5,7 @@ $(document).ready(function () {
 function show_event_list() {
     $.ajax({
         type: 'GET',
-        url: '/event_list',
+        url: '/events/list',
         data: {},
         success: function (response) {
             let events = response['all_events']
