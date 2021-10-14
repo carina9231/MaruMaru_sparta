@@ -1,0 +1,56 @@
+.category {
+    padding: 10px 150px;
+}
+
+.category h1 {
+    font-size: 48px;
+    font-family: "BinggraeSamanco-Bold";
+    font-weight: 700;
+    line-height: 56px;
+}
+
+.event_list_wrap {
+    padding: 10px 150px;
+}
+
+.event_list_head,
+.event_list_body .item {
+    padding: 10px 0;
+    font-size: 0;
+}
+
+.event_list_head {
+    border-top: 2px solid #3DB2FF;
+    border-bottom: 1px solid;
+}
+
+.event_list_body .item {
+    border-bottom: 1px solid;
+}
+
+.event_list_head > div,
+.event_list_body .item > div {
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+}
+
+.event_list .num {
+    width: 10%;
+}
+
+.event_list .title {
+    width: 60%;
+}
+
+.event_list .event_list_body .title {
+    text-align: left;
+}
+
+.event_list .author {
+    width: 15%;
+}
+
+.event_list .date {
+    width: 15%;
+}
