@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify,redirect,url_for
 from pymongo import MongoClient
 
-from datetime import datetime
+from datetime import datetime,timedelta
 import getLating
 
 import jwt  # install PyJWT
@@ -289,8 +289,14 @@ def sign_up():
         "baby": list()  # 아가들 리스트
     }
     db.users.insert_one(doc)
-    return jsonify({'result': 'success'})
 
+    payload = {
+        'id': username_receive,
+        'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 4)  # 로그인 4시간 유지
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+    return jsonify({'result': 'success', 'token': token})
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():

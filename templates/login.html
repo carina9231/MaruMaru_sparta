@@ -22,6 +22,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+    <!-- 꽃가루 -->
+    <script src="https://tistory4.daumcdn.net/tistory/3134841/skin/images/confetti_v2.js"></script>
+
+    <style>
+        canvas {
+            z-index: 10;
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            transform: scale(1.1);
+        }
+    </style>
     <script src="/static/js/login.js"></script>
     <link href="/static/css/login.css" rel="stylesheet">
 </head>
@@ -112,5 +124,39 @@
 
     </div>
 </section>
+
+<div id="my-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title" align="center"> Well Come G.M.D ~!!</p>
+            <button class="delete" aria-label="close" onclick="modal_button('delete')"></button>
+        </header>
+        <section class="modal-card-body">
+            <!-- Content ... -->
+            <p align="center"><br>가입을 축하드립니다!!<br><br>
+
+                지금 바로 프로필을 꾸미고<br><br>
+                반려 가족을 등록하러 가볼까요~~!? >_<
+                <br></p>
+        </section>
+
+            <footer class="modal-card-foot">
+                <button class="button is-success" onclick="modal_button('yes')">좋아요!!</button>
+                <button class="button is-centered" onclick="modal_button('no')">아니요..</button>
+            </footer>
+
+    </div>
+</div>
+
+
+<!-- 꽃가루-->
+<div class="buttonContainer is-hidden">
+    <button class="canvasBtn" id="stopButton">Stop Confetti</button>
+    <button class="canvasBtn" id="startButton">Drop Confetti</button>
+</div>
+
+<canvas id="canvas"></canvas>
+
 </body>
 </html>
