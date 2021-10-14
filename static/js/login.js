@@ -76,6 +76,7 @@ function sign_up() {
         $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
     }
     $.ajax({
+
         type: "POST",
         url: "/sign_up/save",
         data: {
@@ -83,8 +84,16 @@ function sign_up() {
             password_give: password
         },
         success: function (response) {
-            alert("회원가입을 축하드립니다!")
-            window.location.replace("/login")
+
+            if (response['result'] == 'success') {
+                $.cookie('mytoken', response['token'], {path: '/'});
+                $('#my-modal').toggleClass("is-active");
+                reAction(); //꽃가루
+                
+            } else {
+                alert(response['msg'])
+            }
+
         }
     });
 
@@ -140,4 +149,26 @@ function check_dup() {
             $("#help-id").removeClass("is-loading")
         }
     });
+}
+
+function reAction() {
+    $("#startButton").trigger("click");
+    setTimeout(function () {
+        $("#stopButton").trigger("click");
+    }, 5000);
+}
+
+
+function modal_button(key) {
+    if (key == 'yes') {
+
+    } else if (key == 'no') {
+        alert('홈으로 이동합니다.')
+
+        setTimeout(function () {
+            window.location.replace("/")
+        },1000);
+    } else {
+        $('#my-modal').toggleClass('is-active');
+    }
 }
