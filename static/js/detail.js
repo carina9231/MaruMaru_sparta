@@ -10,19 +10,30 @@ $(document).ready(function () {
 
 
 function delete_post() {
-    $.ajax({
-        type: "DELETE",
-        url: `/detail`,
-        data: {id_give: g_idx},
-        success: function (response) {
-            alert(response["msg"])
-            window.location.href = `/list`
-        }
-    });
+    const result = confirm("정말로 삭제 하시겠습니까?");
+    if (result) {
+        $.ajax({
+            type: "DELETE",
+            url: `/detail`,
+            data: {id_give: g_idx},
+            success: function (response) {
+                window.location.href = `/list`
+            },
+            error: function (request, status, error) {
+                alert(error);
+            }
+        });
+    } else {
+        return false;
+    }
 }
 
 function comment_upload() {
-    let comment_input = $("#comment_content").val();
+    const comment_input = $("#comment_content").val();
+    if (comment_input.length == 0) {
+        alert("댓글을 입력해주세요!");
+        return;
+    }
 
     $.ajax({
         type: "POST",
@@ -37,6 +48,7 @@ function comment_upload() {
             const arr_comment = response["save_comment"]["comment"].reverse();
             arr_comment.forEach((e) => {
                 comment_text += `
+                            &nbsp;
                             <div class="card mb-2">
                                 <div class="card-header bg-light">
                                     <i class="fa fa-comment fa"></i> 작성자: ${e.user}
