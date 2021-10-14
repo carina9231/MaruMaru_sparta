@@ -3,84 +3,9 @@
 {% block title %} 상세페이지 {% endblock %}
 
 
-{% block js %}
-    <script src="/static/js/detail.js"></script>
-{% endblock %}
-
 {% block csslink %}
     <link rel="stylesheet" href="/static/css/detail.css">
 {% endblock %}
-
-{% block innerjs %}
-    <script>
-        $(document).ready(function () {
-            //iframe url 삽입
-            let id = {{ id }};
-            let href = '/map?id=' + id
-            $('#go-map').attr("src", href)
-        });
-
-
-        function delete_post() {
-            $.ajax({
-                type: "DELETE",
-                url: `/detail`,
-                data: {id_give: "{{ id }}"},
-                success: function (response) {
-                    alert(response["msg"])
-                    window.location.href = `/list`
-                }
-            });
-        }
-
-        function comment_upload() {
-            let comment_input = $("#comment_content").val();
-
-            $.ajax({
-                type: "POST",
-                url: `/comment`,
-                data: {
-                    id_give: "{{ id }}",
-                    comment_give: comment_input
-                },
-                success: function (response) {
-                    alert(response["msg"])
-                    let comment_text = ""
-                    const arr_comment = response["save_comment"]["comment"].reverse();
-                    arr_comment.forEach((e) => {
-                        comment_text += `
-                            &nbsp;
-                            <div class="card mb-2">
-                                <div class="card-header bg-light">
-                                    <i class="fa fa-comment fa"></i> 작성자: ${e.user}
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <div class="comment_wrote">내용: ${e.comment}</div>
-                                            <button type="button" class="btn btn-dark mt-3">수정</button>
-                                            <button type="button" class="btn btn-dark mt-3">삭제</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            &nbsp;
-                        `
-                    })
-                    $("#comment_content").val("")
-                    $(`#comment_list_{{ id }}`).html(comment_text)
-
-                },
-                error: function (request, status, error) {
-                    alert(error);
-                }
-            });
-        }
-
-
-    </script>
-{% endblock %}
-
 
 {% block libutton %}
     <li><a href="/list">게시물 보기</a></li>
@@ -107,6 +32,7 @@
         <div class="contents_box">
             <!-- 제목, 내용 -->
             <div class="title">
+                <input type="hidden" id="idx" value="{{ id }}">
                 <div class="input-group mb-3">
                     <span class="input-group-text">제목</span>
                     <div id="title_box" type="text" class="form-control" aria-label="Username"
@@ -219,4 +145,11 @@
         </div>
     </div>
 
+
 {% endblock %}
+
+{% block innerjs %}
+    <script src="/static/js/detail.js"></script>
+{% endblock %}
+</body>
+</html>

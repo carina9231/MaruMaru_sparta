@@ -98,21 +98,21 @@ def mapping():
 
 
 # 디테일 페이지 불러오기
-@app.route('/detail/<id>')
+@app.route('/detail/<id>', methods=['GET'])
 def detail(id):
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail.html", id=id, detail_db=articles)
 
 
 # 디테일 수정 화면 GET
-@app.route('/detail/<id>/upload', methods=['GET'])
+@app.route('/per-detail/<id>/', methods=['GET'])
 def detail_upload(id):
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail_upload.html", post=post, id=id)
 
 
 # 디테일 수정 api
-@app.route('/detail/upload', methods=['POST'])
+@app.route('/detail', methods=['PUT'])
 def detail_post_upload():
     id_receive = request.form["id_give"]
     title_receive = request.form["title_give"]
@@ -125,7 +125,7 @@ def detail_post_upload():
 
 
 # 디테일 삭제 api
-@app.route('/detail/delete', methods=['POST'])
+@app.route('/detail', methods=['DELETE'])
 def post_delete():
     id_receive = request.form["id_give"]
     db.articles.delete_one({'number': int(id_receive)})
@@ -136,6 +136,7 @@ def post_delete():
 @app.route('/posts')
 def show_posts_upload():
     return render_template('post_upload.html')
+
 
 # 게시물 작성
 @app.route('/posts', methods=['POST'])
@@ -182,8 +183,8 @@ def post_upload():
     db.articles.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-
-@app.route('/comment/upload', methods=['POST'])
+# 댓글 작성
+@app.route('/comment', methods=['POST'])
 def comment_upload():
     id_receive = request.form["id_give"]
     comment = request.form["comment_give"]
@@ -198,6 +199,7 @@ def comment_upload():
 @app.route('/profile')
 def show_profile_upload():
     return render_template('profile_upload.html')
+
 
 # 프로필 작성
 @app.route('/profile', methods=['POST'])
@@ -233,6 +235,7 @@ def profile_upload():
 
     db.profile.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
