@@ -38,24 +38,73 @@
             crossorigin="anonymous"></script>
 
     <script src="/static/js/index.js"></script>
+
+    <!-- bulma -->
+    {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">#}
+
     {% block js %}{% endblock %}
 
 </head>
 <body>
-<div class="navbar">
+<nav class="navbar">
     <div class="navbar_logo">
         <a href="/"><img class="logo" src="/static/logo2.png"></a>
     </div>
     <div class="navbar_menu">
         <li><a href="/">Home</a></li>
         {% block libutton %}{% endblock %}
-
+        <li id="login-button"><a href="/login">로그인</a></li>
+        <div id="user-profile"><img id="user-profile" class="img-circle" src="/static/profile_pics/profile_placeholder.png"  width="50px" height="50px"></div>
     </div>
 
-</div>
+</nav>
 {% block content %}
 {% endblock %}
 
+<script>
+    //쿠키에 mytoken이 존재하면 user 정보 띄우기
+    $(document).ready(function () {
+        let my_token = getCookie('mytoken');
+
+        if (my_token == null) {
+            $('#login-button').show();
+            $('#user-profile').hide();
+        } else {
+            $('#login-button').hide();
+            $('#user-profile').show();
+
+            $.ajax({
+                type: "GET",
+                url: "/user_info",
+                data: {},
+                success: function (response) {
+                    img_file = response['user_info']['profile_pic_real']
+
+                    let href = '/static/${file_url}'
+                    $('#user-profile').attr("src",href)
+                }
+            });
+        }
+    })
+
+    function getCookie(key) {
+        var result = null;
+        var cookie = document.cookie.split(';');
+        cookie.some(function (item) {
+            // 공백을 제거
+            item = item.replace(' ', '');
+
+            var dic = item.split('=');
+            if (key === dic[0]) {
+                result = dic[1];
+                return true;    // break;
+            }
+        });
+        return result;
+    }
+
+
+</script>
 {% block innerjs %} {% endblock %}
 </body>
 </html>

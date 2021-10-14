@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,url_for
 from pymongo import MongoClient
 
 from datetime import datetime
 import getLating
+
+import jwt  # install PyJWT
+import hashlib
 
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
 db = client.marumaru
 
+SECRET_KEY = 'BAEMARUMARU'
 
 # 메인페이지 불러오기
 @app.route('/')
@@ -240,6 +244,73 @@ def profile_upload():
     db.profile.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
+@app.route('/login', methods=['GET'])
+def login():
+    # 로그인 버튼 클릭시 - 쿠키에 값 있으면, 바로 로그인 추가
+
+    return render_template('login.html')
+
+
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    # 중복확인
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    doc = {
+        "username": username_receive,  # 아이디
+        "password": password_hash,  # 비밀번호
+        "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
+        "profile_pic": "",  # 프로필 사진 파일 이름
+        "profile_pic_real": "profile_pics/profile_placeholder.png",  # 프로필 사진 기본 이미지
+        "profile_info": "",  # 프로필 한 마디
+        "profile_name": "",  # 프로필 닉네임
+        "baby": list()  # 아가들 리스트
+    }
+    db.users.insert_one(doc)
+    return jsonify({'result': 'success'})
+
+
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+
+    if result is not None:
+        payload = {
+            'id': username_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 4)  # 로그인 4시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+
+@app.route('/user_info', methods=['GET'])
+def user_info():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_information = db.users.find_one({"username": payload["id"]},{'_id': False})
+        print(user_information)
+        return jsonify({'result': 'success', 'user_info': user_information})
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
