@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} 강만다 - 파일 업로드 {% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/post_upload.css">
+{% endblock %}
+
+
+{% block js %}
+    <script src="/static/js/event_upload.js"></script>
+    <!-- 주소검색 api-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!--datepicker-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+{% endblock %}
+
+{% block libutton %}
+    <li><a href="/list">게시물 보기</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="all">
+        <!--로고, 작성자(top_box)-->
+
+        <div class="top_box">
+            <div class="image">
+                <img class="image_in" src="/static/maru.png">
+            </div>
+            <div class="author">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">작성자</span>
+                    <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+        </div>
+        <!--제목, 사진 업로드, 내용(contents_box)-->
+        <div class="contents_box">
+
+            <div class="title">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <input id="title_box" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+            <div class="contents">
+                <div class="input-group mb-3">
+                <textarea class="form-control" placeholder="내용을 작성해주세요!" aria-label="With textarea"
+                          id="contents_box"></textarea>
+                </div>
+            </div>
+
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input file" id="file">
+                <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+            </div>
+
+        </div>
+        <!--주소-->
+        <div class="address">
+            <div class="input-group mb-3">
+                <span class="input-group-text">주소</span>
+                <input onclick="address_input()" id="address-box" type="text" class="form-control" aria-label="address"
+                       aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="date">
+            <div class="input-group mb-3">
+                <span class="input-group-text">날짜</span>
+                <input id="datepicker" type="text" class="form-control" aria-label="date"
+                       aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <!--저장(save)-->
+        <div class="save">
+            <button onclick="event_upload()" onchange="event_upload()" type="button" class="btn btn-info" id="save">
+                저장하기
+            </button>
+        </div>
+    </div>
+{% endblock %}

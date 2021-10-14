@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    bsCustomFileInput.init()
+    bsCustomFileInput.init();
 })
 
 function address_input() {

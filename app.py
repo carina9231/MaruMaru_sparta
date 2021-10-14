@@ -22,6 +22,59 @@ def show_posts():
     return render_template('post_list.html')
 
 
+# 이벤트 작성 페이지 불러오기
+@app.route('/events')
+def show_events():
+    return render_template('event_upload.html')
+
+
+# 이벤트 작성
+@app.route('/events', methods=['POST'])
+def event_upload():
+    author_receive = request.form['author_give']
+    title_receive = request.form['title_give']
+    address_receive = request.form['address_give']
+    contents_receive = request.form['content_give']
+    date_receive = request.form['date_give']
+
+    file = request.files['file_give']
+
+    extension = file.filename.split('.')
+
+    today = datetime.now()
+    mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
+
+    filename = f'{mytime}-{extension[0]}'
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+    filename = filename.strip()
+
+    save_to = f'static/eventimg/{filename}.{extension[1]}'
+
+    file.save(save_to)
+
+    count = db.events.count()
+    if count == 0:
+        max_value = 1
+    else:
+        max_value = db.events.find_one(sort=[("idx", -1)])['idx'] + 1
+
+    doc = {
+        'idx': max_value,
+        'author': author_receive,
+        'title': title_receive,
+        'contents': contents_receive,
+        'address': address_receive,
+        'number': count,
+        'file': f'{filename}.{extension[1]}',
+        'present_time': mytime,
+        'date': date_receive,
+        'comment': list()
+    }
+
+    db.events.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
+
+
 @app.route('/post_list', methods=['GET'])
 def posts_list():
     articles = list(db.articles.find({}, {'_id': False}))
