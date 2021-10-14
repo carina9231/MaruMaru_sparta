@@ -43,8 +43,8 @@ function post_upload() {
     let content = $("#contents_box").val()
 
 
-    //파일명 출력//
-    var fileInput = document.getElementsByClassName("file");
+    // 파일명 출력
+    let fileInput = document.getElementsByClassName("file");
 
     //사진이 들어가지 않았을 때
     if (fileInput[0].files.length == 0) {
@@ -52,9 +52,9 @@ function post_upload() {
         $("#file").focus();
         return false;
     }
-    for (var i = 0; i < fileInput.length; i++) {
+    for (let i = 0; i < fileInput.length; i++) {
         if (fileInput[i].files.length > 0) {
-            for (var j = 0; j < fileInput[i].files.length; j++) {
+            for (let j = 0; j < fileInput[i].files.length; j++) {
                 let filename = fileInput[i].files[j].name //
 
                 let file = $('#file')[0].files[0]
@@ -96,6 +96,7 @@ function post_upload() {
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
+                            console.log(form_data)
                             location.replace('/list')
                         }
                     })
