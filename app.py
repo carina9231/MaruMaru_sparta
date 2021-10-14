@@ -137,7 +137,7 @@ def post_delete():
 def show_posts_upload():
     return render_template('post_upload.html')
 
-
+# 게시물 작성
 @app.route('/posts', methods=['POST'])
 def post_upload():
     author_receive = request.form['author_give']
@@ -193,6 +193,46 @@ def comment_upload():
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
+
+# 프로필 작성 페이지 불러오기
+@app.route('/profile')
+def show_profile_upload():
+    return render_template('profile_upload.html')
+
+# 프로필 작성
+@app.route('/profile', methods=['POST'])
+def profile_upload():
+    name_receive = request.form["name_give"]
+    age_receive = request.form["age_give"]
+    gender_receive = request.form["gender_give"]
+    comment_receive = request.form["comment_give"]
+    filename_receive = request.form['filename_give']
+
+    file = request.files['file_give']
+
+    extension = file.filename.split('.')
+
+    today = datetime.now()
+    mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
+
+    filename = f'{mytime}-{extension[0]}'
+
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+
+    filename = filename.strip()
+    save_to = f'static/profileimg/{filename}.{extension[1]}'
+    file.save(save_to)
+
+    doc = {
+        'name': name_receive,
+        'age': age_receive,
+        'gender': gender_receive,
+        'comment': comment_receive,
+        'file': f'{filename}.{extension[1]}'
+    }
+
+    db.profile.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
