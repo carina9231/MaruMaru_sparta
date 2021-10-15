@@ -58,6 +58,7 @@ def event_upload():
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
     present_date_receive = request.form['present_date_give']
+    max_receive = request.form['max_give']
 
     file = request.files['file_give']
 
@@ -90,6 +91,7 @@ def event_upload():
         'file': f'{filename}.{extension[1]}',
         'date': date_receive,
         'present_date': present_date_receive,
+        'max': max_receive,
         'comment': list()
     }
 
@@ -108,6 +110,26 @@ def show_events_list():
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
     return jsonify({'result': 'success', 'all_events': events})
+
+
+# 이벤트디테일 페이지 불러오기
+@app.route('/event/detail/<id>', methods=['GET'])
+def event_detail(id):
+    db.events.update_one({'idx': int(id)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    print(events)
+    if events:
+        return render_template("event_detail.html", id=id, events_db=events)
+    else:
+        return render_template("error.html")
+
+
+# 이벤트 삭제 api
+@app.route('/event/detail', methods=['DELETE'])
+def event_delete():
+    id_receive = request.form["id_give"]
+    db.articles.delete_one({'idx': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '게시글 삭제'})
 
 
 # 메인페이지에 프로필 카드 보여주기
