@@ -103,7 +103,14 @@
         return result;
     }
 
-
+function onClickCreateEvent() {
+    if (document.cookie.match("mytoken") != null) {
+        window.location.href = "/events"
+    } else {
+        alert("로그인 후 생성해주세요 !!")
+        window.location.href = '/login';
+    }
+}
 </script>
 {% block innerjs %} {% endblock %}
 </body>

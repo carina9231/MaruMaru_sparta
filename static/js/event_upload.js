@@ -25,6 +25,7 @@ function event_upload() {
     let content = $("#contents_box").val()
     let date = $("#datepicker").val()
     let file = $('#file')[0].files[0]
+    let max = $("#max-people").val()
     let present_date = new Date().toISOString();
 
     let form_data = new FormData()
@@ -34,48 +35,49 @@ function event_upload() {
     form_data.append("address_give", address)
     form_data.append("content_give", content)
     form_data.append("date_give", date)
+    form_data.append("max_give", max)
     form_data.append("present_date_give", present_date)
 
     // alert창 띄우기
     if ($("#title_box").val().length == 0) {
         alert("제목을 입력하세요!");
-        $("#title_boxl").focus();
-        return false;
+        return $("#title_boxl").focus();
     }
     if ($("#contents_box").val().length == 0) {
         alert("내용을 입력하세요!");
-        $("#contents_box").focus();
-        return false;
+        return $("#contents_box").focus();
     }
     if ($('#file')[0].files[0] == null) {
         alert("사진를 입력하세요!");
-        $("#file").focus();
-        return false;
+        return $("#file").focus();
     }
     if ($("#address-box").val().length == 0) {
         alert("주소를 입력하세요!");
-        $("#address-box").focus();
-        return false;
+        return $("#address-box").focus();
     }
     if ($("#datepicker").val().length == 0) {
         alert("날짜를 입력하세요!");
-        $("#datepicker").focus();
-        return false;
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/events",
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                alert(response["msg"])
-                location.replace('/')
-            }
-        })
+        return $("#datepicker").focus();
     }
-}
+    if ($("#max-people").val().length == 0) {
+        alert("제한인원을 입력하세요!");
+        return $("#max-people").focus();
+            ;
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/events",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response["msg"])
+                    location.replace('/')
+                }
+            })
+        }
+    }
 
     function address_input() {
         new daum.Postcode({
