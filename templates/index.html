@@ -3,44 +3,6 @@
 {% block title %} 강만다 {% endblock %}
 
 {% block innerjs %}
-    {#    <script>#}
-    {#        $(document).ready(function () {#}
-    {#            show_profile();#}
-    {#        });#}
-    {##}
-    {#        function show_profile() {#}
-    {#            $.ajax({#}
-    {#                type: 'GET',#}
-    {#                url: '/profile_list',#}
-    {#                data: {},#}
-    {#                success: function (response) {#}
-    {#                    let profile = response['all_profile']#}
-    {#                    for (let i = 0; i < profile.length; i++) {#}
-    {#                        let image = profile[i]['image']#}
-    {#                        let name = profile[i]['name']#}
-    {#                        let age = profile[i]['age']#}
-    {#                        let gender = profile[i]['gender']#}
-    {#                        let descrip = profile[i]['descrip']#}
-    {##}
-    {#                        let temp_html = `<div class="swiper-slide">#}
-    {#                                          <div class="tag">#}
-    {#                                           <span>나이 : ${age} </span>#}
-    {#                                            </div>#}
-    {#                                            <a class="title">이름 : ${name} </a>#}
-    {#                                            <div class="text">#}
-    {#                                            <img class="card-img-top"#}
-    {#                                             src="${image}"#}
-    {#                                                alt="Card image cap">#}
-    {#                                             </div>#}
-    {#                                            <div class="date">자기소개 : ${descrip}</div>`#}
-    {##}
-    {#                        $('#cards-box').append(temp_html)#}
-    {#                    }#}
-    {#                }#}
-    {#            });#}
-    {#        }#}
-    {##}
-    {#    </script>#}
     <script>
         (function () {
             var swiper = new Swiper(".slider .swiper-container", {
@@ -57,8 +19,12 @@
 
 {% block libutton %}
     <li><a href="/list">게시물 보기</a></li>
+<<<<<<< HEAD
     <li><a href="/events">이벤트 작성</a></li>
     <li><a href="/profiles">모든 프로필 보기</a></li>
+=======
+    <li><a href="/event/list">이벤트 보기</a></li>
+>>>>>>> 5a6ca00478cde183f2c261f37d9c6a0e839a926f
 {% endblock %}
 
 {% block content %}

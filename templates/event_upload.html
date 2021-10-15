@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} 강만다 - 파일 업로드 {% endblock %}
+{% block title %} 강만다 - 이벤트 생성 {% endblock %}
 
 {% block csslink %}
     <link rel="stylesheet" href="/static/css/post_upload.css">
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block libutton %}
-    <li><a href="/list">게시물 보기</a></li>
+    <li><a href="/event/list">이벤트 보기</a></li>
 {% endblock %}
 
 
@@ -34,18 +34,9 @@
             <div class="image">
                 <img class="image_in" src="/static/maru.png">
             </div>
-            <div class="author">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">작성자</span>
-                    <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
-                           aria-describedby="basic-addon1">
-                </div>
-            </div>
-
         </div>
         <!--제목, 사진 업로드, 내용(contents_box)-->
         <div class="contents_box">
-
             <div class="title">
                 <div class="input-group mb-3">
                     <span class="input-group-text">제목</span>

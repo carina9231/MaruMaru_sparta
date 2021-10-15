@@ -1,13 +1,18 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from pymongo import MongoClient
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import getLating
+
+import jwt  # install PyJWT
+import hashlib
 
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
 db = client.marumaru
+
+SECRET_KEY = 'BAEMARUMARU'
 
 
 # 메인페이지 불러오기
@@ -22,6 +27,13 @@ def show_posts():
     return render_template('post_list.html')
 
 
+# 게시물 리스트 불러오기
+@app.route('/post_list', methods=['GET'])
+def posts_list():
+    articles = list(db.articles.find({}, {'_id': False}))
+    return jsonify({'all_articles': articles})
+
+
 # 이벤트 작성 페이지 불러오기
 @app.route('/events')
 def show_events():
@@ -31,11 +43,15 @@ def show_events():
 # 이벤트 작성
 @app.route('/events', methods=['POST'])
 def event_upload():
-    author_receive = request.form['author_give']
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_information = db.users.find_one({"username": payload["id"]})
+
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
+    present_date_receive = request.form['present_date_give']
 
     file = request.files['file_give']
 
@@ -60,14 +76,14 @@ def event_upload():
 
     doc = {
         'idx': max_value,
-        'author': author_receive,
+        'username': user_information["username"],
+        'profile_name': user_information["profile_name"],
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        'number': count,
         'file': f'{filename}.{extension[1]}',
-        'present_time': mytime,
         'date': date_receive,
+        'present_date': present_date_receive,
         'comment': list()
     }
 
@@ -75,10 +91,17 @@ def event_upload():
     return jsonify({'msg': '저장 완료!'})
 
 
-@app.route('/post_list', methods=['GET'])
-def posts_list():
-    articles = list(db.articles.find({}, {'_id': False}))
-    return jsonify({'all_articles': articles})
+# 이벤트 목록 페이지 불러오기
+@app.route('/event/list')
+def show_events_list():
+    return render_template('event_list.html')
+
+
+# 이벤트 리스트 불러오기
+@app.route('/events/list', methods=['GET'])
+def event_list():
+    events = list(db.events.find({}, {'_id': False}))
+    return jsonify({'result': 'success', 'all_events': events})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -101,7 +124,10 @@ def mapping():
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
-    return render_template("detail.html", id=id, detail_db=articles)
+    if articles:
+        return render_template("detail.html", id=id, detail_db=articles)
+    else:
+        return render_template("error.html")
 
 
 # 디테일 수정 화면 GET
@@ -183,6 +209,7 @@ def post_upload():
     db.articles.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
+
 # 댓글 작성
 @app.route('/comment', methods=['POST'])
 def comment_upload():
@@ -262,6 +289,95 @@ def dogprofile_list():
 def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
     return render_template("profile_detail.html", id=id, detail_db=profiles)
+
+
+@app.route('/login', methods=['GET'])
+def login():
+    # 로그인 버튼 클릭시 - 쿠키에 값 있으면, 바로 로그인 추가
+
+    return render_template('login.html')
+
+
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    # 중복확인
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    doc = {
+        "username": username_receive,  # 아이디
+        "password": password_hash,  # 비밀번호
+        "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
+        "profile_pic": "profile_pics/profile_placeholder.png",  # 프로필 사진 파일 이름(기본이미지)
+        "profile_info": "",  # 프로필 한 마디
+        "profile_name": "happy-happy",  # 프로필 닉네임
+        "baby": list()  # 아가들 리스트
+    }
+    db.users.insert_one(doc)
+
+    payload = {
+        'id': username_receive,
+        'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 4)  # 로그인 4시간 유지
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+    return jsonify({'result': 'success', 'token': token})
+
+
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+
+    if result is not None:
+        payload = {
+            'id': username_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 4)  # 로그인 4시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+
+@app.route('/user_info', methods=['GET'])
+def user_info():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
+        print(user_information)
+        return jsonify({'result': 'success', 'user_info': user_information})
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+
+
+@app.route('/user_profile', methods=['GET', 'POST'])
+def user_profile():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
+
+    if (request.method == 'GET'):
+        return render_template('user_profile_upload.html', user_info=user_information)
+
+    elif (request.method == 'POST'):
+        return render_template('user_profile.html', user_info=user_information)
+
 
 
 if __name__ == '__main__':
