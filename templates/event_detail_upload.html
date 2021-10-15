@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %} 강만다 - 이벤트 생성 {% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/post_upload.css">
+{% endblock %}
+
+
+{% block js %}
+    <script src="/static/js/event_detail_upload.js"></script>
+
+    <!--사진 파일 뽑기-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <!-- 주소검색 api-->
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!--datepicker-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+{% endblock %}
+
+{% block libutton %}
+    <li><a href="/event/list">이벤트 보기</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="all">
+        <!--로고, 작성자(top_box)-->
+
+        <div class="top_box">
+            <div class="image">
+                <img class="image_in" src="/static/maru.png">
+            </div>
+        </div>
+        <!--제목, 사진 업로드, 내용(contents_box)-->
+        <div class="contents_box">
+            <div class="title">
+                <div class="input-group mb-3">
+                    <input type="hidden" id="idx" value="{{id}}">
+                    <span class="input-group-text">제목</span>
+                    <input id="title_box" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="basic-addon1" value="{{ events["title"] }}">
+                </div>
+            </div>
+
+            <div class="contents">
+                <div class="input-group mb-3">
+                    <textarea class="form-control" aria-label="With textarea"
+                              id="contents_box"> {{ events['contents'] }} </textarea>
+                </div>
+            </div>
+        </div>
+        <!--주소-->
+        <div class="address">
+            <div class="input-group mb-3">
+                <span class="input-group-text">주소</span>
+                <input onclick="address_input()" id="address-box" type="text" class="form-control" aria-label="address"
+                       aria-describedby="basic-addon1" value="{{ events["address"] }}">
+            </div>
+        </div>
+        <div class="date">
+            <div class="input-group mb-3">
+                <span class="input-group-text">날짜</span>
+                <input id="datepicker" type="text" class="form-control" aria-label="date"
+                       aria-describedby="basic-addon1" value="{{ events["date"] }}">
+            </div>
+        </div>
+        <div class="input-group mb-3" style="width: 200px">
+            <span class="input-group-text">제한 인원</span>
+            <input class="form-control" type="number" id="max-people" min="1" max="100" value="{{ events['max'] }}">
+            <p style="margin: auto">명</p>
+        </div>
+        <!--저장(save)-->
+        <div class="save">
+            <button onclick="save_event_upload()" onchange="save_event_upload()" type="button" class="btn btn-info" id="save">
+                저장하기
+            </button>
+        </div>
+    </div>
+{% endblock %}
