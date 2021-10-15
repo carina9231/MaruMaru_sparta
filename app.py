@@ -1,3 +1,4 @@
+import pymongo
 from flask import Flask, render_template, request, jsonify,redirect,url_for
 from pymongo import MongoClient
 
@@ -30,7 +31,7 @@ def show_posts():
 @app.route('/post_list', methods=['GET'])
 def posts_list():
     articles = list(db.articles.find({}, {'_id': False}).sort([("number", -1)]))
-    best = list(db.articles.find({}, {'_id': False}).sort([("view", -1)]))[0]
+    best = db.articles.find_one({}, {'_id': False}, sort=([("view", pymongo.DESCENDING)]))
     return jsonify({'all_articles': articles, 'best': best})
 
 
