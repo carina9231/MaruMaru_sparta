@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+import pymongo
+from flask import Flask, render_template, request, jsonify,redirect,url_for
 from pymongo import MongoClient
 
-from datetime import datetime, timedelta
+from datetime import datetime,timedelta
 import getLating
 
 import jwt  # install PyJWT
@@ -13,7 +14,6 @@ client = MongoClient('localhost', 27017)
 db = client.marumaru
 
 SECRET_KEY = 'BAEMARUMARU'
-
 
 # 메인페이지 불러오기
 @app.route('/')
@@ -31,7 +31,7 @@ def show_posts():
 @app.route('/post_list', methods=['GET'])
 def posts_list():
     articles = list(db.articles.find({}, {'_id': False}).sort([("number", -1)]))
-    best = list(db.articles.find({}, {'_id': False}).sort([("view", -1)]))[0]
+    best = db.articles.find_one({}, {'_id': False}, sort=([("view", pymongo.DESCENDING)]))
     return jsonify({'all_articles': articles, 'best': best})
 
 
@@ -44,15 +44,11 @@ def show_events():
 # 이벤트 작성
 @app.route('/events', methods=['POST'])
 def event_upload():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_information = db.users.find_one({"username": payload["id"]})
-
+    author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
-    present_date_receive = request.form['present_date_give']
 
     file = request.files['file_give']
 
@@ -77,15 +73,14 @@ def event_upload():
 
     doc = {
         'idx': max_value,
-        'username': user_information["username"],
-        'profile_name': user_information["profile_name"],
+        'author': author_receive,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
         'file': f'{filename}.{extension[1]}',
+        'present_time': mytime,
         'date': date_receive,
-        'present_date': present_date_receive,
-        'comment': list()
+        'comment': list(),
     }
 
     db.events.insert_one(doc)
@@ -133,7 +128,7 @@ def detail(id):
 
 
 # 디테일 수정 화면 GET
-@app.route('/per-detail/<id>/', methods=['GET'])
+@app.route('/per-detail/<id>', methods=['GET'])
 def detail_upload(id):
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail_upload.html", post=post, id=id)
@@ -265,7 +260,6 @@ def profile_upload():
     db.profile.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-
 @app.route('/login', methods=['GET'])
 def login():
     # 로그인 버튼 클릭시 - 쿠키에 값 있으면, 바로 로그인 추가
@@ -290,9 +284,10 @@ def sign_up():
         "username": username_receive,  # 아이디
         "password": password_hash,  # 비밀번호
         "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
-        "profile_pic": "profile_pics/profile_placeholder.png",  # 프로필 사진 파일 이름(기본이미지)
+        "profile_pic": "",  # 프로필 사진 파일 이름
+        "profile_pic_real": "profile_pics/profile_placeholder.png",  # 프로필 사진 기본 이미지
         "profile_info": "",  # 프로필 한 마디
-        "profile_name": "happy-happy",  # 프로필 닉네임
+        "profile_name": "",  # 프로필 닉네임
         "baby": list()  # 아가들 리스트
     }
     db.users.insert_one(doc)
@@ -304,7 +299,6 @@ def sign_up():
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
     return jsonify({'result': 'success', 'token': token})
-
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
@@ -333,26 +327,12 @@ def user_info():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
+        user_information = db.users.find_one({"username": payload["id"]},{'_id': False})
         print(user_information)
         return jsonify({'result': 'success', 'user_info': user_information})
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-
-
-@app.route('/user_profile', methods=['GET', 'POST'])
-def user_profile():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
-
-    if (request.method == 'GET'):
-        return render_template('user_profile_upload.html', user_info=user_information)
-
-    elif (request.method == 'POST'):
-        return render_template('user_profile.html', user_info=user_information)
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
