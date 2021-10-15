@@ -43,11 +43,15 @@ def show_events():
 # 이벤트 작성
 @app.route('/events', methods=['POST'])
 def event_upload():
-    author_receive = request.form['author_give']
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_information = db.users.find_one({"username": payload["id"]})
+
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
+    present_date_receive = request.form['present_date_give']
 
     file = request.files['file_give']
 
@@ -72,13 +76,14 @@ def event_upload():
 
     doc = {
         'idx': max_value,
-        'author': author_receive,
+        'username': user_information["username"],
+        'profile_name': user_information["profile_name"],
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
         'file': f'{filename}.{extension[1]}',
-        'present_time': mytime,
         'date': date_receive,
+        'present_date': present_date_receive,
         'comment': list()
     }
 
@@ -96,7 +101,6 @@ def show_events_list():
 @app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
-    print(events)
     return jsonify({'result': 'success', 'all_events': events})
 
 
@@ -346,7 +350,7 @@ def user_profile():
 
     elif (request.method == 'POST'):
         return render_template('user_profile.html', user_info=user_information)
-    
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
