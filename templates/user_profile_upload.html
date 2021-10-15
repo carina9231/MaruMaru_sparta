@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %} User Profile | 강만다 {% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/user_profile.css">
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/user_profile_upload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <h3>마이 프로필 수정</h3>
+    <div align="center">
+        <p>프로필 사진</p>
+        <img id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+        <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
+            <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+        </div>
+
+        <p>별명</p>
+        <input type="text" placeholder="{{ user_info.profile_name }}">
+
+        <p>자기 소개</p>
+        <input type="text" placeholder="{{ user_info.profile_info }}">
+
+        <p>baby</p>
+        {% for baby in user_info.baby %}
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">a
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's
+                        content.</p>
+                </div>
+            </div>
+        {% endfor %}
+        <div >
+            <i class="fas fa-plus"></i>
+        </div>
+
+    </div>
+{% endblock %}

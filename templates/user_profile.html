@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} User Upload | 강만다 {% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/user_profile.css">
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/user_profile.js"></script>
+{% endblock %}
+
+
+{% block content %}
+    <h3>마이 프로필</h3>
+    <div align="center">
+        <p>프로필 사진</p>
+        <img src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+
+        <p>별명</p>
+        <input type="text" disabled placeholder="{{ user_info.profile_name }}">
+
+        <p>자기 소개</p>
+        <input type="text" disabled placeholder="{{ user_info.profile_info }}">
+
+        <p>baby</p>
+        {% for baby in user_info.baby %}
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">a
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's
+                        content.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
