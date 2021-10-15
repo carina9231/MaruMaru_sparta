@@ -2,10 +2,6 @@
 
 {% block title %} 상세페이지 {% endblock %}
 
-{% block js %}
-    <script src="/static/js/event_detail.js"></script>
-{% endblock %}
-
 {% block csslink %}
     <link rel="stylesheet" href="/static/css/event_detail.css">
 {% endblock %}
@@ -35,7 +31,7 @@
         <div class="contents_box">
             <!-- 제목, 내용 -->
             <div class="title">
-                <input type="hidden" id="idx" value="{{ id }}">
+                <input type="hidden" id="idx" value="{{id}}">
                 <div class="input-group mb-3">
                     <span class="input-group-text">제목</span>
                     <div id="title_box" type="text" class="form-control" aria-label="Username"
@@ -71,7 +67,7 @@
 
         <!-- 버튼 그룹 -->
         <div class="detail_button">
-            <button onclick="location.href='/per-detail/{{ id }}'" type="button" class="btn btn-primary ui button">
+            <button onclick="location.href='/pre-eventDetail/{{ id }}'" type="button" class="btn btn-primary ui button">
                 <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
             </button>
             &nbsp;
@@ -146,6 +142,9 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script src="/static/js/event_detail.js"></script>
 {% endblock %}
 </body>
 </html>
