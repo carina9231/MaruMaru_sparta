@@ -133,7 +133,7 @@ def detail(id):
 
 
 # 디테일 수정 화면 GET
-@app.route('/per-detail/<id>', methods=['GET'])
+@app.route('/per-detail/<id>/', methods=['GET'])
 def detail_upload(id):
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail_upload.html", post=post, id=id)
