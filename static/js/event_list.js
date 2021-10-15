@@ -13,8 +13,8 @@ function show_event_list() {
             for (let i = 0; i < events.length; i++) {
                 let username = events[i]['username']
                 let title = events[i]['title']
-                let number = events[i]['number']
                 let time_post = events[i]['present_date']
+                let id = events[i]['idx']
                 let time_before = time2str(time_post)
                 if (events.length > list_num)
                     list_num = list_num + 1
@@ -23,7 +23,7 @@ function show_event_list() {
 
                 let temp_html = `<div class="item">
                                            <div class="num">${list_num}</div>
-                                           <div class="title"><a href="/detail/${number}">${title}</a></div>
+                                           <div class="title"><a href="/event/detail/${id}">${title}</a></div>
                                            <div class="author">${username}</div>
                                            <div class="date" id="time">${time_before}</div>
                                          </div>`
@@ -32,13 +32,6 @@ function show_event_list() {
         }
     });
 }
-
-// function formatDate(date) {
-//     let newDateYear = date.substring(0,5)
-//     let newDateMM = date.substring(5,8)
-//     let newDateDD = date.substring(8,11)
-//     return [newDateYear, newDateMM, newDateDD].join('-');
-// };
 
 function time2str(date) {
     let today = new Date()

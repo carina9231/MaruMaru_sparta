@@ -96,7 +96,6 @@ function post_upload() {
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
-                            console.log(form_data)
                             location.replace('/list')
                         }
                     })

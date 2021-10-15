@@ -8,6 +8,9 @@
 
 {% block js %}
     <script src="/static/js/profile_upload.js"></script>
+
+    <!--사진 파일 뽑기-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 {% endblock %}
 
 {% block libutton %}
@@ -16,54 +19,62 @@
 
 
 {% block content %}
-<div class="all">
-    <!--프로필 박스-->
-    <div class=profile_box">
-        <!--사진 업로드-->
-        <div class="custom-file mt-3">
-            <input type="file" class="custom-file-input file" id="file">
-            <label class="custom-file-label" for="file" id="file">강아지 사진 첨부하기</label>
-        </div>
-        <!--강아지 이름-->
-        <div class="dog_name_box">
-            <div class="input-group mb-3">
-                <span class="input-group-text">강아지 이름</span>
-                <input id="dog_name" type="text" class="form-control" placeholder="" aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <!--강아지 나이-->
-        <div class="dog_age_box">
-            <div class="input-group mb-3">
-                <span class="input-group-text">강아지 나이</span>
-                <input id="dog_age" type="text" class="form-control" aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <!--강아지 성별-->
-        <div class="dog_gender_box">
-            <div class="input-group mb-3">
-                <span class="input-group-text">강아지 성별</span>
-                <input id="dog_gender" type="text" class="form-control" aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-        <!--강아지 자기소개-->
-        <div class="dog_comment_box">
-            <div class="input-group mb-3">
-                <span class="input-group-text">강아지 자기소개</span>
-                <input id="dog_comment" type="text" class="form-control" aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
+    <div class="category">
+        <div class="category_name">
+            <h1>강아지 프로필 작성</h1>
         </div>
     </div>
+    <div class="all">
+        <div class="box">
+            <!--프로필 박스-->
+            <div class=profile_box">
+                <!--사진 업로드-->
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input file" id="file">
+                    <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+                </div>
+                <!--강아지 이름-->
+                <div class="dog_name_box">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">강아지 이름</span>
+                        <input id="dog_name" type="text" class="form-control" placeholder="" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <!--강아지 나이-->
+                <div class="dog_age_box">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">강아지 나이</span>
+                        <input id="dog_age" type="text" class="form-control" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <!--강아지 성별-->
+                <div class="dog_gender_box">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">강아지 성별</span>
+                        <input id="dog_gender" type="text" class="form-control" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <!--강아지 자기소개-->
+                <div class="dog_comment_box">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">강아지 자기소개</span>
+                        <input id="dog_comment" type="text" class="form-control" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
 
-    <!--저장(save)-->
-    <div class="save">
-        <button onclick="profile_upload()" onchange="profile_upload()" type="button" class="btn btn-info" id="save">저장하기
-        </button>
+            <!--저장(save)-->
+            <div class="save">
+                <button onclick="profile_upload()" onchange="profile_upload()" type="button" class="btn btn-info"
+                        id="save">저장하기
+                </button>
+            </div>
+        </div>
     </div>
-</div>
 
 {% endblock %}
 

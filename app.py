@@ -21,6 +21,11 @@ def main():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def page_not():
+    return render_template('error.html'), 404
+
+
 # 게시물목록 페이지 불러오기
 @app.route('/list')
 def show_posts():
@@ -30,8 +35,9 @@ def show_posts():
 # 게시물 리스트 불러오기
 @app.route('/post_list', methods=['GET'])
 def posts_list():
-    articles = list(db.articles.find({}, {'_id': False}))
-    return jsonify({'all_articles': articles})
+    articles = list(db.articles.find({}, {'_id': False}).sort([("number", -1)]))
+    best = db.articles.find_one({}, {'_id': False}, sort=([("view", -1)]))
+    return jsonify({'all_articles': articles, 'best': best})
 
 
 # 이벤트 작성 페이지 불러오기
@@ -52,6 +58,7 @@ def event_upload():
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
     present_date_receive = request.form['present_date_give']
+    max_receive = request.form['max_give']
 
     file = request.files['file_give']
 
@@ -84,6 +91,7 @@ def event_upload():
         'file': f'{filename}.{extension[1]}',
         'date': date_receive,
         'present_date': present_date_receive,
+        'max': max_receive,
         'comment': list()
     }
 
@@ -102,6 +110,26 @@ def show_events_list():
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
     return jsonify({'result': 'success', 'all_events': events})
+
+
+# 이벤트디테일 페이지 불러오기
+@app.route('/event/detail/<id>', methods=['GET'])
+def event_detail(id):
+    db.events.update_one({'idx': int(id)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    print(events)
+    if events:
+        return render_template("event_detail.html", id=id, events_db=events)
+    else:
+        return render_template("error.html")
+
+
+# 이벤트 삭제 api
+@app.route('/event/detail', methods=['DELETE'])
+def event_delete():
+    id_receive = request.form["id_give"]
+    db.articles.delete_one({'idx': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '게시글 삭제'})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -123,6 +151,7 @@ def mapping():
 # 디테일 페이지 불러오기
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
+    db.articles.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     if articles:
         return render_template("detail.html", id=id, detail_db=articles)
@@ -144,9 +173,8 @@ def detail_post_upload():
     title_receive = request.form["title_give"]
     contents_receive = request.form["contents_give"]
 
-    db.articles.update_one({'number': int(id_receive)}, {'$set': {'title': title_receive}})
-    db.articles.update_one({'number': int(id_receive)}, {'$set': {'contents': contents_receive}})
-
+    db.articles.update_one({'number': int(id_receive)},
+                           {'$set': {'title': title_receive, 'contents': contents_receive}})
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
@@ -155,7 +183,7 @@ def detail_post_upload():
 def post_delete():
     id_receive = request.form["id_give"]
     db.articles.delete_one({'number': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '게시글을 정말 삭제하시려구요!?'})
+    return jsonify({'result': 'success', 'msg': '게시글 삭제'})
 
 
 # 게시물 작성페이지 불러오기
@@ -191,19 +219,20 @@ def post_upload():
     count = db.articles.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
-        count = 1
-    elif count > 0:
-        count = count + 1
+        max_value = 1
+    else:
+        max_value = db.articles.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
         'author': author_receive,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        'number': count,
+        'number': max_value,
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
-        'comment': list()
+        'comment': list(),
+        'view': 0
     }
 
     db.articles.insert_one(doc)
@@ -223,19 +252,18 @@ def comment_upload():
 
 
 # 프로필 작성 페이지 불러오기
-@app.route('/profile')
+@app.route('/profile/create')
 def show_profile_upload():
     return render_template('profile_upload.html')
 
 
 # 프로필 작성
-@app.route('/profile', methods=['POST'])
+@app.route('/profile/create', methods=['POST'])
 def profile_upload():
     name_receive = request.form["name_give"]
     age_receive = request.form["age_give"]
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
-    filename_receive = request.form['filename_give']
 
     file = request.files['file_give']
 
@@ -252,16 +280,43 @@ def profile_upload():
     save_to = f'static/profileimg/{filename}.{extension[1]}'
     file.save(save_to)
 
+    count = db.profile.count()
+    # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
+    if count == 0:
+        count = 1
+    elif count > 0:
+        count = count + 1
+
     doc = {
         'name': name_receive,
         'age': age_receive,
         'gender': gender_receive,
         'comment': comment_receive,
+        'number': count,
         'file': f'{filename}.{extension[1]}'
     }
 
     db.profile.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
+
+# 프로필 목록 불러오기
+@app.route('/profiles')
+def show_profile_list():
+    return render_template('profile_list.html')
+
+
+@app.route('/dogprofile/list', methods=['GET'])
+def dogprofile_list():
+    profiles = list(db.profile.find({}, {'_id': False}))
+    return jsonify({'all_profile': profiles})
+
+
+# 프로필 상세 페이지 불러오기
+@app.route('/profile/<id>', methods=['GET'])
+def profile_detail(id):
+    profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
+    return render_template("profile_detail.html", id=id, detail_db=profiles)
 
 
 @app.route('/login', methods=['GET'])
@@ -332,7 +387,6 @@ def user_info():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
-        print(user_information)
         return jsonify({'result': 'success', 'user_info': user_information})
 
     except jwt.ExpiredSignatureError:
