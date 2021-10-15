@@ -1,5 +1,4 @@
 const g_idx = $("#idx").val();
-console.log(g_idx);
 
 $(document).ready(function () {
     //iframe url 삽입

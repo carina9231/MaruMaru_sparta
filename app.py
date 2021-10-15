@@ -21,6 +21,11 @@ def main():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def page_not():
+    return render_template('error.html'), 404
+
+
 # 게시물목록 페이지 불러오기
 @app.route('/list')
 def show_posts():
@@ -30,8 +35,9 @@ def show_posts():
 # 게시물 리스트 불러오기
 @app.route('/post_list', methods=['GET'])
 def posts_list():
-    articles = list(db.articles.find({}, {'_id': False}))
-    return jsonify({'all_articles': articles})
+    articles = list(db.articles.find({}, {'_id': False}).sort([("number", -1)]))
+    best = db.articles.find_one({}, {'_id': False}, sort=([("view", -1)]))
+    return jsonify({'all_articles': articles, 'best': best})
 
 
 # 이벤트 작성 페이지 불러오기
@@ -123,6 +129,7 @@ def mapping():
 # 디테일 페이지 불러오기
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
+    db.articles.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     if articles:
         return render_template("detail.html", id=id, detail_db=articles)
@@ -144,9 +151,8 @@ def detail_post_upload():
     title_receive = request.form["title_give"]
     contents_receive = request.form["contents_give"]
 
-    db.articles.update_one({'number': int(id_receive)}, {'$set': {'title': title_receive}})
-    db.articles.update_one({'number': int(id_receive)}, {'$set': {'contents': contents_receive}})
-
+    db.articles.update_one({'number': int(id_receive)},
+                           {'$set': {'title': title_receive, 'contents': contents_receive}})
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
@@ -155,7 +161,7 @@ def detail_post_upload():
 def post_delete():
     id_receive = request.form["id_give"]
     db.articles.delete_one({'number': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '게시글을 정말 삭제하시려구요!?'})
+    return jsonify({'result': 'success', 'msg': '게시글 삭제'})
 
 
 # 게시물 작성페이지 불러오기
@@ -191,19 +197,20 @@ def post_upload():
     count = db.articles.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
-        count = 1
-    elif count > 0:
-        count = count + 1
+        max_value = 1
+    else:
+        max_value = db.articles.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
         'author': author_receive,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        'number': count,
+        'number': max_value,
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
-        'comment': list()
+        'comment': list(),
+        'view': 0
     }
 
     db.articles.insert_one(doc)
@@ -279,8 +286,7 @@ def show_profile_list():
 
 @app.route('/dogprofile/list', methods=['GET'])
 def dogprofile_list():
-    profiles = list(db.profile.find({},{'_id': False}))
-    print(profiles)
+    profiles = list(db.profile.find({}, {'_id': False}))
     return jsonify({'all_profile': profiles})
 
 
@@ -359,7 +365,6 @@ def user_info():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
-        print(user_information)
         return jsonify({'result': 'success', 'user_info': user_information})
 
     except jwt.ExpiredSignatureError:
@@ -377,7 +382,6 @@ def user_profile():
 
     elif (request.method == 'POST'):
         return render_template('user_profile.html', user_info=user_information)
-
 
 
 if __name__ == '__main__':
