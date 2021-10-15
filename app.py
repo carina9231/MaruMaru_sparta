@@ -127,9 +127,31 @@ def event_detail(id):
 # 이벤트 삭제 api
 @app.route('/event/detail', methods=['DELETE'])
 def event_delete():
-    id_receive = request.form["id_give"]
-    db.articles.delete_one({'idx': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '게시글 삭제'})
+    id_receive = request.form['id_give']
+    db.challenge.delete_one({'idx': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '챌린지 삭제 되었습니다.'})
+
+
+# 이벤트 디테일 수정 화면 GET
+@app.route('/pre-eventDetail/<id>/', methods=['GET'])
+def event_detail_upload(id):
+    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    return render_template("event_detail_upload.html", events=events, id=id)
+
+
+# 이벤트 디테일 수정 api
+@app.route('/event/detail', methods=['PUT'])
+def event_detail_post_upload():
+    id_receive = request.form['id_give']
+    title_receive = request.form['title_give']
+    address_receive = request.form['address_give']
+    contents_receive = request.form['contents_give']
+    date_receive = request.form['date_give']
+    max_receive = request.form['max_give']
+    db.events.update_one({'idx': int(id_receive)},
+                           {'$set': {'title': title_receive, 'contents': contents_receive, 'address': address_receive,
+                                     'date': date_receive, 'max': max_receive}})
+    return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
 # 메인페이지에 프로필 카드 보여주기
