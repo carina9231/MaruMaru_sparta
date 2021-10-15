@@ -223,19 +223,18 @@ def comment_upload():
 
 
 # 프로필 작성 페이지 불러오기
-@app.route('/profile')
+@app.route('/profile/create')
 def show_profile_upload():
     return render_template('profile_upload.html')
 
 
 # 프로필 작성
-@app.route('/profile', methods=['POST'])
+@app.route('/profile/create', methods=['POST'])
 def profile_upload():
     name_receive = request.form["name_give"]
     age_receive = request.form["age_give"]
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
-    filename_receive = request.form['filename_give']
 
     file = request.files['file_give']
 
@@ -252,16 +251,44 @@ def profile_upload():
     save_to = f'static/profileimg/{filename}.{extension[1]}'
     file.save(save_to)
 
+    count = db.profile.count()
+    # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
+    if count == 0:
+        count = 1
+    elif count > 0:
+        count = count + 1
+
     doc = {
         'name': name_receive,
         'age': age_receive,
         'gender': gender_receive,
         'comment': comment_receive,
+        'number': count,
         'file': f'{filename}.{extension[1]}'
     }
 
     db.profile.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
+
+# 프로필 목록 불러오기
+@app.route('/profiles')
+def show_profile_list():
+    return render_template('profile_list.html')
+
+
+@app.route('/dogprofile/list', methods=['GET'])
+def dogprofile_list():
+    profiles = list(db.profile.find({},{'_id': False}))
+    print(profiles)
+    return jsonify({'all_profile': profiles})
+
+
+# 프로필 상세 페이지 불러오기
+@app.route('/profile/<id>', methods=['GET'])
+def profile_detail(id):
+    profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
+    return render_template("profile_detail.html", id=id, detail_db=profiles)
 
 
 @app.route('/login', methods=['GET'])
@@ -350,6 +377,7 @@ def user_profile():
 
     elif (request.method == 'POST'):
         return render_template('user_profile.html', user_info=user_information)
+
 
 
 if __name__ == '__main__':
