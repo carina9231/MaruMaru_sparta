@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} 강만다 모든 프로필 보기 {% endblock %}
+
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/profile_list.css">
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/profile_list.js"></script>
+{% endblock %}
+
+
+
+{% block libutton %}
+    <li><a href="/profile/create">프로필 작성</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="category">
+    <div class="category_name">
+        <h1>댕댕이 프로필 모아보기</h1>
+    </div>
+</div>
+    <div class="profile_list_wrap" id="profile_card">
+
+    </div>
+
+{% endblock %}
