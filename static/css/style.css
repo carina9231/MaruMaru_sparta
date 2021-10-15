@@ -199,7 +199,7 @@
 }
 
 .post_list .title {
-    width: 60%;
+    width: 50%;
 }
 
 .post_list .post_list_body .title {
@@ -212,4 +212,8 @@
 
 .post_list .date {
     width: 15%;
+}
+
+.post_list .view {
+    width: 10%;
 }

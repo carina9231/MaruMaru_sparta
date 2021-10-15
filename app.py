@@ -29,8 +29,9 @@ def show_posts():
 # 게시물 리스트 불러오기
 @app.route('/post_list', methods=['GET'])
 def posts_list():
-    articles = list(db.articles.find({}, {'_id': False}))
-    return jsonify({'all_articles': articles})
+    articles = list(db.articles.find({}, {'_id': False}).sort([("number", -1)]))
+    best = list(db.articles.find({}, {'_id': False}).sort([("view", -1)]))[0]
+    return jsonify({'all_articles': articles, 'best': best})
 
 
 # 이벤트 작성 페이지 불러오기
@@ -78,7 +79,7 @@ def event_upload():
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
         'date': date_receive,
-        'comment': list()
+        'comment': list(),
     }
 
     db.events.insert_one(doc)
@@ -95,7 +96,6 @@ def show_events_list():
 @app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
-    print(events)
     return jsonify({'result': 'success', 'all_events': events})
 
 
@@ -118,6 +118,7 @@ def mapping():
 # 디테일 페이지 불러오기
 @app.route('/detail/<id>', methods=['GET'])
 def detail(id):
+    db.articles.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     if articles:
         return render_template("detail.html", id=id, detail_db=articles)
@@ -126,7 +127,7 @@ def detail(id):
 
 
 # 디테일 수정 화면 GET
-@app.route('/per-detail/<id>/', methods=['GET'])
+@app.route('/per-detail/<id>', methods=['GET'])
 def detail_upload(id):
     post = db.articles.find_one({'number': int(id)}, {'_id': False})
     return render_template("detail_upload.html", post=post, id=id)
@@ -186,19 +187,19 @@ def post_upload():
     count = db.articles.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
-        count = 1
-    elif count > 0:
-        count = count + 1
-
+        max_value = 1
+    else:
+        max_value = db.articles.find_one(sort=[("number", -1)])['number'] + 1
     doc = {
         'author': author_receive,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
-        'number': count,
+        'number': max_value,
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
-        'comment': list()
+        'comment': list(),
+        'view': 0
     }
 
     db.articles.insert_one(doc)
