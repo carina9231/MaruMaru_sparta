@@ -3,7 +3,7 @@
 {% block title %} User Profile | 강만다 {% endblock %}
 
 {% block csslink %}
-    <link rel="stylesheet" href="/static/css/user_profile.css">
+    <link rel="stylesheet" href="/static/css/user_profile_upload.css">
 {% endblock %}
 
 {% block js %}
@@ -39,8 +39,12 @@
                 </div>
             </div>
         {% endfor %}
-        <div >
-            <i class="fas fa-plus"></i>
+        <div class="add-card" onclick="alert('hi')" onmouseover="select_in()" onmouseout="select_out()">
+            <div class="plus-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+
+
         </div>
 
     </div>
