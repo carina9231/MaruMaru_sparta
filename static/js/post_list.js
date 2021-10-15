@@ -53,7 +53,7 @@ function bestView(best) {
     const view = best['view']
 
     const temp_html = `<div class="item">
-                          <div class="num" style="{color: red}">Best</div>
+                          <div class="num">Best</div>
                           <div class="title"><a href="/detail/${number}">${title}</a></div>
                           <div class="author">${author}</div>
                           <div class="date" id="time">${time}</div>
