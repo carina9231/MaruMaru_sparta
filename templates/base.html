@@ -78,7 +78,7 @@
                 url: "/user_info",
                 data: {},
                 success: function (response) {
-                    img_file = response['user_info']['profile_pic_real']
+                    img_file = response['user_info']['profile_pic']
 
                     let href = '/static/${file_url}'
                     $('#user-profile').attr("src",href)

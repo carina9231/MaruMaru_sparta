@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} 강만다 - 프로필 업로드 {% endblock %}
+
+{% block csslink %}
+    <link rel="stylesheet" href="/static/css/profile_list.css">
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/profile_detail.js"></script>
+
+    <!--사진 파일 뽑기-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+{% endblock %}
+
+{% block libutton %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="card color-card">
+        <ul>
+            <a href="javascript:history.back()">
+                <li><i class="fas fa-arrow-left i-l w"></i></li>
+            </a>
+            <li><i class="fas fa-ellipsis-v i-r w"></i></li>
+            <li><i class="far fa-heart i-r w"></i></li>
+        </ul>
+
+        <div class="card_top">
+            <div>
+                <div class="profile_img">
+                    <img class="dog_img" src="/static/profileimg/{{ detail_db['image'] }}">
+                </div>
+            </div>
+            <div>
+                <p class="name desc">{{ detail_db['name'] }}</p>
+            </div>
+            <div class="desc">
+                <p class="age">나이: {{ detail_db['age'] }}</p>
+                <p class="gender">성별: {{ detail_db['gender'] }}</p>
+            </div>
+            <hr>
+            <div class="desc comment" style="font-size: 20px">
+                <p>{{ detail_db['comment'] }}</p>
+            </div>
+        </div>
+        <input type="hidden" value="{{ detail_db['number'] }}" id="{{ detail_db['number'] }}card">
+    </div>
+    {% block innerjs %}
+        <script src="/static/js/profile_detail.js"></script>
+    {% endblock %}
+
+{% endblock %}
+

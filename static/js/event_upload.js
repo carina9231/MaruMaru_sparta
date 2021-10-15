@@ -20,28 +20,23 @@ $(function () {
 })
 
 function event_upload() {
-    let author = $("#author_box").val()
     let title = $("#title_box").val()
     let address = $("#address-box").val()
     let content = $("#contents_box").val()
     let date = $("#datepicker").val()
     let file = $('#file')[0].files[0]
+    let present_date = new Date().toISOString();
 
     let form_data = new FormData()
 
     form_data.append("file_give", file)
-    form_data.append("author_give", author)
     form_data.append("title_give", title)
     form_data.append("address_give", address)
     form_data.append("content_give", content)
     form_data.append("date_give", date)
+    form_data.append("present_date_give", present_date)
 
     // alert창 띄우기
-    if ($("#author_box").val().length == 0) {
-        alert("작성자를 입력하세요!");
-        $("#author_box").focus();
-        return false;
-    }
     if ($("#title_box").val().length == 0) {
         alert("제목을 입력하세요!");
         $("#title_boxl").focus();

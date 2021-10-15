@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    bsCustomFileInput.init()
+    bsCustomFileInput.init();
 })
 
 function profile_upload() {
@@ -56,14 +56,14 @@ function profile_upload() {
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: "/profile",
+                        url: "/profile/create",
                         data: form_data,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
-                            location.replace('/')
+                            location.replace('/profiles')
                         }
                     })
                 }

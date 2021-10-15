@@ -30,6 +30,7 @@ function sign_in() {
         success: function (response) {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], {path: '/'});
+
                 window.location.replace("/")
             } else {
                 alert(response['msg'])
@@ -42,7 +43,6 @@ function sign_up() {
     let username = $("#input-username").val()
     let password = $("#input-password").val()
     let password2 = $("#input-password2").val()
-    console.log(username, password, password2)
 
 
     if ($("#help-id").hasClass("is-danger")) {
@@ -89,11 +89,14 @@ function sign_up() {
                 $.cookie('mytoken', response['token'], {path: '/'});
                 $('#my-modal').toggleClass("is-active");
                 reAction(); //꽃가루
-                
+
             } else {
                 alert(response['msg'])
             }
 
+        },
+        error: function (request, status, error) {
+            console.log(error);
         }
     });
 
@@ -147,6 +150,9 @@ function check_dup() {
                 $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
             }
             $("#help-id").removeClass("is-loading")
+        },
+        error: function (request, status, error) {
+            console.log(error);
         }
     });
 }
@@ -161,13 +167,13 @@ function reAction() {
 
 function modal_button(key) {
     if (key == 'yes') {
+        alert('프로필로 이동합니다!')
+        window.location.replace("/user_profile")
 
     } else if (key == 'no') {
-        alert('홈으로 이동합니다.')
+        alert('홈으로 이동합니다')
+        window.location.replace("/")
 
-        setTimeout(function () {
-            window.location.replace("/")
-        },1000);
     } else {
         $('#my-modal').toggleClass('is-active');
     }
