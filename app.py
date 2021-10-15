@@ -367,7 +367,6 @@ def sign_up():
         "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
         "profile_pic": "profile_pics/profile_placeholder.png",  # 프로필 사진 파일 이름(기본이미지)
         "profile_info": "",  # 프로필 한 마디
-        "profile_name": "happy-happy",  # 프로필 닉네임
         "baby": list()  # 아가들 리스트
     }
     db.users.insert_one(doc)
