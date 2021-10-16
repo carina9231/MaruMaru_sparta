@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     //iframe url 삽입
     const id = $("#idx").val();
@@ -10,7 +8,6 @@ $(document).ready(function () {
 
 function delete_event() {
     const e_idx = $("#idx").val();
-    console.log(e_idx)
     const result = confirm("정말로 삭제 하시겠습니까?");
     if (result) {
         $.ajax({
@@ -29,8 +26,23 @@ function delete_event() {
     }
 }
 
+function onClickLike() {
+    const event_id = $("#idx").val();
+    $.ajax({
+        type: "POST",
+        url: "/event/like",
+        data: {id_give: event_id},
+        success: function (response) {
+            alert(response['msg'])
+        }
+    })
+}
+
+
 function comment_upload() {
+    const e_idx = $("#idx").val();
     const comment_input = $("#comment_content").val();
+
     if (comment_input.length == 0) {
         alert("댓글을 입력해주세요!");
         return;
@@ -40,7 +52,7 @@ function comment_upload() {
         type: "POST",
         url: `/comment`,
         data: {
-            id_give: g_idx,
+            id_give: e_idx,
             comment_give: comment_input
         },
         success: function (response) {

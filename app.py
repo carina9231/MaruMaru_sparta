@@ -154,6 +154,30 @@ def event_detail_post_upload():
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
+# 이벤트 좋아요 에러......
+@app.route('/event/like', methods=['post'])
+def update_event_like():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    event_id_receive = request.form["id_give"]
+    doc = {'username': my_username}
+
+    pre_like = db.events.find_one({'number': int(event_id_receive)}, {'like': doc})
+    like_list = pre_like['like']
+
+    if like_list:
+        db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'like': doc}})
+    else:
+        db.events.update_one({'number': int(event_id_receive)}, {"$push": {'like': doc}})
+
+    pre_like = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
+    like_count = len(like_list)
+    print(like_count)
+    return jsonify({'msg': '좋아요완료!'})
+
+
 # 메인페이지에 프로필 카드 보여주기
 @app.route('/profile_list', methods=['GET'])
 def show_profile():
