@@ -49,7 +49,8 @@
         <li><a href="/">Home</a></li>
         {% block libutton %}{% endblock %}
         <li id="login-button"><a href="/login">로그인</a></li>
-        <div onclick="get_card()"><img id="user-profile" class="rounded-circle" src="/static/profile_pics/profile_placeholder.png" width="50px" height="50px">
+        <div onclick="get_card()"><img id="user-profile" class="rounded-circle"
+                                       src="/static/profile_pics/profile_placeholder.png" width="50px" height="50px">
         </div>
 
     </div>
@@ -83,8 +84,7 @@
         if (my_token == null) {
             $('#login-button').show();
             $('#user-profile').hide();
-        }
-        else {
+        } else {
             $('#login-button').hide();
             $('#user-profile').show();
 
@@ -101,10 +101,10 @@
 
                     console.log(profile_img)
                     let href = '/static/${profile_img}'
-                    $('#user-profile').attr("src", '/static/'+profile_img)
+                    $('#user-profile').attr("src", '/static/' + profile_img)
 
                     //유저 프로필 카드
-                    $('.card-profile-img').attr("src", '/static/'+profile_img)
+                    $('.card-profile-img').attr("src", '/static/' + profile_img)
                     $('.card-title').text(profile_name)
                     $('.card-subtitle').text(username)
                     $('.card-text').text(profile_info)

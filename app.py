@@ -149,8 +149,8 @@ def event_detail_post_upload():
     date_receive = request.form['date_give']
     max_receive = request.form['max_give']
     db.events.update_one({'idx': int(id_receive)},
-                           {'$set': {'title': title_receive, 'contents': contents_receive, 'address': address_receive,
-                                     'date': date_receive, 'max': max_receive}})
+                         {'$set': {'title': title_receive, 'contents': contents_receive, 'address': address_receive,
+                                   'date': date_receive, 'max': max_receive}})
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
@@ -341,6 +341,7 @@ def profile_detail(id):
     print(profiles)
     return render_template("profile_detail.html", id=id, profile_db=profiles)
 
+
 # 프로필 카드 삭제 api
 @app.route('/profile', methods=['DELETE'])
 def profile_delete():
@@ -348,12 +349,14 @@ def profile_delete():
     db.profile.delete_one({'number': int(id_receive)})
     return jsonify({'result': 'success', 'msg': '프로필삭제'})
 
+
 # 프로필 디테일 수정 화면 GET
 @app.route('/dogdetail/<id>', methods=['GET'])
 def show_dog_detail_upload(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
     print(profiles)
     return render_template("profile_detail_upload.html", profiles=profiles, id=id)
+
 
 # 프로필 디테일 수정 api
 @app.route('/profile', methods=['PUT'])
@@ -363,9 +366,8 @@ def dog_detail_upload():
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
 
-
     db.profile.update_one({'number': int(id_receive)},
-                           {'$set': {'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
+                          {'$set': {'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
     return jsonify({'result': 'success', 'msg': '저장되었습니다!'})
 
 
