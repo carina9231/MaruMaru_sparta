@@ -2,13 +2,12 @@
 
 {% block title %} 상세페이지 {% endblock %}
 
-
 {% block csslink %}
-    <link rel="stylesheet" href="/static/css/detail.css">
+    <link rel="stylesheet" href="/static/css/event_detail.css">
 {% endblock %}
 
 {% block libutton %}
-    <li><a href="/list">게시물 보기</a></li>
+    <li><a href="/event/list">이벤트 보기</a></li>
 {% endblock %}
 
 {% block content %}
@@ -23,7 +22,7 @@
                     <span class="input-group-text">작성자</span>
                     <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
                          aria-describedby="basic-addon1">
-                        {{ detail_db['author'] }}
+                        {{ events_db['username'] }}
                     </div>
                 </div>
             </div>
@@ -32,12 +31,12 @@
         <div class="contents_box">
             <!-- 제목, 내용 -->
             <div class="title">
-                <input type="hidden" id="idx" value="{{ id }}">
+                <input type="hidden" id="idx" value="{{id}}">
                 <div class="input-group mb-3">
                     <span class="input-group-text">제목</span>
                     <div id="title_box" type="text" class="form-control" aria-label="Username"
                          aria-describedby="basic-addon1">
-                        {{ detail_db['title'] }}
+                        {{ events_db['title'] }}
                     </div>
                 </div>
             </div>
@@ -45,10 +44,10 @@
             <div class="contents">
                 <div class="input-group mb-3">
                     <div class="form-control content" aria-label="With textarea" id="contents_box">
-                        <img id="content-img" src="/static/postimg/{{ detail_db['file'] }}" height="200px"
+                        <img id="content-img" src="/static/eventimg/{{ events_db['file'] }}" height="200px"
                              width="200px"><br>
 
-                        {{ detail_db['contents'] }}
+                        {{ events_db['contents'] }}
                     </div>
                 </div>
             </div>
@@ -59,7 +58,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">주소</span>
                     <div id="address-box" type="text" class="form-control address" aria-label="Username"
-                         aria-describedby="basic-addon1">{{ detail_db['address'] }}
+                         aria-describedby="basic-addon1">{{ events_db['address'] }}
                     </div>
                     <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
                 </div>
@@ -68,11 +67,11 @@
 
         <!-- 버튼 그룹 -->
         <div class="detail_button">
-            <button onclick="location.href='/per-detail/{{ id }}'" type="button" class="btn btn-primary ui button">
+            <button onclick="location.href='/pre-eventDetail/{{ id }}'" type="button" class="btn btn-primary ui button">
                 <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
             </button>
             &nbsp;
-            <button onclick="delete_post()" type="button" class="btn btn-danger">
+            <button onclick="delete_event()" type="button" class="btn btn-danger">
                 <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
             </button>
             &nbsp;
@@ -90,8 +89,7 @@
                 </div>
 
                 <div id="comment_list_{{ id }}">
-                    {% for comment in detail_db['comment'] %}
-                        &nbsp;
+                    {% for comment in events_db['comment'] %}
                         <div class="card mb-2">
                             <div class="card-header bg-light">
                                 <i class="fa fa-comment fa"></i> 작성자: {{ comment.user }}
@@ -144,12 +142,9 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
 {% block js %}
-    <script src="/static/js/detail.js"></script>
+    <script src="/static/js/event_detail.js"></script>
 {% endblock %}
 </body>
 </html>

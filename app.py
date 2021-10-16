@@ -21,6 +21,11 @@ def main():
     return render_template('index.html')
 
 
+@app.errorhandler(404)
+def page_not():
+    return render_template('error.html'), 404
+
+
 # 게시물목록 페이지 불러오기
 @app.route('/list')
 def show_posts():
@@ -53,6 +58,7 @@ def event_upload():
     contents_receive = request.form['content_give']
     date_receive = request.form['date_give']
     present_date_receive = request.form['present_date_give']
+    max_receive = request.form['max_give']
 
     file = request.files['file_give']
 
@@ -85,6 +91,7 @@ def event_upload():
         'file': f'{filename}.{extension[1]}',
         'date': date_receive,
         'present_date': present_date_receive,
+        'max': max_receive,
         'comment': list()
     }
 
@@ -103,6 +110,48 @@ def show_events_list():
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
     return jsonify({'result': 'success', 'all_events': events})
+
+
+# 이벤트디테일 페이지 불러오기
+@app.route('/event/detail/<id>', methods=['GET'])
+def event_detail(id):
+    db.events.update_one({'idx': int(id)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    print(events)
+    if events:
+        return render_template("event_detail.html", id=id, events_db=events)
+    else:
+        return render_template("error.html")
+
+
+# 이벤트 삭제 api
+@app.route('/event/detail', methods=['DELETE'])
+def event_delete():
+    id_receive = request.form['id_give']
+    db.events.delete_one({'idx': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '이벤트가 삭제 되었습니다.'})
+
+
+# 이벤트 디테일 수정 화면 GET
+@app.route('/pre-eventDetail/<id>/', methods=['GET'])
+def event_detail_upload(id):
+    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    return render_template("event_detail_upload.html", events=events, id=id)
+
+
+# 이벤트 디테일 수정 api
+@app.route('/event/detail', methods=['PUT'])
+def event_detail_post_upload():
+    id_receive = request.form['id_give']
+    title_receive = request.form['title_give']
+    address_receive = request.form['address_give']
+    contents_receive = request.form['contents_give']
+    date_receive = request.form['date_give']
+    max_receive = request.form['max_give']
+    db.events.update_one({'idx': int(id_receive)},
+                         {'$set': {'title': title_receive, 'contents': contents_receive, 'address': address_receive,
+                                   'date': date_receive, 'max': max_receive}})
+    return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -256,16 +305,16 @@ def profile_upload():
     count = db.profile.count()
     # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
-        count = 1
-    elif count > 0:
-        count = count + 1
+        max_value = 1
+    else:
+        max_value = db.profile.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
         'name': name_receive,
         'age': age_receive,
         'gender': gender_receive,
         'comment': comment_receive,
-        'number': count,
+        'number': max_value,
         'file': f'{filename}.{extension[1]}'
     }
 
@@ -280,7 +329,7 @@ def show_profile_list():
 
 
 @app.route('/dogprofile/list', methods=['GET'])
-def dogprofile_list():
+def profile_list():
     profiles = list(db.profile.find({}, {'_id': False}))
     return jsonify({'all_profile': profiles})
 
@@ -289,7 +338,37 @@ def dogprofile_list():
 @app.route('/profile/<id>', methods=['GET'])
 def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
-    return render_template("profile_detail.html", id=id, detail_db=profiles)
+    print(profiles)
+    return render_template("profile_detail.html", id=id, profile_db=profiles)
+
+
+# 프로필 카드 삭제 api
+@app.route('/profile', methods=['DELETE'])
+def profile_delete():
+    id_receive = request.form["id_give"]
+    db.profile.delete_one({'number': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '프로필삭제'})
+
+
+# 프로필 디테일 수정 화면 GET
+@app.route('/dogdetail/<id>', methods=['GET'])
+def show_dog_detail_upload(id):
+    profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
+    print(profiles)
+    return render_template("profile_detail_upload.html", profiles=profiles, id=id)
+
+
+# 프로필 디테일 수정 api
+@app.route('/profile', methods=['PUT'])
+def dog_detail_upload():
+    id_receive = request.form["id_give"]
+    age_receive = request.form["age_give"]
+    gender_receive = request.form["gender_give"]
+    comment_receive = request.form["comment_give"]
+
+    db.profile.update_one({'number': int(id_receive)},
+                          {'$set': {'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
+    return jsonify({'result': 'success', 'msg': '저장되었습니다!'})
 
 
 @app.route('/login', methods=['GET'])
@@ -318,7 +397,6 @@ def sign_up():
         "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
         "profile_pic": "profile_pics/profile_placeholder.png",  # 프로필 사진 파일 이름(기본이미지)
         "profile_info": "",  # 프로필 한 마디
-        "profile_name": "happy-happy",  # 프로필 닉네임
         "baby": list()  # 아가들 리스트
     }
     db.users.insert_one(doc)
