@@ -3,116 +3,116 @@
 {% block title %} 강만다 {% endblock %}
 
 {% block innerjs %}
-<script>
-    (function () {
-        var swiper = new Swiper(".slider .swiper-container", {
-            slidesPerView: "auto",
-            spaceBetween: 30,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-        });
-    })();
-</script>
+    <script>
+        (function () {
+            var swiper = new Swiper(".slider .swiper-container", {
+                slidesPerView: "auto",
+                spaceBetween: 30,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+        })();
+    </script>
 {% endblock %}
 
 {% block libutton %}
-<li><a href="/list">게시물 보기</a></li>
-<li><a href="/profiles">모든 프로필 보기</a></li>
-<li><a href="/event/list">이벤트 보기</a></li>
+    <li><a href="/list">게시물 보기</a></li>
+    <li><a href="/profiles">모든 프로필 보기</a></li>
+    <li><a href="/event/list">이벤트 보기</a></li>
 
 {% endblock %}
 
 {% block content %}
-<div class="wrap">
-    <div class="main_wrap">
-        <h1>강아지를 만나다</h1>
-        <h2>반려인들을 위한 커뮤니티</h2>
-    </div>
-    <div class="main_img">
-        <p align="right"><img class="image" src="/static/maru.png" alt="logo"></p>
-    </div>
-</div>
-<div class="slider">
-    <div class="title">Profile Card</div>
-    <div class="swiper-container wrapper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루 </a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루에용</div>
-            </div>
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루2</a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루2이에용</div>
-            </div>
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루3</a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루3이에용</div>
-            </div>
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루4</a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루4에용</div>
-            </div>
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루5</a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루5에용</div>
-            </div>
-            <div class="swiper-slide">
-                <div class="tag">
-                    <span>나이 : 11개월</span>
-                </div>
-                <a class="title">이름 : 마루6</a>
-                <div class="text">
-                    <img class="card-img-top"
-                         src="/static/maru.png"
-                         alt="Card image cap">
-                </div>
-                <div class="date">자기소개 : 마루6이에용</div>
-            </div>
+    <div class="wrap">
+        <div class="main_wrap">
+            <h1>강아지를 만나다</h1>
+            <h2>반려인들을 위한 커뮤니티</h2>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="main_img">
+            <p align="right"><img class="image" src="/static/maru.png" alt="logo"></p>
+        </div>
     </div>
-</div>
+    <div class="slider">
+        <div class="title">Profile Card</div>
+        <div class="swiper-container wrapper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루 </a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루에용</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루2</a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루2이에용</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루3</a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루3이에용</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루4</a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루4에용</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루5</a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루5에용</div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="tag">
+                        <span>나이 : 11개월</span>
+                    </div>
+                    <a class="title">이름 : 마루6</a>
+                    <div class="text">
+                        <img class="card-img-top"
+                             src="/static/maru.png"
+                             alt="Card image cap">
+                    </div>
+                    <div class="date">자기소개 : 마루6이에용</div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-const g_idx = $("#idx").val();
+
 
 $(document).ready(function () {
     //iframe url 삽입
@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 
 function delete_post() {
+    const g_idx = $("#idx").val();
     const result = confirm("정말로 삭제 하시겠습니까?");
     if (result) {
         $.ajax({
@@ -33,7 +34,7 @@ function comment_upload() {
         alert("댓글을 입력해주세요!");
         return;
     }
-
+    const g_idx = $("#idx").val();
     $.ajax({
         type: "POST",
         url: `/comment`,
