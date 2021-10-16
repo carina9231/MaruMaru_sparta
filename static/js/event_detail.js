@@ -40,6 +40,21 @@ function onClickLike() {
 }
 
 
+function onClickJoin() {
+    const event_id = $("#idx").val();
+    $.ajax({
+        type: "POST",
+        url: "/event/join",
+        data: {id_give: event_id},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload();
+        }
+    })
+}
+
+
+
 function comment_upload() {
     const e_idx = $("#idx").val();
     const comment_input = $("#comment_content").val();
