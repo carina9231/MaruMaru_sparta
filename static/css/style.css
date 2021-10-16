@@ -217,3 +217,13 @@
 .post_list .view {
     width: 10%;
 }
+
+.card-profile{
+    z-index: 50;
+    position: absolute;
+    right: 10px;
+    top: 65px;
+    /*border: solid ;*/
+    /*background: whitesmoke;*/
+
+}

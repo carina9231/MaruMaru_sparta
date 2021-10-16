@@ -1,5 +1,5 @@
-const e_idx = $("#idx").val();
-console.log(e_idx)
+
+
 $(document).ready(function () {
     //iframe url 삽입
     const id = $("#idx").val();
@@ -9,6 +9,8 @@ $(document).ready(function () {
 
 
 function delete_event() {
+    const e_idx = $("#idx").val();
+    console.log(e_idx)
     const result = confirm("정말로 삭제 하시겠습니까?");
     if (result) {
         $.ajax({

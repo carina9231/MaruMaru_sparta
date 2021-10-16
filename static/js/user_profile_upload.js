@@ -7,11 +7,7 @@ function readFile(event) {
     let check = event.target;
     let reader = new FileReader()
 
-
-    console.log(file)
-
     let href = window.URL.createObjectURL(file)
-    console.log(href)
     $("#profile-img").attr('src', href)
 
     //5분뒤에 메모리 해제
@@ -19,4 +15,12 @@ function readFile(event) {
         window.URL.revokeObjectURL(href)
     },1000 * 60 * 5)    
 
+}
+
+function select_in(){
+    $('.add-card').css("box-shadow","1px")
+}
+
+function select_out(){
+    $('.add-card').css("box-shadow","none")
 }
