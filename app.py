@@ -128,8 +128,8 @@ def event_detail(id):
 @app.route('/event/detail', methods=['DELETE'])
 def event_delete():
     id_receive = request.form['id_give']
-    db.challenge.delete_one({'idx': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '챌린지 삭제 되었습니다.'})
+    db.events.delete_one({'idx': int(id_receive)})
+    return jsonify({'result': 'success', 'msg': '이벤트가 삭제 되었습니다.'})
 
 
 # 이벤트 디테일 수정 화면 GET
