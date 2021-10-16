@@ -156,7 +156,7 @@ def event_detail_post_upload():
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
 
 
-# 이벤트 좋아요 에러......
+# 이벤트 좋아요 기능
 @app.route('/event/like', methods=['post'])
 def update_event_like():
     token_receive = request.cookies.get('mytoken')
@@ -176,6 +176,31 @@ def update_event_like():
     pre_like = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
     like_count = len(pre_like['like'])
     db.events.update_one({'number': int(event_id_receive)}, {'$set': {'like_count': like_count}})
+    return jsonify({'result': 'success', 'msg': '완료!'})
+
+
+# 이벤트 참가하기
+@app.route('/event/join', methods=['post'])
+def event_join():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    event_id_receive = request.form["id_give"]
+
+    past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
+    join_list = past_join['join']
+    print(join_list)
+    if my_username in join_list:
+        print("hi")
+        db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
+    else:
+        print("hello")
+        db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
+
+    pre_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
+    join_count = len(pre_join['join'])
+    print(join_count)
     return jsonify({'result': 'success', 'msg': '완료!'})
 
 
