@@ -312,6 +312,9 @@ def profile_upload():
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
 
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
     file = request.files['file_give']
 
     extension = file.filename.split('.')
@@ -340,11 +343,20 @@ def profile_upload():
         'gender': gender_receive,
         'comment': comment_receive,
         'number': max_value,
-        'file': f'{filename}.{extension[1]}'
+        'file': f'{filename}.{extension[1]}',
+        'username' : payload['id']
     }
 
     db.profile.insert_one(doc)
-    return jsonify({'msg': '저장 완료!'})
+
+    # user 에 게시글 id 저장
+    baby = db.profile.find_one({"username" : payload['id']})
+    baby_id = str(baby['_id'])
+    db.users.update_one({"username":payload['id']}, {"$push":{'baby':baby_id}})
+
+    baby = db.profile.find_one({"username" : payload['id']},{'_id':False})
+
+    return jsonify({'msg': '저장 완료!','baby':baby})
 
 
 # 프로필 목록 불러오기
@@ -475,10 +487,10 @@ def user_profile():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
 
-    if (request.method == 'GET'):
+    if (request.method == 'POST'):
         return render_template('user_profile_upload.html', user_info=user_information)
 
-    elif (request.method == 'POST'):
+    elif (request.method == 'GET'):
         return render_template('user_profile.html', user_info=user_information)
 
 

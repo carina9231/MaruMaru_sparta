@@ -20,8 +20,6 @@ $(document).ready(function () {
                 let profile_info = user['profile_info']
                 let profile_img = user['profile_pic']
 
-                console.log(profile_img)
-                let href = '/static/${profile_img}'
                 $('#user-profile').attr("src", '/static/' + profile_img)
 
                 //유저 프로필 카드

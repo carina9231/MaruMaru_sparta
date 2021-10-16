@@ -115,16 +115,18 @@
                                 취소
                             </button>
                         </nav>
+                        <form class="is-hidden" action="/user_profile" method="post">
+                            <button id="signup-submit" type="submit"></button>
+                        </form>
+
                     </div>
-
-
                 </div>
             </article>
         </div>
-
     </div>
 </section>
 
+<!-- 회원가입 축하 메세지 모달 -->
 <div id="my-modal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -141,10 +143,10 @@
                 <br></p>
         </section>
 
-            <footer class="modal-card-foot">
-                <button class="button is-success" onclick="modal_button('yes')">좋아요!!</button>
-                <button class="button is-centered" onclick="modal_button('no')">아니요..</button>
-            </footer>
+        <footer class="modal-card-foot">
+            <button class="button is-success" onclick="modal_button('yes')">좋아요!!</button>
+            <button class="button is-centered" onclick="modal_button('no')">아니요..</button>
+        </footer>
 
     </div>
 </div>
