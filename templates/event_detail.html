@@ -76,7 +76,8 @@
             </button>
             &nbsp;
             <button onclick="onClickLike()" type="button" class="btn btn-danger" id="like">
-                <i class="far fa-thumbs-up" id="like"> 좋아요 {{ events_db['count_like'] }}</i>
+                <i class="far fa-thumbs-up"> 좋아요{{ events_db.like_count }}</i>
+                <input type="hidden" id="like" value="{{events_db.like_count}}">
             </button>
         </div>
         <!-- 댓글-->

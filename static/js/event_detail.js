@@ -34,6 +34,7 @@ function onClickLike() {
         data: {id_give: event_id},
         success: function (response) {
             alert(response['msg'])
+            window.location.reload();
         }
     })
 }
