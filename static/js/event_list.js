@@ -14,7 +14,7 @@ function show_event_list() {
                 let username = events[i]['username']
                 let title = events[i]['title']
                 let time_post = events[i]['present_date']
-                let id = events[i]['idx']
+                let id = events[i]['number']
                 let time_before = time2str(time_post)
                 if (events.length > list_num)
                     list_num = list_num + 1

@@ -79,10 +79,10 @@ def event_upload():
     if count == 0:
         max_value = 1
     else:
-        max_value = db.events.find_one(sort=[("idx", -1)])['idx'] + 1
+        max_value = db.events.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
-        'idx': max_value,
+        'number': max_value,
         'username': user_information["username"],
         'profile_name': user_information["profile_name"],
         'title': title_receive,
@@ -92,7 +92,9 @@ def event_upload():
         'date': date_receive,
         'present_date': present_date_receive,
         'max': max_receive,
-        'comment': list()
+        'comment': list(),
+        'like': list(),
+        'like_count': 0
     }
 
     db.events.insert_one(doc)
@@ -115,8 +117,8 @@ def event_list():
 # 이벤트디테일 페이지 불러오기
 @app.route('/event/detail/<id>', methods=['GET'])
 def event_detail(id):
-    db.events.update_one({'idx': int(id)}, {'$inc': {'view': 1}})
-    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'number': int(id)}, {'_id': False})
     print(events)
     if events:
         return render_template("event_detail.html", id=id, events_db=events)
@@ -128,14 +130,14 @@ def event_detail(id):
 @app.route('/event/detail', methods=['DELETE'])
 def event_delete():
     id_receive = request.form['id_give']
-    db.events.delete_one({'idx': int(id_receive)})
+    db.events.delete_one({'number': int(id_receive)})
     return jsonify({'result': 'success', 'msg': '이벤트가 삭제 되었습니다.'})
 
 
 # 이벤트 디테일 수정 화면 GET
 @app.route('/pre-eventDetail/<id>/', methods=['GET'])
 def event_detail_upload(id):
-    events = db.events.find_one({'idx': int(id)}, {'_id': False})
+    events = db.events.find_one({'number': int(id)}, {'_id': False})
     return render_template("event_detail_upload.html", events=events, id=id)
 
 
@@ -148,10 +150,33 @@ def event_detail_post_upload():
     contents_receive = request.form['contents_give']
     date_receive = request.form['date_give']
     max_receive = request.form['max_give']
-    db.events.update_one({'idx': int(id_receive)},
+    db.events.update_one({'number': int(id_receive)},
                          {'$set': {'title': title_receive, 'contents': contents_receive, 'address': address_receive,
                                    'date': date_receive, 'max': max_receive}})
     return jsonify({'result': 'success', 'msg': '게시물을 수정합니다!'})
+
+
+# 이벤트 좋아요 에러......
+@app.route('/event/like', methods=['post'])
+def update_event_like():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    event_id_receive = request.form["id_give"]
+
+    past_like = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
+    like_list = past_like['like']
+
+    if my_username in like_list:
+        db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'like': my_username}})
+    else:
+        db.events.update_one({'number': int(event_id_receive)}, {"$push": {'like': my_username}})
+
+    pre_like = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
+    like_count = len(pre_like['like'])
+    db.events.update_one({'number': int(event_id_receive)}, {'$set': {'like_count': like_count}})
+    return jsonify({'result': 'success', 'msg': '완료!'})
 
 
 # 메인페이지에 프로필 카드 보여주기
