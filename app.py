@@ -21,11 +21,6 @@ def main():
     return render_template('index.html')
 
 
-@app.errorhandler(404)
-def page_not():
-    return render_template('error.html'), 404
-
-
 # 게시물목록 페이지 불러오기
 @app.route('/list')
 def show_posts():

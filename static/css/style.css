@@ -4,6 +4,7 @@
     font-weight: normal;
     font-style: normal;
 }
+
 /*메인페이지*/
 .navbar {
     display: flex;
@@ -90,6 +91,7 @@
     width: 350px;
     height: 450px;
 }
+
 /*메인페이지 프로필카드 슬라이더*/
 .slider {
     font-family: BinggraeSamanco-Bold;

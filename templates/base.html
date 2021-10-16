@@ -54,7 +54,8 @@
         <li><a href="/">Home</a></li>
         {% block libutton %}{% endblock %}
         <li id="login-button"><a href="/login">로그인</a></li>
-        <div id="user-profile"><img id="user-profile" class="img-circle" src="/static/profile_pics/profile_placeholder.png"  width="50px" height="50px"></div>
+        <div id="user-profile"><img id="user-profile" class="img-circle"
+                                    src="/static/profile_pics/profile_placeholder.png" width="50px" height="50px"></div>
     </div>
 
 </nav>
@@ -81,7 +82,7 @@
                     img_file = response['user_info']['profile_pic']
 
                     let href = '/static/${file_url}'
-                    $('#user-profile').attr("src",href)
+                    $('#user-profile').attr("src", href)
                 }
             });
         }
@@ -103,7 +104,14 @@
         return result;
     }
 
-
+    function onClickCreateEvent() {
+        if (document.cookie.match("mytoken") != null) {
+            window.location.href = "/events"
+        } else {
+            alert("로그인 후 생성해주세요 !!")
+            window.location.href = '/login';
+        }
+    }
 </script>
 {% block innerjs %} {% endblock %}
 </body>
