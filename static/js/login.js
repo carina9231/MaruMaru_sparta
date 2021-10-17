@@ -86,7 +86,7 @@ function sign_up() {
         success: function (response) {
 
             if (response['result'] == 'success') {
-                $.cookie('mytoken', response['token'], {path:'/'});
+                $.cookie('mytoken', response['token'], {path: '/'});
                 $('#my-modal').toggleClass("is-active");
                 reAction(); //꽃가루
 

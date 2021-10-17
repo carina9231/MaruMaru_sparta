@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     //iframe url 삽입
     const id = $("#idx").val();

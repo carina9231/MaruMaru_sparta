@@ -7,6 +7,8 @@ import getLating
 import jwt  # install PyJWT
 import hashlib
 
+from bson.objectid import ObjectId  # pymongo objectid
+
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
@@ -19,11 +21,6 @@ SECRET_KEY = 'BAEMARUMARU'
 @app.route('/')
 def main():
     return render_template('index.html')
-
-
-@app.errorhandler(404)
-def page_not():
-    return render_template('error.html'), 404
 
 
 # 게시물목록 페이지 불러오기
@@ -94,7 +91,9 @@ def event_upload():
         'max': max_receive,
         'comment': list(),
         'like': list(),
-        'like_count': 0
+        'join': list(),
+        'like_count': 0,
+        'view': 0
     }
 
     db.events.insert_one(doc)
@@ -111,6 +110,7 @@ def show_events_list():
 @app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
+    print(events)
     return jsonify({'result': 'success', 'all_events': events})
 
 
@@ -119,8 +119,23 @@ def event_list():
 def event_detail(id):
     db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     events = db.events.find_one({'number': int(id)}, {'_id': False})
-    print(events)
+    # event_join = events['join']
+    # print(event_join)
+    # username = db.users.distinct("username")
+    # print(username)
+    # join_users = [i for i in event_join if i in username]
+    # join_user_list = []
     if events:
+        # for join_user in join_users:
+        #     user = db.users.find_one({'username': join_user})
+        #     join_user_name = user['username']
+        #     join_user_pic = user['profile_pic']
+        #     doc = {
+        #         'username': join_user_name,
+        #         'profile_pic': join_user_pic
+        #     }
+        #     join_user_list.append(doc)
+        # print(join_user_list)
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
@@ -187,21 +202,14 @@ def event_join():
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
     event_id_receive = request.form["id_give"]
-
     past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
     join_list = past_join['join']
-    print(join_list)
     if my_username in join_list:
-        print("hi")
         db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
+        return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
     else:
-        print("hello")
         db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
-
-    pre_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
-    join_count = len(pre_join['join'])
-    print(join_count)
-    return jsonify({'result': 'success', 'msg': '완료!'})
+        return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -348,15 +356,14 @@ def profile_upload():
     mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
 
     filename = f'{mytime}-{extension[0]}'
-
     filename = "".join(i for i in filename if i not in "\/:*?<>|")
-
     filename = filename.strip()
+
     save_to = f'static/profileimg/{filename}.{extension[1]}'
+
     file.save(save_to)
 
     count = db.profile.count()
-    # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
         max_value = 1
     else:
@@ -369,19 +376,25 @@ def profile_upload():
         'comment': comment_receive,
         'number': max_value,
         'file': f'{filename}.{extension[1]}',
-        'username' : payload['id']
+        'username' : payload['id'],
+        'like': 0,
+        'like_count': list(),
+        'username': payload['id']
     }
 
     db.profile.insert_one(doc)
 
     # user 에 게시글 id 저장
-    baby = db.profile.find_one({"username" : payload['id']})
-    baby_id = str(baby['_id'])
-    db.users.update_one({"username":payload['id']}, {"$push":{'baby':baby_id}})
+    # babys = list(db.profile.find({"username" : payload['id']}))
+    # baby=[]
+    # for b in babys :
+    #     baby.append(str(b['_id']))
+    # # baby_id = str(baby['_id'])
+    # db.users.update_one({"username":payload['id']}, {"$set":{'baby':baby}})
+    #
+    baby = db.profile.find_one({"username": payload['id']}, {'_id': False})
 
-    baby = db.profile.find_one({"username" : payload['id']},{'_id':False})
-
-    return jsonify({'msg': '저장 완료!','baby':baby})
+    return jsonify({'msg': '저장 완료!', 'baby': baby})
 
 
 # 프로필 목록 불러오기
@@ -402,6 +415,28 @@ def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
     print(profiles)
     return render_template("profile_detail.html", id=id, profile_db=profiles)
+
+#프로필 좋아요
+@app.route('/dogprofile/like', methods=['POST'])
+def profile_like():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    profile_id_receive = request.form["id_give"]
+
+    past_like = db.events.find_one({'number': int(profile_id_receive)}, {'_id': False})
+    like_list = past_like['like']
+
+    if my_username in like_list:
+        db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
+    else:
+        db.profile.update_one({'number': int(profile_id_receive)}, {"$push": {'like': my_username}})
+
+    pre_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
+    like_count = len(pre_like['like'])
+    db.profile.update_one({'number': int([profile_id_receive])}, {'$set':{'like_count': like_count}})
+    return jsonify({'result': 'success', 'msg': '좋아요!'})
 
 
 # 프로필 카드 삭제 api
@@ -512,11 +547,41 @@ def user_profile():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
 
-    if (request.method == 'POST'):
-        return render_template('user_profile_upload.html', user_info=user_information)
+    if request.method == 'POST':
+        baby = list(db.profile.find({'username': payload['id']}))
+        return render_template('user_profile_upload.html', user_info=user_information, baby=baby)
 
-    elif (request.method == 'GET'):
-        return render_template('user_profile.html', user_info=user_information)
+    elif request.method == 'GET':
+        baby = list(db.profile.find({'username': payload['id']}))
+        return render_template('user_profile.html', user_info=user_information, baby=baby)
+
+
+@app.route('/user_update', methods=['POST'])
+def user_update():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    username = payload['id']
+
+    # update
+    name_receive = request.form['name_give']
+    description_receive = request.form['description_give']
+    file = request.files['file_give']
+    extension = file.filename.split('.')
+
+    today = datetime.now()
+    mytime = today.strftime('%Y%m%d_%H%M%S')
+
+    filename = f'{username}-{extension[0]}{mytime}'
+
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+
+    filename = filename.strip()
+    save_to = f'static/profile_pics/{filename}.{extension[1]}'
+    file.save(save_to)
+    db.users.update_one({'username': username},
+                        {'$set': {'profile_name': name_receive, 'profile_info': description_receive,
+                                  'profile_pic': 'profile_pics/' + filename + '.' + extension[1]}})
+    return jsonify({'result': 'success', 'msg': '프로필을 수정합니다!! > <'})
 
 
 if __name__ == '__main__':

@@ -1,221 +1,25 @@
-@font-face {
-    font-family: 'BinggraeSamanco-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/BinggraeSamanco-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-/*메인페이지*/
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FFB830;
-    padding: 8px 12px;
-    font-family: 'BinggraeSamanco-Bold';
-    font-size: 20px;
+* {
+    font-family: 'Jua', sans-serif;
 }
 
-.navbar a {
-    text-decoration: none;
-    color: white;
+
+.top-title {
+    margin: auto;
+    padding: 50px 50px 50px 50px;
+    background-color: rgb(230, 250, 255);
+    color: rgb(20, 100, 160);
 }
 
-.navbar_logo {
-    background: transparent;
-    margin: 0;
-}
-
-.navbar_logo .logo {
-    margin: 0;
-    height: 50px;
-}
-
-.navbar_menu {
-    display: flex;
-    list-style: none;
-    padding-left: 0;
-}
-
-.navbar_menu li {
-    padding: 8px 12px;
-}
-
-.navbar_menu li:hover {
-    background-color: #FFA500;
-    border-radius: 4px;
-}
-
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .navbar_menu {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding: 8px 24px;
-    }
-
-    .navbar_menu li {
-        width: 100%;
-        text-align: center;
-    }
-
-}
-
-.wrap {
-    background-color: #FFB830;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.wrap h1 {
-    margin: 0 0px 20px 0;
-    font-size: 100px;
-    font-weight: 700;
-    line-height: 56px;
-    font-family: "BinggraeSamanco-Bold";
-}
-
-.wrap h2 {
-    font-family: "BinggraeSamanco-Bold";
-    font-size: 50px;
-}
-
-.main_img .image {
-    width: 350px;
-    height: 450px;
-}
-/*메인페이지 프로필카드 슬라이더*/
-.slider {
-    font-family: BinggraeSamanco-Bold;
-    margin-bottom: 30px;
-    background: #f7f7f7;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-
-.slider > .title {
-    font-size: 50px;
-    padding: 50px 15px 25px 15px;
-    text-align: center;
+.main-sub {
+    color: rgb(20, 100, 160);
     font-weight: bold;
-}
-
-.slider .swiper-container {
-    padding: 30px 60px;
-}
-
-.slider .swiper-container .swiper-wrapper .swiper-slide {
-    font-size: 25px;
-    background: #fff;
-    display: block;
+    text-align: center;
     padding: 30px;
-    width: 232.5px;
 }
 
-.slider .swiper-container .swiper-wrapper .swiper-slide .tag > span {
-    display: inline-block;
-    padding: 5px 7.5px;
-    background: #1259a7;
-    color: #fff;
-    font-size: 15px;
-}
-
-.slider .swiper-container .swiper-wrapper .swiper-slide .title {
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px 0;
-    font-weight: bold;
-}
-
-.slider .swiper-container .swiper-wrapper .swiper-slide .date {
-    color: #666;
-    margin-top: 20px;
-    font-size: 25px;
-}
-
-.slider .swiper-container .swiper-wrapper .swiper-button-next,
-.slider .swiper-container .swiper-wrapper .swiper-button-prev {
-    padding: 0 25px;
-    --swiper-navigation-color: #fff;
-}
-
-.slider .swiper-container .swiper-wrapper .swiper-pagination-bullet-active {
-    opacity: 1;
-    background: #fff;
-}
-
-@media (max-width: 991px) {
-    .slider .swiper-container .swiper-wrapper .swiper-slide {
-        width: 100%;
-    }
-}
-
-/*게시물 목록 페이지*/
-.category {
-    padding: 10px 150px;
-}
-
-.category h1 {
-    font-size: 48px;
-    font-family: "BinggraeSamanco-Bold";
-    font-weight: 700;
-    line-height: 56px;
-}
-
-.post_list_wrap {
-    padding: 10px 150px;
-}
-
-.post_list_head,
-.post_list_body .item {
-    padding: 10px 0;
-    font-size: 0;
-}
-
-.post_list_head {
-    border-top: 2px solid #3DB2FF;
-    border-bottom: 1px solid;
-}
-
-.post_list_body .item {
-    border-bottom: 1px solid;
-}
-
-.post_list_head > div,
-.post_list_body .item > div {
-    display: inline-block;
-    font-size: 14px;
-    text-align: center;
-}
-
-.post_list .num {
-    width: 10%;
-}
-
-.post_list .title {
-    width: 50%;
-}
-
-.post_list .post_list_body .title {
-    text-align: left;
-}
-
-.post_list .author {
-    width: 15%;
-}
-
-.post_list .date {
-    width: 15%;
-}
-
-.post_list .view {
-    width: 10%;
+.main-card {
+    padding: 100px 50px 50px 50px;
+    color: rgb(20, 100, 160);
 }
 
 .card-profile{
@@ -225,5 +29,4 @@
     top: 65px;
     /*border: solid ;*/
     /*background: whitesmoke;*/
-
 }

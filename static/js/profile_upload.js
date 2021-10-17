@@ -64,19 +64,19 @@ function profile_upload() {
                         success: function (response) {
                             alert(response["msg"])
                             window.close()  //pop up close
-                            
+
                             //추가
                             let babay_img = response['baby']['file']
                             console.log(babay_img)
 
-                            let temp_html =`
+                            let temp_html = `
                                 <div class="add-card rounded-circle" onclick="alert('hi')" onmouseover="select_in()"
                                      onmouseout="select_out()">
                                     <img src="/static/profileimg/${babay_img}">
                                 </div>
                             `
                             $('#baby-list').append(temp_html)
-                            
+
                         }
                     })
                 }

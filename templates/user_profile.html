@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
     <script src="/static/js/user_profile.js"></script>
 {% endblock %}
 
@@ -14,7 +16,7 @@
 {% block content %}
     <div align="center">
         <p>프로필 사진</p>
-        <img src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+        <img style="height: 400px; width: 400px" src="/static/{{ user_info.profile_pic }}">
 
         <p>별명</p>
         <input type="text" disabled placeholder="{{ user_info.profile_name }}">
@@ -23,19 +25,51 @@
         <input type="text" disabled placeholder="{{ user_info.profile_info }}">
 
         <p>baby</p>
-        {% for baby in user_info.baby %}
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">a
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
+        <div class="profile_list_wrap" id="profile_card">
+            {% for baby_profile in baby %}
+                <div class="card color-card">
+                    <ul>
+                        <a onclick="like()">
+                            <li><i class="far fa-heart i-r w"></i></li>
+                        </a>
+                    </ul>
+
+                    <div class="card_top">
+                        <div>
+                            <div class="profile_img">
+                                <img class="dog_img" src="/static/profileimg/{{ baby_profile.file }}">
+                            </div>
+                        </div>
+                        <div>
+                            <p class="name desc">{{ baby_profile.name }}</p>
+                        </div>
+                        <div class="desc">
+                            <p class="age">나이: {{ baby_profile.age }}</p>
+                            <p class="gender">성별: {{ baby_profile.gender }}</p>
+                        </div>
+                        <hr>
+                        <div class="desc comment" style="font-size: 20px">
+                            <p>{{ baby_profile.comment }}</p>
+                        </div>
+                        <button class="btn color-a top mt-5" onclick="location.href ='/profile/${number}'">자세히 보기
+                        </button>
+                    </div>
+                    <input type="hidden" value={{ baby_profile.number }} id="{{ baby_profile.number }}card">
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
         <form action="/user_profile" method="post">
             <button id="signup-submit" type="submit">프로필 수정하기</button>
         </form>
+    </div>
+    <div class="baby-card">
+        <p>baby</p>
+        <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
+             onmouseout="select_out()">
+            <div class="plus-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
