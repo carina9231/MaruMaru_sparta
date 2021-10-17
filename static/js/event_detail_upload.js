@@ -17,12 +17,11 @@ $(function () {
 
 function save_event_upload() {
     const new_id = $("#idx").val()
-    const new_title = $("#title_box").val()
-    const new_address = $("#address-box").val()
-    const new_content = $("#contents_box").val()
+    const new_title = $("#name").val()
+    const new_address = $("#address").val()
+    const new_content = $("#message").val()
     const new_date = $("#datepicker").val()
-    const new_max = $("#max-people").val()
-
+    const new_max = $("#attend").val()
     if (new_title.length == 0) {
         alert("제목을 입력해주세요.");
         return;

@@ -8,6 +8,7 @@ import jwt  # install PyJWT
 import hashlib
 
 from bson.objectid import ObjectId  # pymongo objectid
+
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
@@ -90,7 +91,9 @@ def event_upload():
         'max': max_receive,
         'comment': list(),
         'like': list(),
-        'like_count': 0
+        'join': list(),
+        'like_count': 0,
+        'view': 0
     }
 
     db.events.insert_one(doc)
@@ -107,6 +110,7 @@ def show_events_list():
 @app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
+    print(events)
     return jsonify({'result': 'success', 'all_events': events})
 
 
@@ -115,8 +119,23 @@ def event_list():
 def event_detail(id):
     db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     events = db.events.find_one({'number': int(id)}, {'_id': False})
-    print(events)
+    # event_join = events['join']
+    # print(event_join)
+    # username = db.users.distinct("username")
+    # print(username)
+    # join_users = [i for i in event_join if i in username]
+    # join_user_list = []
     if events:
+        # for join_user in join_users:
+        #     user = db.users.find_one({'username': join_user})
+        #     join_user_name = user['username']
+        #     join_user_pic = user['profile_pic']
+        #     doc = {
+        #         'username': join_user_name,
+        #         'profile_pic': join_user_pic
+        #     }
+        #     join_user_list.append(doc)
+        # print(join_user_list)
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
@@ -183,21 +202,14 @@ def event_join():
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
     event_id_receive = request.form["id_give"]
-
     past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
     join_list = past_join['join']
-    print(join_list)
     if my_username in join_list:
-        print("hi")
         db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
+        return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
     else:
-        print("hello")
         db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
-
-    pre_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
-    join_count = len(pre_join['join'])
-    print(join_count)
-    return jsonify({'result': 'success', 'msg': '완료!'})
+        return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
 
 
 # 메인페이지에 프로필 카드 보여주기
@@ -535,11 +547,11 @@ def user_profile():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
 
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         baby = list(db.profile.find({'username': payload['id']}))
         return render_template('user_profile_upload.html', user_info=user_information, baby=baby)
 
-    elif (request.method == 'GET'):
+    elif request.method == 'GET':
         baby = list(db.profile.find({'username': payload['id']}))
         return render_template('user_profile.html', user_info=user_information, baby=baby)
 

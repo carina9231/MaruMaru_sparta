@@ -12,59 +12,34 @@
 
 {% block content %}
     <div class="all">
-        <!-- 작성자(top_box)-->
-        <div class="top_box">
-            <div class="image">
-                <img class="image_in" src="/static/maru.png">
-            </div>
-            <div class="author">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">작성자</span>
-                    <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
-                         aria-describedby="basic-addon1">
-                        {{ events_db['username'] }}
+        <div class="grid">
+            <div class="wrapper">
+                <div class="inner clearfix">
+                    <div class="grid-left">
+                        <img class="image_in" src="/static/eventimg/{{ events_db.file }}">
+                    </div>
+                    <div class="grid-right">
+                        <input type="hidden" id="idx" value="{{ id }}">
+                        <div><H2>{{ events_db.title }}</H2></div>
+                        <div><H5>행사일 : {{ events_db.date }}</H5></div>
+                        <div>
+                            <H5>행사장소 : {{ events_db.address }}
+                                <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">
+                                    지도
+                                </button>
+                            </H5>
+                        </div>
+                    </div>
+                    <div class="contents">
+                        <div class="input-group mb-3">
+                            <div class="form-control content" aria-label="With textarea" id="contents_box">
+                                {{ events_db['contents'] }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="contents_box">
-            <!-- 제목, 내용 -->
-            <div class="title">
-                <input type="hidden" id="idx" value="{{ id }}">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">제목</span>
-                    <div id="title_box" type="text" class="form-control" aria-label="Username"
-                         aria-describedby="basic-addon1">
-                        {{ events_db['title'] }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="contents">
-                <div class="input-group mb-3">
-                    <div class="form-control content" aria-label="With textarea" id="contents_box">
-                        <img id="content-img" src="/static/eventimg/{{ events_db['file'] }}" height="200px"
-                             width="200px"><br>
-
-                        {{ events_db['contents'] }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--주소, 지도버튼-->
-        <div class="address_box">
-            <div class="address mt-3">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">주소</span>
-                    <div id="address-box" type="text" class="form-control address" aria-label="Username"
-                         aria-describedby="basic-addon1">{{ events_db['address'] }}
-                    </div>
-                    <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도</button>
-                </div>
-            </div>
-        </div>
-
         <!-- 버튼 그룹 -->
         <div class="detail_button">
             <button onclick="location.href='/pre-eventDetail/{{ id }}'" type="button" class="btn btn-primary ui button">
@@ -84,6 +59,10 @@
                 참가하기
             </button>
         </div>
+        <h1>참가자 목록</h1>
+        {% for username in events_db['join'] %}
+            <p>{{ username }}</p>
+        {% endfor %}
         <!-- 댓글-->
         <div class="comment_wrap">
             <div class="detail_comment">
