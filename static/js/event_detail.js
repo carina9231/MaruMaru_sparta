@@ -3,6 +3,7 @@ $(document).ready(function () {
     const id = $("#idx").val();
     let href = '/map?id=' + id
     $('#go-map').attr("src", href)
+    // show_join_list();
 });
 
 
@@ -95,7 +96,7 @@ function comment_upload() {
                         `
             })
             $("#comment_content").val("")
-            $(`#comment_list_${g_idx}`).html(comment_text)
+            $(`#comment_list_${e_idx}`).html(comment_text)
 
         },
         error: function (request, status, error) {
