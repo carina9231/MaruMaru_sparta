@@ -21,11 +21,6 @@ def main():
     return render_template('index.html')
 
 
-@app.errorhandler(404)
-def page_not():
-    return render_template('error.html'), 404
-
-
 # 게시물목록 페이지 불러오기
 @app.route('/list')
 def show_posts():
@@ -369,19 +364,19 @@ def profile_upload():
         'comment': comment_receive,
         'number': max_value,
         'file': f'{filename}.{extension[1]}',
-        'username' : payload['id']
+        'username': payload['id']
     }
 
     db.profile.insert_one(doc)
 
     # user 에 게시글 id 저장
-    baby = db.profile.find_one({"username" : payload['id']})
+    baby = db.profile.find_one({"username": payload['id']})
     baby_id = str(baby['_id'])
-    db.users.update_one({"username":payload['id']}, {"$push":{'baby':baby_id}})
+    db.users.update_one({"username": payload['id']}, {"$push": {'baby': baby_id}})
 
-    baby = db.profile.find_one({"username" : payload['id']},{'_id':False})
+    baby = db.profile.find_one({"username": payload['id']}, {'_id': False})
 
-    return jsonify({'msg': '저장 완료!','baby':baby})
+    return jsonify({'msg': '저장 완료!', 'baby': baby})
 
 
 # 프로필 목록 불러오기

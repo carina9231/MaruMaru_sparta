@@ -1,6 +1,6 @@
 body {
     /*background-color: RGBA(232, 52, 78, 0.2);*/
-    background-color: #FFEDDA;
+    background-color: rgb(230, 250, 255);
     min-height: 100vh;
 }
 
@@ -23,19 +23,19 @@ body {
 }
 
 .is-sparta {
-    color: #FFB830 !important;
+    color: rgb(20, 100, 160) !important;
 }
 
 .button.is-sparta {
-    background-color: #FFB830;
+    background-color: rgb(0, 160, 255);
     border-color: transparent;
     color: #fff !important;
 }
 
 .button.is-sparta.is-outlined {
     background-color: transparent;
-    border-color: #FFB830;
-    color: #FFB830 !important;
+    border-color: rgb(0, 160, 255);
+    color: rgb(0, 160, 255) !important;
 }
 
 .help {

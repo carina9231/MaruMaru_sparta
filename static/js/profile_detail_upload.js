@@ -1,5 +1,3 @@
-
-
 function dogdetail_upload() {
     const new_id = $("#profile_id").val()
     const new_age = $("#dog_age").val();
