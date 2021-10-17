@@ -7,45 +7,50 @@
 {% endblock %}
 
 {% block js %}
+    <script src="/static/js/profile_detail_upload.js"></script>
     <script src="/static/js/user_profile_upload.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 {% endblock %}
 
 
 {% block content %}
-    <h3>마이 프로필 수정</h3>
-    <div align="center">
-        <p>프로필 사진</p>
-        <img id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
-        <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
-            <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
-        </div>
+    <div class="user-wrap" style="width: 800px; margin: auto">
+        <div align="center">
+            <p>프로필 사진</p>
+            <div style="padding-bottom: 50px">
+                <img id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+            </div>
+            <div class="custom-file mb-3" style="width: 300px">
+                <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
+                <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+            </div>
 
-        <p>별명</p>
-        <input type="text" placeholder="{{ user_info.profile_name }}">
+            <div>별명 <br>
+                <input type="text" placeholder="{{ user_info.profile_name }}">
+            </div>
+            <div>자기 소개</br>
+                <textarea style="height: 200px" type="text" placeholder="{{ user_info.profile_info }}"></textarea>
+            </div>
 
-        <p>자기 소개</p>
-        <input type="text" placeholder="{{ user_info.profile_info }}">
+            <p>baby</p>
+            <div id="baby-list">
+                {% for baby in user_info.baby %}
+                    <div class="rounded-circle" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
 
-        <p>baby</p>
-        {% for baby in user_info.baby %}
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">a
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
+                    </div>
+                {% endfor %}
+                <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
+                     onmouseout="select_out()">
+                    <div class="plus-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
-        <div class="add-card" onclick="alert('hi')" onmouseover="select_in()" onmouseout="select_out()">
-            <div class="plus-icon">
-                <i class="fas fa-plus"></i>
-            </div>
-
+            <button type="button">수정 하기</button>
 
         </div>
-
     </div>
+
+
 {% endblock %}

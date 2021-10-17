@@ -12,7 +12,6 @@
 
 
 {% block content %}
-    <h3>마이 프로필</h3>
     <div align="center">
         <p>프로필 사진</p>
         <img src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
@@ -34,5 +33,9 @@
                 </div>
             </div>
         {% endfor %}
+        <form action="/user_profile" method="post">
+            <button id="signup-submit" type="submit">프로필 수정하기</button>
+        </form>
     </div>
+
 {% endblock %}

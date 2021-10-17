@@ -1,5 +1,3 @@
-
-
 function save_upload() {
     const idx = $("#idx").val()
     const new_title = $("#title_box").val();
