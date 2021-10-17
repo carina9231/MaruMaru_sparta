@@ -4,81 +4,47 @@
 
 {% block csslink %}
     <link rel="stylesheet" href="/static/css/user_profile_upload.css">
-    <link rel="stylesheet" href="/static/css/user_profile.css">
 
 {% endblock %}
 
 {% block js %}
-    <script src="/static/js/user_profile.js"></script>
-
-    <script src="/static/js/profile_detail_upload.js"></script>
-    <script src="/static/js/user_profile_upload.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script src="/static/js/user_profile_upload.js"></script>
+
 {% endblock %}
 
 
 {% block content %}
-    <div class="user-wrap" style="width: 800px; margin: auto">
-        <div align="center">
+    <div class="wrap">
+        <div class="user-update-wrap shadow">
+            <h1>회원 수정</h1>
+            <p>회원님의 정보를 수정해 보세요</p>
             <p>프로필 사진</p>
-            <div style="padding-bottom: 50px">
-                <img id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+            <div style="padding-bottom: 50px; ">
+                <img class="img-thumbnail" id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px"
+                     height="150px">
             </div>
             <div class="custom-file mb-3" style="width: 300px">
                 <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
                 <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
             </div>
+            <hr>
+            <br>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">별명</span>
+                <input id='name' type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" placeholder="{{ user_info.profile_name }}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">자기소개</span>
+                <textarea id='description' type="text" class="form-control" aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-default" placeholder="{{ user_info.profile_info }}"
+                          style="height: 200px"></textarea>
+            </div>
 
-            <div>별명 <br>
-                <input id='name' type="text" placeholder="{{ user_info.profile_name }}">
-            </div>
-            <div>자기 소개</br>
-                <textarea id="description" style="height: 200px" type="text" placeholder="{{ user_info.profile_info }}"></textarea>
-            </div>
+            <button class="btn btn-outline-primary" onclick="user_update()" type="button">수정 하기</button>
+            <br><br><button class="btn btn btn-outline-danger" onclick="alert('회원탈퇴 만들어야지')" type="button">회원 탈퇴</button>
+
         </div>
-    </div>
-    <div class="baby-card">
-        <p>baby</p>
-        <div class="profile_list_wrap" id="profile_card">
-            <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
-                 onmouseout="select_out()">
-                <div class="plus-icon">
-                    <i class="fas fa-plus"></i>
-                </div>
-            </div>
-            {% for profile in baby %}
-                <div class="card color-card">
-                    <ul>
-                        <a onclick="like()">
-                            <li><i class="far fa-heart i-r w"></i></li>
-                        </a>
-                    </ul>
-
-                    <div class="card_top">
-                        <div>
-                            <div class="profile_img">
-                                <img class="dog_img" src="/static/profileimg/{{ profile.file }}">
-                            </div>
-                        </div>
-                        <div>
-                            <p class="name desc">{{ profile.name }}</p>
-                        </div>
-                        <div class="desc">
-                            <p class="age">나이: {{ profile.age }}</p>
-                            <p class="gender">성별: {{ profile.gender }}</p>
-                        </div>
-                        <hr>
-                        <div class="desc comment" style="font-size: 20px">
-                            <p>{{ profile.comment }}</p>
-                        </div>
-                        <button class="btn color-a top mt-5" onclick="location.href ='/profile/${number}'">자세히 보기
-                        </button>
-                    </div>
-                    <input type="hidden" value={{ profile.number }} id="{{ profile.number }}card">
-                </div>
-            {% endfor %}
-        </div>
-        <button onclick="user_update()" type="button">수정 하기</button>
-
     </div>
 {% endblock %}

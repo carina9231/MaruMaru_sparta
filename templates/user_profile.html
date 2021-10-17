@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
     <script src="/static/js/user_profile.js"></script>
 {% endblock %}
 
@@ -60,4 +62,14 @@
             <button id="signup-submit" type="submit">프로필 수정하기</button>
         </form>
     </div>
+    <div class="baby-card">
+        <p>baby</p>
+        <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
+             onmouseout="select_out()">
+            <div class="plus-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

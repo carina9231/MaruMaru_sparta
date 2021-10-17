@@ -17,19 +17,6 @@ function readFile(event) {
 
 }
 
-function select_in() {
-    $('.add-card').css("box-shadow", "1px")
-}
-
-function select_out() {
-    $('.add-card').css("box-shadow", "none")
-}
-
-function create_baby_profile() {
-    var popup = window.open('/profile/create', '네이버팝업', 'width=700px,height=700px,scrollbars=yes');
-}
-
-
 function user_update() {
     let name = $('#name').val()
     let description = $('#description').val()
@@ -39,6 +26,17 @@ function user_update() {
     form_data.append("file_give", file)
     form_data.append("name_give", name)
     form_data.append("description_give", description)
+
+    //사진이 들어가지 않았을 때
+    if (file == null) {
+        alert("사진을 넣어주세요!");
+        $("#file").focus();
+        return false;
+    } else if (name.length == 0) {
+        alert("별명을 입력해주세요!");
+        $("#name").focus();
+        return false;
+    }
 
     $.ajax({
         type: "POST",
