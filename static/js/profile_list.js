@@ -21,7 +21,7 @@ function show_all_profile() {
 
                 let temp_html = `<div class="card color-card">
                                     <ul>
-                                      <a onclick="like()"><li><i class="far fa-heart i-r w"></i></li></a>
+                                      <a href="#" onclick="ProfileLike()"><li><i class="far fa-heart i-r w" title="좋아요"></i></li></a>
                                     </ul>
   
                                     <div class="card_top">
@@ -43,11 +43,24 @@ function show_all_profile() {
                                       </div>
                                       <button class="btn color-a top mt-5" onclick = "location.href ='/profile/${number}'">자세히 보기</button>
                                     </div>
-                                    <input type="hidden" value="${number}" id="${number}card">
+                                    <input type="hidden" value="${number}" id="profile_id">
                                   </div>`
 
                 $('#profile_card').append(temp_html)
             }
+        }
+    })
+}
+
+function ProfileLike() {
+    const profile_id = $("#profile_card").val();
+    $.ajax({
+        type: "POST",
+        url: "/dogprofile/like",
+        data: {id_give: profile_id},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload();
         }
     })
 }

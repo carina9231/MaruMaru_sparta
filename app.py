@@ -344,15 +344,14 @@ def profile_upload():
     mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
 
     filename = f'{mytime}-{extension[0]}'
-
     filename = "".join(i for i in filename if i not in "\/:*?<>|")
-
     filename = filename.strip()
+
     save_to = f'static/profileimg/{filename}.{extension[1]}'
+
     file.save(save_to)
 
     count = db.profile.count()
-    # 게시글 삭제시 중복 가능 ->   존재하는  number +1 로 바꿔야함
     if count == 0:
         max_value = 1
     else:
@@ -365,6 +364,9 @@ def profile_upload():
         'comment': comment_receive,
         'number': max_value,
         'file': f'{filename}.{extension[1]}',
+        'username' : payload['id'],
+        'like': 0,
+        'like_count': list(),
         'username': payload['id']
     }
 
@@ -401,6 +403,28 @@ def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
     print(profiles)
     return render_template("profile_detail.html", id=id, profile_db=profiles)
+
+#프로필 좋아요
+@app.route('/dogprofile/like', methods=['POST'])
+def profile_like():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    profile_id_receive = request.form["id_give"]
+
+    past_like = db.events.find_one({'number': int(profile_id_receive)}, {'_id': False})
+    like_list = past_like['like']
+
+    if my_username in like_list:
+        db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
+    else:
+        db.profile.update_one({'number': int(profile_id_receive)}, {"$push": {'like': my_username}})
+
+    pre_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
+    like_count = len(pre_like['like'])
+    db.profile.update_one({'number': int([profile_id_receive])}, {'$set':{'like_count': like_count}})
+    return jsonify({'result': 'success', 'msg': '좋아요!'})
 
 
 # 프로필 카드 삭제 api
