@@ -21,3 +21,12 @@
     padding: 100px 50px 50px 50px;
     color: rgb(20, 100, 160);
 }
+
+.card-profile{
+    z-index: 50;
+    position: absolute;
+    right: 10px;
+    top: 65px;
+    /*border: solid ;*/
+    /*background: whitesmoke;*/
+}

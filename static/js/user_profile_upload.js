@@ -28,3 +28,28 @@ function select_out() {
 function create_baby_profile() {
     var popup = window.open('/profile/create', '네이버팝업', 'width=700px,height=700px,scrollbars=yes');
 }
+
+
+function user_update() {
+    let name = $('#name').val()
+    let description = $('#description').val()
+    let file = $('#file')[0].files[0]
+    let form_data = new FormData()
+
+    form_data.append("file_give", file)
+    form_data.append("name_give", name)
+    form_data.append("description_give", description)
+
+    $.ajax({
+        type: "POST",
+        url: "/user_update",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            alert(response["msg"])
+            location.replace('/user_profile')
+        }
+    })
+}
