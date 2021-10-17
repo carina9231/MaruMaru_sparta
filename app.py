@@ -7,6 +7,7 @@ import getLating
 import jwt  # install PyJWT
 import hashlib
 
+from bson.objectid import ObjectId  # pymongo objectid
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
@@ -19,11 +20,6 @@ SECRET_KEY = 'BAEMARUMARU'
 @app.route('/')
 def main():
     return render_template('index.html')
-
-
-@app.errorhandler(404)
-def page_not():
-    return render_template('error.html'), 404
 
 
 # 게시물목록 페이지 불러오기
@@ -370,19 +366,23 @@ def profile_upload():
         'file': f'{filename}.{extension[1]}',
         'username' : payload['id'],
         'like': 0,
-        'like_count': list()
+        'like_count': list(),
+        'username': payload['id']
     }
 
     db.profile.insert_one(doc)
 
     # user 에 게시글 id 저장
-    baby = db.profile.find_one({"username" : payload['id']})
-    baby_id = str(baby['_id'])
-    db.users.update_one({"username":payload['id']}, {"$push":{'baby':baby_id}})
+    # babys = list(db.profile.find({"username" : payload['id']}))
+    # baby=[]
+    # for b in babys :
+    #     baby.append(str(b['_id']))
+    # # baby_id = str(baby['_id'])
+    # db.users.update_one({"username":payload['id']}, {"$set":{'baby':baby}})
+    #
+    baby = db.profile.find_one({"username": payload['id']}, {'_id': False})
 
-    baby = db.profile.find_one({"username" : payload['id']},{'_id':False})
-
-    return jsonify({'msg': '저장 완료!','baby':baby})
+    return jsonify({'msg': '저장 완료!', 'baby': baby})
 
 
 # 프로필 목록 불러오기
@@ -536,10 +536,40 @@ def user_profile():
     user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
 
     if (request.method == 'POST'):
-        return render_template('user_profile_upload.html', user_info=user_information)
+        baby = list(db.profile.find({'username': payload['id']}))
+        return render_template('user_profile_upload.html', user_info=user_information, baby=baby)
 
     elif (request.method == 'GET'):
-        return render_template('user_profile.html', user_info=user_information)
+        baby = list(db.profile.find({'username': payload['id']}))
+        return render_template('user_profile.html', user_info=user_information, baby=baby)
+
+
+@app.route('/user_update', methods=['POST'])
+def user_update():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    username = payload['id']
+
+    # update
+    name_receive = request.form['name_give']
+    description_receive = request.form['description_give']
+    file = request.files['file_give']
+    extension = file.filename.split('.')
+
+    today = datetime.now()
+    mytime = today.strftime('%Y%m%d_%H%M%S')
+
+    filename = f'{username}-{extension[0]}{mytime}'
+
+    filename = "".join(i for i in filename if i not in "\/:*?<>|")
+
+    filename = filename.strip()
+    save_to = f'static/profile_pics/{filename}.{extension[1]}'
+    file.save(save_to)
+    db.users.update_one({'username': username},
+                        {'$set': {'profile_name': name_receive, 'profile_info': description_receive,
+                                  'profile_pic': 'profile_pics/' + filename + '.' + extension[1]}})
+    return jsonify({'result': 'success', 'msg': '프로필을 수정합니다!! > <'})
 
 
 if __name__ == '__main__':

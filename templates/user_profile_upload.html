@@ -4,9 +4,13 @@
 
 {% block csslink %}
     <link rel="stylesheet" href="/static/css/user_profile_upload.css">
+    <link rel="stylesheet" href="/static/css/user_profile.css">
+
 {% endblock %}
 
 {% block js %}
+    <script src="/static/js/user_profile.js"></script>
+
     <script src="/static/js/profile_detail_upload.js"></script>
     <script src="/static/js/user_profile_upload.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
@@ -26,31 +30,55 @@
             </div>
 
             <div>별명 <br>
-                <input type="text" placeholder="{{ user_info.profile_name }}">
+                <input id='name' type="text" placeholder="{{ user_info.profile_name }}">
             </div>
             <div>자기 소개</br>
-                <textarea style="height: 200px" type="text" placeholder="{{ user_info.profile_info }}"></textarea>
+                <textarea id="description" style="height: 200px" type="text" placeholder="{{ user_info.profile_info }}"></textarea>
             </div>
-
-            <p>baby</p>
-            <div id="baby-list">
-                {% for baby in user_info.baby %}
-                    <div class="rounded-circle" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-
-                    </div>
-                {% endfor %}
-                <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
-                     onmouseout="select_out()">
-                    <div class="plus-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                </div>
-            </div>
-            <button type="button">수정 하기</button>
-
         </div>
     </div>
+    <div class="baby-card">
+        <p>baby</p>
+        <div class="profile_list_wrap" id="profile_card">
+            <div class="add-card rounded-circle" onclick="create_baby_profile()" onmouseover="select_in()"
+                 onmouseout="select_out()">
+                <div class="plus-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            {% for profile in baby %}
+                <div class="card color-card">
+                    <ul>
+                        <a onclick="like()">
+                            <li><i class="far fa-heart i-r w"></i></li>
+                        </a>
+                    </ul>
 
+                    <div class="card_top">
+                        <div>
+                            <div class="profile_img">
+                                <img class="dog_img" src="/static/profileimg/{{ profile.file }}">
+                            </div>
+                        </div>
+                        <div>
+                            <p class="name desc">{{ profile.name }}</p>
+                        </div>
+                        <div class="desc">
+                            <p class="age">나이: {{ profile.age }}</p>
+                            <p class="gender">성별: {{ profile.gender }}</p>
+                        </div>
+                        <hr>
+                        <div class="desc comment" style="font-size: 20px">
+                            <p>{{ profile.comment }}</p>
+                        </div>
+                        <button class="btn color-a top mt-5" onclick="location.href ='/profile/${number}'">자세히 보기
+                        </button>
+                    </div>
+                    <input type="hidden" value={{ profile.number }} id="{{ profile.number }}card">
+                </div>
+            {% endfor %}
+        </div>
+        <button onclick="user_update()" type="button">수정 하기</button>
 
+    </div>
 {% endblock %}
