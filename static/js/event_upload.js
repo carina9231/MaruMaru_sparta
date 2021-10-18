@@ -73,7 +73,7 @@ function event_upload() {
             processData: false,
             success: function (response) {
                 alert(response["msg"])
-                location.replace('/')
+                location.replace('/event/list')
             }
         })
     }

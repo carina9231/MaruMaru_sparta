@@ -110,7 +110,6 @@ def show_events_list():
 @app.route('/events/list', methods=['GET'])
 def event_list():
     events = list(db.events.find({}, {'_id': False}))
-    print(events)
     return jsonify({'result': 'success', 'all_events': events})
 
 
@@ -144,16 +143,40 @@ def event_detail(id):
 # 이벤트 삭제 api
 @app.route('/event/detail', methods=['DELETE'])
 def event_delete():
-    id_receive = request.form['id_give']
-    db.events.delete_one({'number': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '이벤트가 삭제 되었습니다.'})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        username = user_info['username']
 
+        id_receive = request.form['id_give']
+        event = db.events.find_one({'number': int(id_receive)}, {'_id': False})
+        post_name = event['username']
+
+        if username == post_name:
+            db.events.delete_one({'number': int(id_receive)})
+            return jsonify({'result': 'success', 'msg': '이벤트가 삭제 되었습니다.'})
+        else:
+            return jsonify({'result': 'success', 'msg': '작성자만 삭제 가능합니다.'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("main"))
 
 # 이벤트 디테일 수정 화면 GET
 @app.route('/pre-eventDetail/<id>/', methods=['GET'])
 def event_detail_upload(id):
-    events = db.events.find_one({'number': int(id)}, {'_id': False})
-    return render_template("event_detail_upload.html", events=events, id=id)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        username = user_info['username']
+        events = db.events.find_one({'number': int(id)}, {'_id': False})
+        post_name = events['username']
+        if username == post_name:
+            return render_template("event_detail_upload.html", events=events, id=id)
+        else:
+            return redirect(url_for("show_events_list"))
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("main"))
 
 
 # 이벤트 디테일 수정 api
@@ -413,7 +436,6 @@ def profile_list():
 @app.route('/profile/<id>', methods=['GET'])
 def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
-    print(profiles)
     return render_template("profile_detail.html", id=id, profile_db=profiles)
 
 #프로필 좋아요
@@ -451,7 +473,6 @@ def profile_delete():
 @app.route('/dogdetail/<id>', methods=['GET'])
 def show_dog_detail_upload(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
-    print(profiles)
     return render_template("profile_detail_upload.html", profiles=profiles, id=id)
 
 
