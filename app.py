@@ -223,20 +223,29 @@ def update_event_like():
 def event_join():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.users.find_one({"username": payload["id"]})
+    user_info = db.users.find_one({"username": payload["id"]})  # 참가하는 유저 정보
     my_username = user_info['username']
+
     event_id_receive = request.form["id_give"]
-    past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
-    join_list = past_join['join']
-    if len(join_list) < int(past_join['max']):
-        if my_username in join_list:
-            db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
-            return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
-        else:
-            db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
-            return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
+    past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})  # 참가할 이벤트
+
+    join_dic = past_join['join']
+    join_list=[]
+    for j in join_dic:
+        join_list.append(j['username'])
+
+    if my_username in join_list:
+        print('hi')
+        index = join_list.index(my_username)
+        db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': {'username': my_username}}})
+        return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
     else:
-        return jsonify({'result': 'success', 'msg': '참가 인원이 다 찼습니다.'})
+        if len(join_list) < int(past_join['max']):
+            db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': user_info}})
+            return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
+        else:
+            return jsonify({'result': 'success', 'msg': '참가 인원이 다 찼습니다.'})
+
 
 
 # 이벤트 댓글 작성
@@ -252,9 +261,6 @@ def event_comment_upload():
     db.events.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
-
-
-
 
 
 # 메인페이지에 프로필 카드 보여주기
