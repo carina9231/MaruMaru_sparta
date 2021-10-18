@@ -21,59 +21,62 @@
 
 
 {% block content %}
-<div class="all">
-    <!--로고, 작성자(top_box)-->
+    <div class="all">
+        <!--로고, 작성자(top_box)-->
+        <div class="inner">
+            <div class="top_box">
+                <div class="image">
+                    <img class="image_in" src="/static/new_logo.png">
+                </div>
+                <div class="author">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">작성자</span>
+                        <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
 
-    <div class="top_box">
-        <div class="image">
-            <img class="image_in" src="/static/maru.png">
-        </div>
-        <div class="author">
-            <div class="input-group mb-3">
-                <span class="input-group-text">작성자</span>
-                <input id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
-                       aria-describedby="basic-addon1">
             </div>
-        </div>
+            <!--제목, 사진 업로드, 내용(contents_box)-->
+            <div class="contents_box">
 
-    </div>
-    <!--제목, 사진 업로드, 내용(contents_box)-->
-    <div class="contents_box">
+                <div class="title">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">제목</span>
+                        <input id="title_box" type="text" class="form-control" aria-label="Username"
+                               aria-describedby="basic-addon1">
+                    </div>
+                </div>
 
-        <div class="title">
-            <div class="input-group mb-3">
-                <span class="input-group-text">제목</span>
-                <input id="title_box" type="text" class="form-control" aria-label="Username"
-                       aria-describedby="basic-addon1">
-            </div>
-        </div>
-
-        <div class="contents">
-            <div class="input-group mb-3">
+                <div class="contents">
+                    <div class="input-group mb-3">
                 <textarea class="form-control" placeholder="내용을 작성해주세요!" aria-label="With textarea"
                           id="contents_box"></textarea>
+                    </div>
+                </div>
+
+                <div class="custom-file mb-3">
+                    <input type="file" class="custom-file-input file" id="file">
+                    <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+                </div>
+
+            </div>
+            <!--주소-->
+            <div class="address">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">주소</span>
+                    <input onclick="address_input()" id="address-box" type="text" class="form-control"
+                           aria-label="Username"
+                           aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <!--저장(save)-->
+            <div class="save">
+                <button onclick="post_upload()" onchange="post_upload()" type="button" class="btn btn-info" id="save">
+                    저장하기
+                </button>
             </div>
         </div>
-
-        <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input file" id="file">
-            <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
-        </div>
-
     </div>
-    <!--주소-->
-    <div class="address">
-        <div class="input-group mb-3">
-            <span class="input-group-text">주소</span>
-            <input onclick="address_input()" id="address-box" type="text" class="form-control" aria-label="Username"
-                   aria-describedby="basic-addon1">
-        </div>
-    </div>
-    <!--저장(save)-->
-    <div class="save">
-        <button onclick="post_upload()" onchange="post_upload()" type="button" class="btn btn-info" id="save">저장하기
-        </button>
-    </div>
-</div>
 
 {% endblock %}

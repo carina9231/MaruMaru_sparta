@@ -458,7 +458,6 @@ def profile_like():
     past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_list = past_like['like']
 
-    print(like_list)
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})

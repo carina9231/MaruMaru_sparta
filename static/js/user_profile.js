@@ -10,3 +10,18 @@ function create_baby_profile() {
         window.location.reload();
     }
 }
+
+function ProfileLike(number) {
+
+    const profile_id = number
+
+    $.ajax({
+        type: "POST",
+        url: "/dogprofile/like",
+        data: {id_give: profile_id},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload();
+        }
+    })
+}
