@@ -3,7 +3,6 @@ $(document).ready(function () {
     const id = $("#idx").val();
     let href = '/map?id=' + id
     $('#go-map').attr("src", href)
-    // show_join_list();
 });
 
 
@@ -57,7 +56,7 @@ function onClickJoin() {
 
 
 
-function comment_upload() {
+function event_comment_upload() {
     const e_idx = $("#idx").val();
     const comment_input = $("#comment_content").val();
 
@@ -68,40 +67,14 @@ function comment_upload() {
 
     $.ajax({
         type: "POST",
-        url: `/comment`,
+        url: `/event/comment`,
         data: {
             id_give: e_idx,
             comment_give: comment_input
         },
         success: function (response) {
             alert(response["msg"])
-            let comment_text = ""
-            const arr_comment = response["save_comment"]["comment"].reverse();
-            arr_comment.forEach((e) => {
-                comment_text += `
-                            &nbsp;
-                            <div class="card mb-2">
-                                <div class="card-header bg-light">
-                                    <i class="fa fa-comment fa"></i> 작성자: ${e.user}
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <div class="comment_wrote">내용: ${e.comment}</div>
-                                            <button type="button" class="btn btn-dark mt-3">수정</button>
-                                            <button type="button" class="btn btn-dark mt-3">삭제</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        `
-            })
-            $("#comment_content").val("")
-            $(`#comment_list_${e_idx}`).html(comment_text)
-
-        },
-        error: function (request, status, error) {
-            alert(error);
+            window.location.reload()
         }
-    });
+    })
 }
