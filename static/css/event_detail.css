@@ -1,9 +1,3 @@
-.detail_button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 iframe {
     margin: auto;
 }
@@ -13,53 +7,16 @@ iframe {
     margin: auto;
 }
 
-.author {
-    float: right;
-    width: 50%;
-    margin-top: 100px;
-}
-
-.image {
-    width: 50%;
-    float: left;
-}
-
-.image_in {
-    display: block;
-    width: 100px;
-    margin: auto;
-}
-
-.address {
-    width: 500px;
-}
-
-.content {
-    height: 300px;
-}
-
-.user_info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    float: right;
-    margin: 50px 30px 10px 10px;
-    font-size: 1.5rem;
-    font-weight: 100;
-    color: #FF2442;
-}
-
-.detail_title {
-    font-size: 3rem;
-    font-weight: bolder;
-    color: #3DB2FF;
-    padding-top: 100px
-}
-
 .detail_content {
     display: flex;
     margin-top: 50px;
+    height: 500px;
 
+}
+
+.image {
+    width: 100%;
+    float: left;
 }
 
 .detail_button {
@@ -115,134 +72,27 @@ body .clearfix:after {
     display: table;
 }
 
-/*.form {*/
-/*    padding-top: 30px;*/
-/*    margin-bottom: 30px;*/
-/*}*/
+.header {
+    text-align: center;
+    margin-top: 3%;
+    margin-bottom: 2%;
+}
 
-/*.form .header {*/
-/*    margin-bottom: 35px;*/
-/*    padding-bottom: 35px;*/
-/*    border-bottom: 1px solid #ddd;*/
-/*}*/
+h1 {
+    font-family: 'jua';
+    font-size: 50px;
+}
 
-/*.form .header .title {*/
-/*    font-size: 25px;*/
-/*    font-weight: bold;*/
-/*    color: #1259a7;*/
-/*}*/
+h2, h4, h5 {
+    font-weight: 100;
+}
 
-/*.form .header .desc {*/
-/*    margin-left: 10px;*/
-/*}*/
-
-/*.form .header .message {*/
-/*    margin: 25px 0 70px 0;*/
-/*    font-size: 20px;*/
-/*    font-weight: normal;*/
-/*    color: #262626;*/
-/*}*/
-
-/*.form .content {*/
-/*    margin: 0 -15px;*/
-/*}*/
-
-/*.form .content:after {*/
-/*    clear: both;*/
-/*    content: " ";*/
-/*    display: table;*/
-/*}*/
-
-/*.form .content .half {*/
-/*    min-width: 400px;*/
-/*    float: left;*/
-/*    width: 50%;*/
-/*    padding: 0 15px;*/
-/*}*/
-
-/*.form .content .half label .point {*/
-/*    color: #1259a7;*/
-/*}*/
-
-/*.form .content .half .message {*/
-/*    margin-bottom: 35px;*/
-/*}*/
-
-/*.form .content .half .message .length {*/
-/*    float: right;*/
-/*}*/
-
-/*.form .content .half .file {*/
-/*    margin: 35px 0;*/
-/*}*/
-
-/*.form .content .half .date {*/
-/*    margin: 35px 0;*/
-/*}*/
-
-/*.form .content .half .address {*/
-/*    margin: 35px 0;*/
-/*}*/
-
-/*.form .content .half .attend {*/
-/*    margin: 35px 0;*/
-/*}*/
-
-/*.form .content .half label {*/
-/*    display: block;*/
-/*    margin-bottom: 15px;*/
-/*}*/
-
-/*.form .content .half textarea {*/
-/*    border-radius: 0;*/
-/*    height: 437px;*/
-/*    width: 100%;*/
-/*    resize: none;*/
-/*    padding: 15px;*/
-/*    border: 1px solid #ddd;*/
-/*    box-shadow: none;*/
-/*}*/
-
-/*.form .content .half input {*/
-/*    border-radius: 0;*/
-/*    padding: 15px;*/
-/*    height: 50px;*/
-/*    box-shadow: none;*/
-/*    border: 1px solid #ddd;*/
-/*    width: 100%;*/
-/*}*/
-
-/*.form .content .half textarea:focus,*/
-/*.form .content .half input:focus {*/
-/*    border-color: #1259a7;*/
-/*    outline: 0;*/
-/*}*/
-
-/*.form .content .half .action {*/
-/*    padding-top: 15px;*/
-/*}*/
-
-/*.form .content .half .action button {*/
-/*    font-size: 16px;*/
-/*    height: 50px;*/
-/*    display: inline-block;*/
-/*    cursor: pointer;*/
-/*    background: #1259a7;*/
-/*    width: 100%;*/
-/*    border: 1px solid #1259a7;*/
-/*    box-shadow: none;*/
-/*    color: #fff;*/
-/*}*/
-
-/*@media (max-width: 767px) {*/
-/*    .form .header {*/
-/*        text-align: center;*/
-/*    }*/
-
-/*    .form .header .title {*/
-/*        display: block;*/
-/*    }*/
-/*}*/
+hr {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2%;
+}
 
 .grid {
     margin-bottom: 30px;
@@ -257,10 +107,12 @@ body .clearfix:after {
     padding: 15px 15px;
     width: 40%;
 }
-.grid-left .image_in{
+
+.grid-left .image_in {
     width: inherit;
     height: auto;
 }
+
 .grid-right {
     float: left;
     padding: 0 15px;
