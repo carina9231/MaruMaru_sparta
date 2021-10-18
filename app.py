@@ -227,12 +227,15 @@ def event_join():
     event_id_receive = request.form["id_give"]
     past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})
     join_list = past_join['join']
-    if my_username in join_list:
-        db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
-        return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
+    if len(join_list) < int(past_join['max']):
+        if my_username in join_list:
+            db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': my_username}})
+            return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
+        else:
+            db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
+            return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
     else:
-        db.events.update_one({'number': int(event_id_receive)}, {"$push": {'join': my_username}})
-        return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
+        return jsonify({'result': 'success', 'msg': '참가 인원이 다 찼습니다.'})
 
 
 # 메인페이지에 프로필 카드 보여주기
