@@ -254,9 +254,6 @@ def event_comment_upload():
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
 
-
-
-
 # 메인페이지에 프로필 카드 보여주기
 @app.route('/profile_list', methods=['GET'])
 def show_profile():
@@ -312,7 +309,7 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts')
+@app.route('/posts', methods=['GET'])
 def show_posts_upload():
     return render_template('post_upload.html')
 
@@ -353,7 +350,7 @@ def post_upload():
         max_value = db.articles.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
-        'author': author_receive,
+        'author': username,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
