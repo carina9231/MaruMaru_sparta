@@ -161,6 +161,7 @@ def event_delete():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("main"))
 
+
 # 이벤트 디테일 수정 화면 GET
 @app.route('/pre-eventDetail/<id>/', methods=['GET'])
 def event_detail_upload(id):
@@ -301,6 +302,10 @@ def show_posts_upload():
 # 게시물 작성
 @app.route('/posts', methods=['POST'])
 def post_upload():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    username = payload['id']
+
     author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
@@ -338,7 +343,8 @@ def post_upload():
         'file': f'{filename}.{extension[1]}',
         'present_time': mytime,
         'comment': list(),
-        'view': 0
+        'view': 0,
+        'username': username
     }
 
     db.articles.insert_one(doc)
@@ -402,10 +408,9 @@ def profile_upload():
         'comment': comment_receive,
         'number': max_value,
         'file': f'{filename}.{extension[1]}',
-        'username' : payload['id'],
-        'like': 0,
-        'like_count': list(),
-        'username': payload['id']
+        'username': payload['id'],
+        'like': list(),
+        'like_count': 0,
     }
 
     db.profile.insert_one(doc)
@@ -441,7 +446,8 @@ def profile_detail(id):
     profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
     return render_template("profile_detail.html", id=id, profile_db=profiles)
 
-#프로필 좋아요
+
+# 프로필 좋아요
 @app.route('/dogprofile/like', methods=['POST'])
 def profile_like():
     token_receive = request.cookies.get('mytoken')
@@ -449,18 +455,20 @@ def profile_like():
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
     profile_id_receive = request.form["id_give"]
-
-    past_like = db.events.find_one({'number': int(profile_id_receive)}, {'_id': False})
+    past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_list = past_like['like']
+
+    print(like_list)
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
+
     else:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$push": {'like': my_username}})
 
     pre_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_count = len(pre_like['like'])
-    db.profile.update_one({'number': int([profile_id_receive])}, {'$set':{'like_count': like_count}})
+    db.profile.update_one({'number': int(profile_id_receive)}, {'$set': {'like_count': like_count}})
     return jsonify({'result': 'success', 'msg': '좋아요!'})
 
 
@@ -565,7 +573,7 @@ def user_info():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
 
 
-@app.route('/user_profile', methods=['GET', 'POST'])
+@app.route('/user_profile', methods=['GET', 'POST', 'DELETE'])
 def user_profile():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -578,6 +586,13 @@ def user_profile():
     elif request.method == 'GET':
         baby = list(db.profile.find({'username': payload['id']}))
         return render_template('user_profile.html', user_info=user_information, baby=baby)
+
+    elif request.method == 'DELETE':
+
+        db.profile.delete_many({'username': payload['id']})
+        db.events.delete_many({'username': payload['id']})
+        db.users.delete_one({'username': payload['id']})
+        return jsonify({'result': 'success', 'msg': '행복하세요.'})
 
 
 @app.route('/user_update', methods=['POST'])

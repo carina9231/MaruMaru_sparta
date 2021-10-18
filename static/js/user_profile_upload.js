@@ -2,6 +2,17 @@ $(document).ready(function () {
     bsCustomFileInput.init();
 })
 
+function go_out(){
+    $.ajax({
+        type: "DELETE",
+        url: "/user_profile",
+
+        success: function (response) {
+            alert(response["msg"])
+            location.replace('/')
+        }
+    })
+}
 function readFile(event) {
     let file = event.target.files[0];
     let check = event.target;
