@@ -239,6 +239,24 @@ def event_join():
         return jsonify({'result': 'success', 'msg': '참가 인원이 다 찼습니다.'})
 
 
+# 이벤트 댓글 작성
+@app.route('/event/comment', methods=['POST'])
+def event_comment_upload():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    id_receive = request.form["id_give"]
+    comment = request.form["comment_give"]
+    doc = {"comment": comment, "user": my_username}
+    db.events.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
+    save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
+    return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
+
+
+
+
+
 # 메인페이지에 프로필 카드 보여주기
 @app.route('/profile_list', methods=['GET'])
 def show_profile():
