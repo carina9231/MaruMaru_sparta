@@ -13,17 +13,17 @@ canvas.height = window.innerHeight - 100;
 
 
 var img1 = new Image();
-img1.src = '/static/dog.png'
+img1.src = '/static/ozizo/dog.png'
 
 
 var maru = {
-    x: 100,
+    x: 90,
     y: 200,
     width: 40,
     height: 40,
     draw() {
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.fillStyle = 'green';
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(img1, this.x, this.y, this.width, this.height);
 
     }
@@ -34,7 +34,17 @@ maru.draw()
 // 1초에 60번 +1 해주기
 
 var img2 = new Image();
-img2.src = '/static/cactus.png';
+var randomNum = Math.floor(Math.random() * 4);
+
+if (randomNum == 0) {
+    img2.src = '/static/ozizo/hm.png';
+} else if (randomNum == 1) {
+    img2.src = '/static/ozizo/so.png';
+} else if (randomNum == 2) {
+    img2.src = '/static/ozizo/sy.png';
+} else {
+    img2.src = '/static/ozizo/ju.png';
+}
 
 
 class Obstacle {
@@ -46,8 +56,8 @@ class Obstacle {
     }
 
     draw() {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(img2, this.x, this.y, this.width, this.height);
     }
 }
@@ -63,7 +73,8 @@ function moveToLeft() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (timer % 200 === 0) {
+    var showObstacle = Math.floor(Math.random() * (230 - 150)) + 150;
+    if (timer % showObstacle === 0) {
         var obstacle = new Obstacle();
         obstacleMany.push(obstacle);
     }
@@ -72,7 +83,7 @@ function moveToLeft() {
         if (e.x < 0) {
             o.splice(i, 1)
         }
-        e.x-=3;
+        e.x -= 3;
 
         gameOver(maru, e);
         e.draw();
@@ -89,7 +100,7 @@ function moveToLeft() {
         }
     }
 
-    if (jumpTimer > 45) {
+    if (jumpTimer > 50) {
         jump = false;
         jumpTimer = 0;
     }
@@ -100,8 +111,7 @@ function moveToLeft() {
 moveToLeft();
 
 
-// 충돌
-
+// 충돌 설정
 function gameOver(maru, obstacle) {
     var meetX = obstacle.x - (maru.x + maru.width);
     var meetY = obstacle.y - (maru.y + maru.height);
