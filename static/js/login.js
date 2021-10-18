@@ -1,6 +1,23 @@
-// {% if msg %}
-//     alert("{{ msg }}")
-// {% endif %}
+$(document).ready(function () {
+    $("#input-username").keydown(function (key) {
+        if (key.keyCode == 13) {
+            sign_up()
+        }
+    });
+    $("#input-password").keydown(function (key) {
+        if (key.keyCode == 13) {
+            sign_up()
+        }
+    });
+    $("#input-password2").keydown(function (key) {
+        if (key.keyCode == 13) {
+            sign_up()
+        }
+    });
+
+});
+
+
 function sign_in() {
     let username = $("#input-username").val()
     let password = $("#input-password").val()
@@ -103,6 +120,7 @@ function sign_up() {
 }
 
 function toggle_sign_up() {
+
     $("#sign-up-box").toggleClass("is-hidden")
     $("#div-sign-in-or-up").toggleClass("is-hidden")
     $("#btn-check-dup").toggleClass("is-hidden")
