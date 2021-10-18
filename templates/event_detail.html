@@ -34,7 +34,7 @@
                                 </button>
                             </H5>
                         </div>
-                        <div><H5>주최자: {{ events_db.username }}</H5></div>
+                        <div><H5>주최자: {{ events_db.profile_name }}</H5></div>
                         <div class="contents">
                         <div class="input-group mb-3">
                             <div class="form-control content" aria-label="With textarea" id="contents_box">
@@ -69,9 +69,9 @@
         </div>
         <h1>참가자 목록</h1>
         <h2> {{ events_db['join']|length }}/{{ events_db.max }}명</h2>
-        {% for username in events_db['join'] %}
-            <p>{{ username }}</p>
-            {#            <img src="/static/{{ username.profile_pic }}"><img>#}
+        {% for joiner_info in events_db['join'] %}
+            <img style="width: 100px" class="rounded-circle" src="/static/{{ joiner_info.profile_pic }}"><img>
+            <span>{{ joiner_info.profile_name }}님</span>
         {% endfor %}
         <!-- 댓글-->
         <div class="comment_wrap">
