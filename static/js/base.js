@@ -77,5 +77,4 @@ function onClickCreateProfile() {
 function logout() {
     $.removeCookie('mytoken', {path: '/'});
     window.location.href = '/';
-
 }
