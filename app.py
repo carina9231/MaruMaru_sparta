@@ -118,23 +118,7 @@ def event_list():
 def event_detail(id):
     db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     events = db.events.find_one({'number': int(id)}, {'_id': False})
-    # event_join = events['join']
-    # print(event_join)
-    # username = db.users.distinct("username")
-    # print(username)
-    # join_users = [i for i in event_join if i in username]
-    # join_user_list = []
     if events:
-        # for join_user in join_users:
-        #     user = db.users.find_one({'username': join_user})
-        #     join_user_name = user['username']
-        #     join_user_pic = user['profile_pic']
-        #     doc = {
-        #         'username': join_user_name,
-        #         'profile_pic': join_user_pic
-        #     }
-        #     join_user_list.append(doc)
-        # print(join_user_list)
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
@@ -168,7 +152,7 @@ def event_detail_upload(id):
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"username": payload["id"]}, {'_id': False})
         username = user_info['username']
         events = db.events.find_one({'number': int(id)}, {'_id': False})
         post_name = events['username']
@@ -223,7 +207,7 @@ def update_event_like():
 def event_join():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.users.find_one({"username": payload["id"]})  # 참가하는 유저 정보
+    user_info = db.users.find_one({"username": payload["id"]}, {'_id': False})  # 참가하는 유저 정보
     my_username = user_info['username']
 
     event_id_receive = request.form["id_give"]
@@ -235,7 +219,6 @@ def event_join():
         join_list.append(j['username'])
 
     if my_username in join_list:
-        print('hi')
         index = join_list.index(my_username)
         db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': {'username': my_username}}})
         return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
