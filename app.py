@@ -264,10 +264,11 @@ def event_comment_upload():
 
 
 # 메인페이지에 프로필 카드 보여주기
-@app.route('/profile_list', methods=['GET'])
-def show_profile():
-    profiles = list(db.profile.find({}, {'_id': False}))
-    return jsonify({'all_profile': profiles})
+@app.route('/dog-profile/list', methods=['GET'])
+def show_dog_profile():
+    dog_profiles = list(db.profile.find({}, {'_id': False}))
+    print(dog_profiles)
+    return jsonify({'all_dog_profile': dog_profiles})
 
 
 # 지도 맵핑
