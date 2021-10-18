@@ -17,13 +17,26 @@
 
 
 {% block content %}
+    <div class="category">
+        <div class="category_name">
+            <h1>{{ profile_db['name'] }} 프로필</h1>
+        </div>
+    </div>
     <div class="card color-card">
         <ul>
             <a href="/profiles">
                 <li><i class="fas fa-arrow-left i-l w"></i></li>
             </a>
-            <a href="javascript:delete_post()"><li><i class="fas fa-trash-alt i-r w"></i></li></a>
-            <a href="/dogdetail/{{ id }}"><li><i class="fas fa-wrench i-r w"></i></li></a>
+            <a href="javascript:delete_post()">
+                <li>
+                    <i class="fas fa-trash-alt i-r w" title="삭제"></i>
+                </li>
+            </a>
+            <a href="/dogdetail/{{ id }}">
+                <li>
+                    <i class="fas fa-wrench i-r w" title="수정"></i>
+                </li>
+            </a>
         </ul>
 
         <div class="card_top">

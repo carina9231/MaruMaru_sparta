@@ -9,3 +9,17 @@
 .plus-icon{
     margin: auto;
 }
+
+.wrap{
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom:200px ;
+}
+.user-update-wrap{
+    text-align: center;
+    width: 680px;
+    height: 900px;
+    padding:20px;
+
+}

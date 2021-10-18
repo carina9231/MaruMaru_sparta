@@ -1,60 +1,55 @@
-.category {
-    padding: 10px 150px;
+
+a {
+    color: midnightblue;
 }
 
-.category h1 {
-    font-size: 48px;
-    font-family: "BinggraeSamanco-Bold";
-    font-weight: 700;
-    line-height: 56px;
+a:link {
+    text-decoration: none;
 }
 
-.event_list_wrap {
-    padding: 10px 150px;
+a:hover {
+    color: rgb(255, 120, 0);
 }
 
-.event_list_head,
-.event_list_body .item {
-    padding: 10px 0;
-    font-size: 0;
+.event-top {
+    margin-bottom: 5%;
 }
 
-.event_list_head {
-    border-top: 2px solid #3DB2FF;
-    border-bottom: 1px solid;
+
+.card-event {
+    border-radius: 0.5rem;
+    padding: 10px;
+    background-color: rgb(245, 255, 255);
+    color: rgb(20, 100, 160);
+    margin-bottom: 1%;
 }
 
-.event_list_body .item {
-    border-bottom: 1px solid;
+.card-event-best {
+    border-radius: 0.5rem;
+    padding: 10px;
+    background-color: rgb(245, 255, 240);
+    color: rgb(20, 100, 160);
+    margin-bottom: 1%;
 }
 
-.event_list_head > div,
-.event_list_body .item > div {
-    display: inline-block;
-    font-size: 14px;
-    text-align: center;
+.card-img {
+    width: 250px;
+    height: 150px;
 }
 
-.event_list .num {
-    width: 10%;
+.card-content .event-title {
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(20, 100, 160);
 }
 
-.event_list .title {
-    width: 60%;
+.card-content .event-content {
+    font-size: 15px;
+    color: black;
 }
 
-.event_list .event_list_body .title {
-    text-align: left;
-}
-
-.event_list .author {
-    width: 15%;
-}
-
-.event_list .date {
-    width: 15%;
-}
-
-.li .a {
-    color: white;
+.card-content .event-sub {
+    font-size: 15px;
+    color: rgb(180, 190, 190);
 }

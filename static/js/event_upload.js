@@ -20,12 +20,12 @@ $(function () {
 })
 
 function event_upload() {
-    let title = $("#title_box").val()
-    let address = $("#address-box").val()
-    let content = $("#contents_box").val()
+    let title = $("#name").val()
+    let address = $("#address").val()
+    let content = $("#message").val()
     let date = $("#datepicker").val()
     let file = $('#file')[0].files[0]
-    let max = $("#max-people").val()
+    let max = $("#attend").val()
     let present_date = new Date().toISOString();
 
     let form_data = new FormData()
@@ -39,11 +39,11 @@ function event_upload() {
     form_data.append("present_date_give", present_date)
 
     // alert창 띄우기
-    if ($("#title_box").val().length == 0) {
+    if ($("#name").val().length == 0) {
         alert("제목을 입력하세요!");
         return $("#title_boxl").focus();
     }
-    if ($("#contents_box").val().length == 0) {
+    if ($("#message").val().length == 0) {
         alert("내용을 입력하세요!");
         return $("#contents_box").focus();
     }
@@ -51,7 +51,7 @@ function event_upload() {
         alert("사진를 입력하세요!");
         return $("#file").focus();
     }
-    if ($("#address-box").val().length == 0) {
+    if ($("#address").val().length == 0) {
         alert("주소를 입력하세요!");
         return $("#address-box").focus();
     }
@@ -59,9 +59,9 @@ function event_upload() {
         alert("날짜를 입력하세요!");
         return $("#datepicker").focus();
     }
-    if ($("#max-people").val().length == 0) {
+    if ($("#attend").val().length == 0) {
         alert("제한인원을 입력하세요!");
-        return $("#max-people").focus();
+        return $("#attend").focus();
         ;
     } else {
         $.ajax({
@@ -73,7 +73,7 @@ function event_upload() {
             processData: false,
             success: function (response) {
                 alert(response["msg"])
-                location.replace('/')
+                location.replace('/event/list')
             }
         })
     }
@@ -107,7 +107,7 @@ function address_input() {
             // document.getElementById('sample4_postcode').value = data.zonecode;
             // document.getElementById("sample4_roadAddress").value = roadAddr;
             // document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-            document.getElementById("address-box").value = roadAddr;
+            document.getElementById("address").value = roadAddr;
         }
     }).open();
 };
