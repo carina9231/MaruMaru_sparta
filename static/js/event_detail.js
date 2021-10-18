@@ -16,6 +16,7 @@ function delete_event() {
             url: `/event/detail`,
             data: {id_give: e_idx},
             success: function (response) {
+                alert(response['msg'])
                 window.location.href = `/event/list`
             },
             error: function (request, status, error) {
