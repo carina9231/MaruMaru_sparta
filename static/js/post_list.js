@@ -13,7 +13,7 @@ function show_post_list() {
             let list_num = 0
             bestView(best);
             for (let i = 0; i < articles.length; i++) {
-                const author = articles[i]['author']
+                const username = articles[i]['username']
                 const title = articles[i]['title']
                 const number = articles[i]['number']
                 const contents = articles[i]['contents']
@@ -34,7 +34,7 @@ function show_post_list() {
                                         <div class="card-content">
                                             <div class="num float-right">#${list_num}</div>
                                             <div class="post-title"><a href="/detail/${number}">${title}</a></div>
-                                            <div class="author">${author}</div>
+                                            <div class="author">${username}</div>
                                             <p class="post-content">${contents}</p>
                                             <div class="post-sub" id="time">${time}</div>
                                             <div class="view">조회수 ${view}</div>
@@ -59,7 +59,7 @@ function formatDate(date) {
 
 
 function bestView(best) {
-    const author = best['author']
+    const username = best['username']
     const title = best['title']
     const contents = best['contents']
     const number = best['number']
@@ -76,7 +76,7 @@ function bestView(best) {
                                         <div class="card-content">
                                             <div class="num float-right" style="color: rgb(255, 70, 110);">Best</div>
                                             <div class="post-title"><a href="/detail/${number}">${title}</a></div>
-                                            <div class="author">${author}</div>
+                                            <div class="author">${username}</div>
                                             <p class="post-content">${contents}</p>
                                             <div class="post-sub" id="time">${time}</div>
                                             <div class="view">조회수 ${view}</div>

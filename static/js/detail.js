@@ -72,3 +72,23 @@ function comment_upload() {
         }
     });
 }
+
+
+function comment_delete() {
+    alert("삭제 기능 입니다!")
+    const g_idx = $("#idx").val();
+
+    $.ajax({
+        type: "DELETE",
+        url: "/comment",
+        data: {
+            id_give: g_idx,
+        },
+        success: function (response) {
+            console.log(response['result'])
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}

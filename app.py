@@ -163,7 +163,7 @@ def event_delete():
 
 
 # 이벤트 디테일 수정 화면 GET
-@app.route('/pre-eventDetail/<id>/', methods=['GET'])
+@app.route('/pre-eventDetail/<id>', methods=['GET'])
 def event_detail_upload(id):
     token_receive = request.cookies.get('mytoken')
     try:
@@ -230,7 +230,7 @@ def event_join():
     past_join = db.events.find_one({'number': int(event_id_receive)}, {'_id': False})  # 참가할 이벤트
 
     join_dic = past_join['join']
-    join_list=[]
+    join_list = []
     for j in join_dic:
         join_list.append(j['username'])
 
@@ -245,7 +245,6 @@ def event_join():
             return jsonify({'result': 'success', 'msg': '참가하기 완료!'})
         else:
             return jsonify({'result': 'success', 'msg': '참가 인원이 다 찼습니다.'})
-
 
 
 # 이벤트 댓글 작성
@@ -318,7 +317,7 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts')
+@app.route('/posts', methods=['GET'])
 def show_posts_upload():
     return render_template('post_upload.html')
 
@@ -330,7 +329,6 @@ def post_upload():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     username = payload['id']
 
-    author_receive = request.form['author_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
@@ -359,7 +357,6 @@ def post_upload():
         max_value = db.articles.find_one(sort=[("number", -1)])['number'] + 1
 
     doc = {
-        'author': author_receive,
         'title': title_receive,
         'contents': contents_receive,
         'address': address_receive,
@@ -381,10 +378,27 @@ def comment_upload():
     id_receive = request.form["id_give"]
     comment = request.form["comment_give"]
 
-    doc = {"comment": comment, "user": "오지조"}
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    my_name = db.users.find_one({"username": payload["id"]})
+
+    doc = {"comment": comment, "user": my_name["username"]}
     db.articles.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
+
+
+@app.route('/comment', methods=['DELETE'])
+def comment_delete():
+    idx = request.form["id_give"]
+
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    my_name = db.users.find_one({"username": payload["id"]})
+    print(my_name["username"])
+
+    db.articles.update_one({"number": int(idx)}, {"$pull": {"comment": {"user": my_name["username"]}}})
+    return {"result": "success"}
 
 
 # 프로필 작성 페이지 불러오기
