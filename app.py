@@ -570,10 +570,9 @@ def dog_detail_upload():
 @app.route('/login', methods=['GET'])
 def login():
     # 로그인 버튼 클릭시 - 쿠키에 값 있으면, 바로 로그인 추가
-
     return render_template('login.html')
 
-
+#회원가입 시 중복확인
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
@@ -582,6 +581,7 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
+#회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -628,6 +628,7 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+#로그인 된 유저 정보 get
 @app.route('/user_info', methods=['GET'])
 def user_info():
     token_receive = request.cookies.get('mytoken')
@@ -639,21 +640,24 @@ def user_info():
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
 
-
+#유저 프로필 
 @app.route('/user_profile', methods=['GET', 'POST', 'DELETE'])
 def user_profile():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
-
+    
+    #수정
     if request.method == 'POST':
         baby = list(db.profile.find({'username': payload['id']}))
         return render_template('user_profile_upload.html', user_info=user_information, baby=baby)
 
+    #read
     elif request.method == 'GET':
         baby = list(db.profile.find({'username': payload['id']}))
         return render_template('user_profile.html', user_info=user_information, baby=baby)
 
+    #회원 탈퇴
     elif request.method == 'DELETE':
         db.articles.delete_many({'username': payload['id']})
         db.profile.delete_many({'username': payload['id']})
