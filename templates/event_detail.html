@@ -2,100 +2,88 @@
 
 {% block title %} 상세페이지 {% endblock %}
 
-
 {% block csslink %}
-    <link rel="stylesheet" href="/static/css/detail.css">
+    <link rel="stylesheet" href="/static/css/event_detail.css">
 {% endblock %}
 
 {% block libutton %}
-    <li><a href="/list">게시물 보기</a></li>
+    <li><a href="/event/list">이벤트 보기</a></li>
 {% endblock %}
 
 {% block content %}
+    <section class="header">
+        <h1>{{ events_db.title }}</h1>
+        <h4>{{events_db.date}}, {{ events_db.address }}</h4>
+    </section>
+    <hr>
     <div class="all">
-        <!-- 작성자(top_box)-->
-        <div class="inner">
-            <div class="top_box m-auto" style="width: 80%">
-                <div class="image">
-                    <img class="image_in" src="/static/new_logo.png">
-                </div>
-                <div class="author">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">작성자</span>
-                        <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
-                             aria-describedby="basic-addon1">
-                            {{ detail_db['username'] }}
-                        </div>
+        <div class="grid">
+            <div class="wrapper">
+                <div class="inner clearfix">
+                    <div class="grid-left">
+                        <img class="image" src="/static/eventimg/{{ events_db.file }}">
                     </div>
-                </div>
-            </div>
-
-            <div class="contents_box m-auto" style="width: 80%;">
-                <!-- 제목, 내용 -->
-                <div class="title">
-                    <input type="hidden" id="idx" value="{{ id }}">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">제목</span>
-                        <div id="title_box" type="text" class="form-control" aria-label="Username"
-                             aria-describedby="basic-addon1">
-                            {{ detail_db['title'] }}
+                    <div class="grid-right">
+                        <input type="hidden" id="idx" value="{{ id }}">
+                        <div><H2>{{ events_db.title }}</H2></div>
+                        <div><H5>행사일 : {{ events_db.date }}</H5></div>
+                        <div>
+                            <H5>행사장소 : {{ events_db.address }}
+                                <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">
+                                    지도
+                                </button>
+                            </H5>
                         </div>
-                    </div>
-                </div>
-
-                <div class="contents">
-                    <div class="input-group mb-3">
-                        <div class="form-control content" aria-label="With textarea" id="contents_box">
-                            <img id="content-img" src="/static/postimg/{{ detail_db['file'] }}" height="200px"
-                                 width="200px"><br>
-
-                            {{ detail_db['contents'] }}
-                        </div>
-                    </div>
-                </div>
-
-                <!--주소, 지도버튼-->
-                <div class="address_box">
-                    <div class="address mt-3">
+                        <div><H5>주최자: {{ events_db.profile_name }}</H5></div>
+                        <div class="contents">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">주소</span>
-                            <div id="address-box" type="text" class="form-control address" aria-label="Username"
-                                 aria-describedby="basic-addon1">{{ detail_db['address'] }}
+                            <div class="form-control content" aria-label="With textarea" id="contents_box">
+                                {{ events_db['contents'] }}
                             </div>
-                            <button class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#map-modal">지도
-                            </button>
                         </div>
                     </div>
+                    </div>
+
                 </div>
             </div>
-
+        </div>
         <!-- 버튼 그룹 -->
         <div class="detail_button">
-            <button onclick="location.href='/per-detail/{{ id }}'" type="button" class="btn btn-primary ui button">
+            <button onclick="location.href='/pre-eventDetail/{{ id }}'" type="button" class="btn btn-primary ui button">
                 <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
             </button>
             &nbsp;
-            <button onclick="delete_post()" type="button" class="btn btn-danger">
+            <button onclick="delete_event()" type="button" class="btn btn-danger">
                 <i class="fa fa-trash" aria-hidden="true"> 삭제</i>
             </button>
             &nbsp;
-            <button type="button" class="btn btn-danger">
-                <i class="far fa-thumbs-up"> 좋아요0</i>
+            <button onclick="onClickLike()" type="button" class="btn btn-danger" id="like">
+                <i class="far fa-thumbs-up"> 좋아요{{ events_db.like_count }}</i>
+                <input type="hidden" id="like" value="{{ events_db.like_count }}">
+            </button>
+            <input type="hidden" id="like" value="{{ events_db.like_count }}">
+            &nbsp;
+            <button onclick="onClickJoin()" type="button" class="btn btn-danger" id="like">
+                참가하기
             </button>
         </div>
-    </div>
+        <h1>참가자 목록</h1>
+        <h2> {{ events_db['join']|length }}/{{ events_db.max }}명</h2>
+        {% for joiner_info in events_db['join'] %}
+            <img style="width: 100px" class="rounded-circle" src="/static/{{ joiner_info.profile_pic }}"><img>
+            <span>{{ joiner_info.profile_name }}님</span>
+        {% endfor %}
         <!-- 댓글-->
         <div class="comment_wrap">
             <div class="detail_comment">
                 <div class="input-group">
                     <span class="input-group-text">댓글 입력</span>
                     <textarea id="comment_content" class="form-control" aria-label="comment"></textarea>
-                    <button onclick="comment_upload()" class="btn btn-primary">확인</button>
+                    <button onclick="event_comment_upload()" class="btn btn-primary">확인</button>
                 </div>
 
                 <div id="comment_list_{{ id }}">
-                    {% for comment in detail_db['comment'] %}
-                        &nbsp;
+                    {% for comment in events_db['comment'] %}
                         <div class="card mb-2">
                             <div class="card-header bg-light">
                                 <i class="fa fa-comment fa"></i> 작성자: {{ comment.user }}
@@ -103,9 +91,9 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <div class="comment_wrote">내용: {{ comment.comment }}</div>
+                                        <div class="comment_wrote">{{ comment.comment }}</div>
                                         <button type="button" class="btn btn-dark mt-3">수정</button>
-                                        <button onclick="comment_delete()" type="button" class="btn btn-dark mt-3">삭제</button>
+                                        <button type="button" onclick="event_comment_delete({{ comment.number }})" class="btn btn-dark mt-3">삭제</button>
                                     </li>
                                 </ul>
                             </div>
@@ -113,6 +101,7 @@
                     {% endfor %}
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -147,12 +136,9 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
 {% block js %}
-    <script src="/static/js/detail.js"></script>
+    <script src="/static/js/event_detail.js"></script>
 {% endblock %}
 </body>
 </html>
