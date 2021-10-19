@@ -93,7 +93,7 @@
                                     <li class="list-group-item">
                                         <div class="comment_wrote">{{ comment.comment }}</div>
                                         <button type="button" class="btn btn-dark mt-3">수정</button>
-                                        <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                        <button type="button" onclick="event_comment_delete({{ comment.number }})" class="btn btn-dark mt-3">삭제</button>
                                     </li>
                                 </ul>
                             </div>

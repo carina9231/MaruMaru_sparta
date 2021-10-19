@@ -243,12 +243,50 @@ def event_comment_upload():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
+
     id_receive = request.form["id_give"]
-    comment = request.form["comment_give"]
-    doc = {"comment": comment, "user": my_username}
+    footprint = request.form["comment_give"]
+
+    comment_list = db.events.find_one({'number': int(id_receive)})['comment']
+    if (len(comment_list) == 0):
+        max = 1
+    else:
+        max = 0
+        for comment in comment_list:
+            if int(comment['number']) >= max:
+                max = int(comment['number']) + 1
+
+    doc = {"comment": footprint, "user": user_info['profile_name'], 'number': max}
     db.events.update_one({'number': int(id_receive)}, {"$push": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
+
+
+# 댓글 수정 삭제
+@app.route('/comment/event_write', methods=['GET', 'POST'])
+def comment_wirte():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+
+    event_id = request.args.get("id_give")
+    comment_id = request.args.get("comment_idx")
+
+    writer=""
+    # 이벤트 댓글 삭제
+    if request.method == 'GET':
+        event_writer = db.events.find_one({'number': int(event_id)})['comment']
+        for comment in event_writer:
+            print(comment['number'], comment_id)
+            if int(comment['number']) == int(comment_id):
+                writer = comment['user']
+
+        if my_username != writer:
+            return jsonify({'msg': '댓글 작성자만 지울 수 있어요'})
+
+        db.events.update_one({'number': int(event_id)}, {"$pull": {"comment": {'number': int(comment_id)}}})
+        return jsonify({'msg': '댓글 삭제 완료'})
 
 
 # 메인페이지에 프로필 카드 보여주기
