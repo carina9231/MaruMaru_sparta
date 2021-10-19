@@ -11,7 +11,7 @@ function show_post_list() {
             const articles = response['all_articles']
             const best = response['best']
             let list_num = 0
-            bestView(best);
+            show_best(best);
             for (let i = 0; i < articles.length; i++) {
                 const username = articles[i]['username']
                 const title = articles[i]['title']
@@ -26,7 +26,7 @@ function show_post_list() {
                     list_num = list_num
 
                 let temp_html = `
-                                 <div class="row card-post">
+                                 <div onclick="location.href='/detail/${number}'" class="row card-post">
                                     <div class="col-lg-4">
                                         <img class="card-img" src="/static/postimg/${card_img}" class="img-fluid rounded-start" alt="pic">
                                     </div>
@@ -41,9 +41,7 @@ function show_post_list() {
                                         </div>
                                     </div>
                                 </div>
-                        
                                  `
-
                 $('#post-body').append(temp_html)
             }
         }
@@ -58,7 +56,7 @@ function formatDate(date) {
 };
 
 
-function bestView(best) {
+function show_best(best) {
     const username = best['username']
     const title = best['title']
     const contents = best['contents']
@@ -68,7 +66,7 @@ function bestView(best) {
     const card_img = best['file']
 
     const temp_html = `
-                                <div class="row card-post-best">
+                                <div onclick="location.href='/detail/${number}'" class="row card-post-best">
                                     <div class="col-lg-4">
                                         <img class="card-img" src="/static/postimg/${card_img}" class="img-fluid rounded-start" alt="pic">
                                     </div>
