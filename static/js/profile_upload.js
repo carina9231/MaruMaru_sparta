@@ -34,6 +34,7 @@ function profile_upload() {
                 form_data.append("comment_give", comment)
                 form_data.append("filename_give", filename)
 
+
                 if ($("#dog_name").val().length == 0) {
                     alert("강아지 이름을 입력하세요!");
                     $("#dog_name").focus();
@@ -44,8 +45,8 @@ function profile_upload() {
                     $("#dog_age").focus();
                     return false;
                 }
-                if ($("#dog_gender").val().length == 0) {
-                    alert("강아지 성별을 입력하세요!");
+                if ($('#dog_gender').val() == 0) {
+                    alert("강아지 성별을 선택하세요!");
                     $("#dog_gender").focus();
                     return false;
                 }
@@ -57,24 +58,13 @@ function profile_upload() {
                     $.ajax({
                         type: "POST",
                         url: "/profile/create",
-                        data: form_data,
+                        data:form_data,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
-                            window.close()  //pop up close
-                            //추가
-                            // let babay_img = response['baby']['file']
-                            //
-                            // let temp_html = `
-                            //     <div class="add-card rounded-circle" onclick="alert('hi')" onmouseover="select_in()"
-                            //          onmouseout="select_out()">
-                            //         <img src="/static/profileimg/${babay_img}">
-                            //     </div>
-                            // `
-                            // $('#baby-list').append(temp_html)
-
+                            window.close()
                         }
                     })
                 }

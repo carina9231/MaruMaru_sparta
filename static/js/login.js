@@ -1,23 +1,3 @@
-$(document).ready(function () {
-    $("#input-username").keydown(function (key) {
-        if (key.keyCode == 13) {
-            sign_up()
-        }
-    });
-    $("#input-password").keydown(function (key) {
-        if (key.keyCode == 13) {
-            sign_up()
-        }
-    });
-    $("#input-password2").keydown(function (key) {
-        if (key.keyCode == 13) {
-            sign_up()
-        }
-    });
-
-});
-
-
 function sign_in() {
     let username = $("#input-username").val()
     let password = $("#input-password").val()
@@ -120,7 +100,6 @@ function sign_up() {
 }
 
 function toggle_sign_up() {
-
     $("#sign-up-box").toggleClass("is-hidden")
     $("#div-sign-in-or-up").toggleClass("is-hidden")
     $("#btn-check-dup").toggleClass("is-hidden")
@@ -141,7 +120,6 @@ function is_password(asValue) {
 
 function check_dup() {
     let username = $("#input-username").val()
-    console.log(username)
     if (username == "") {
         $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-username").focus()

@@ -123,23 +123,7 @@ def event_list():
 def event_detail(id):
     db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     events = db.events.find_one({'number': int(id)}, {'_id': False})
-    # event_join = events['join']
-    # print(event_join)
-    # username = db.users.distinct("username")
-    # print(username)
-    # join_users = [i for i in event_join if i in username]
-    # join_user_list = []
     if events:
-        # for join_user in join_users:
-        #     user = db.users.find_one({'username': join_user})
-        #     join_user_name = user['username']
-        #     join_user_pic = user['profile_pic']
-        #     doc = {
-        #         'username': join_user_name,
-        #         'profile_pic': join_user_pic
-        #     }
-        #     join_user_list.append(doc)
-        # print(join_user_list)
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
@@ -173,7 +157,7 @@ def event_detail_upload(id):
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"username": payload["id"]}, {'_id': False})
         username = user_info['username']
         events = db.events.find_one({'number': int(id)}, {'_id': False})
         post_name = events['username']
@@ -228,7 +212,7 @@ def update_event_like():
 def event_join():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.users.find_one({"username": payload["id"]})  # 참가하는 유저 정보
+    user_info = db.users.find_one({"username": payload["id"]}, {'_id': False})  # 참가하는 유저 정보
     my_username = user_info['username']
 
     event_id_receive = request.form["id_give"]
@@ -240,7 +224,6 @@ def event_join():
         join_list.append(j['username'])
 
     if my_username in join_list:
-        print('hi')
         index = join_list.index(my_username)
         db.events.update_one({'number': int(event_id_receive)}, {"$pull": {'join': {'username': my_username}}})
         return jsonify({'result': 'success', 'msg': '참가 취소 완료!'})
@@ -268,10 +251,11 @@ def event_comment_upload():
 
 
 # 메인페이지에 프로필 카드 보여주기
-@app.route('/profile_list', methods=['GET'])
-def show_profile():
-    profiles = list(db.profile.find({}, {'_id': False}))
-    return jsonify({'all_profile': profiles})
+@app.route('/dog-profile/list', methods=['GET'])
+def show_dog_profile():
+    dog_profiles = list(db.profile.find({}, {'_id': False}))
+    print(dog_profiles)
+    return jsonify({'all_dog_profile': dog_profiles})
 
 
 # 지도 맵핑
@@ -322,7 +306,7 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts', methods=['GET'])
+@app.route('/posts')
 def show_posts_upload():
     return render_template('post_upload.html')
 
@@ -500,7 +484,6 @@ def profile_like():
     past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_list = past_like['like']
 
-    print(like_list)
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})

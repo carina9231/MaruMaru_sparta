@@ -1,5 +1,8 @@
 * {
     font-family: 'Jua', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
@@ -30,3 +33,81 @@
     /*border: solid ;*/
     /*background: whitesmoke;*/
 }
+
+.dog-card-body .a{
+    text-decoration-line: none;
+}
+
+.row .card{
+    display: flex;
+    justify-content: space-around;
+}
+.dog-card-body{
+    padding: 10px 20px;
+}
+
+/*.card-wrap {*/
+/*    margin-top: 20px;*/
+/*    display: grid;*/
+/*    justify-content: space-around;*/
+
+/*}*/
+
+/*.slider{*/
+/*    max-width: 1150px;*/
+/*    display: flex;*/
+/*}*/
+
+/*.slider .card {*/
+/*    flex: 1;*/
+/*    margin: 0 10px*/
+/*}*/
+/*.slider .card .img img{*/
+/*    height: 200px;*/
+/*    width: 100%;*/
+/*    object-fit: cover;*/
+/*}*/
+
+/*.slider .card .content {*/
+/*    padding: 10px 20px;*/
+/*}*/
+
+/*.slider .card .title {*/
+/*    font-size: 25px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.slider .card .sub-title {*/
+/*    font-size: 25px;*/
+/*    font-weight: 600;*/
+/*    color: rgb(20, 100, 160);*/
+/*    line-height: 20px;*/
+/*}*/
+
+/*.card .content p {*/
+/*    text-align: justify;*/
+/*    margin: 10px 0;*/
+/*}*/
+
+/*.card .content .btn {*/
+/*    display: block;*/
+/*    text-align: left;*/
+/*    margin: 10px 0;*/
+/*}*/
+
+
+/*.card .content .btn button{*/
+/*    background: rgb(20, 100, 160);*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    outline: none;*/
+/*    font-size: 17px;*/
+/*    padding: 5px 8px;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: 0.2s;*/
+/*}*/
+
+/*.card .content .btn button:hover{*/
+/*    transform: scale(0.9);*/
+/*}*/

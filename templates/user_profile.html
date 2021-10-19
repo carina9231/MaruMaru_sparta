@@ -25,7 +25,6 @@
                         <label for="message">
                             <span>Profile</span>
                             <span class="point">*</span>
-                            <span class="length">(<span>0</span> / 1000)</span>
                         </label>
                         <img class="thumbnail" style="height: 400px; width: 400px"
                              src="/static/{{ user_info.profile_pic }}">
@@ -76,7 +75,7 @@
                 {% for baby_profile in baby %}
                     <div class="card color-card">
                         <ul>
-                            <a onclick="like()">
+                            <a href="javascript:void(0);" onclick="ProfileLike({{ baby_profile.number }})">
                                 <li><i class="far fa-heart i-r w"></i></li>
                             </a>
                         </ul>
@@ -95,24 +94,17 @@
                                 <p class="gender">성별: {{ baby_profile.gender }}</p>
                             </div>
                             <hr>
-                            <div class="desc comment" style="font-size: 20px">
+                            <div class="desc comment" style="font-size: 15px">
                                 <p>{{ baby_profile.comment }}</p>
+                                <button class="btn color-a top mt-5" onclick="location.href ='/profile/{{ baby_profile.number }}'">자세히 보기
+                            </button>
                             </div>
 
-                            <button class="btn color-a top mt-5" onclick="location.href ='/profile/{{ baby_profile.number }}'">자세히 보기
-                            </button>
                         </div>
                         <input type="hidden" value={{ baby_profile.number }} id="{{ baby_profile.number }}card">
                     </div>
                 {% endfor %}
             </div>
-        </div>
-    </div>
-
-
-    <div class="">
-        <div class="profile_list_wrap" id="profile_card">
-
         </div>
     </div>
 

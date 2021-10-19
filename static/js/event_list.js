@@ -9,6 +9,7 @@ function show_event_list() {
         data: {},
         success: function (response) {
             let events = response['all_events']
+            console.log(events)
             let list_num = 0
             for (let i = 0; i < events.length; i++) {
                 let username = events[i]['username']
