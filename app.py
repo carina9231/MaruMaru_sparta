@@ -22,6 +22,11 @@ SECRET_KEY = 'BAEMARUMARU'
 def main():
     return render_template('index.html')
 
+# 에러 페이지
+@app.route('/error')
+def main():
+    return render_template('error.html')
+
 
 # 게시물목록 페이지 불러오기
 @app.route('/list')
@@ -257,7 +262,7 @@ def event_comment_upload():
     id_receive = request.form["id_give"]
     comment = request.form["comment_give"]
     doc = {"comment": comment, "user": my_username}
-    db.events.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
+    db.events.update_one({'number': int(id_receive)}, {"$push": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
@@ -382,22 +387,21 @@ def comment_upload():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     my_name = db.users.find_one({"username": payload["id"]})
 
+    # 댓글 고유 값 필요
     doc = {"comment": comment, "user": my_name["username"]}
+
     db.articles.update_one({'number': int(id_receive)}, {"$addToSet": {"comment": doc}})
     save_comment = db.articles.find_one({'number': int(id_receive)}, {'_id': False})
     return jsonify({'msg': '댓글 저장!', 'save_comment': save_comment})
 
 
-@app.route('/comment', methods=['DELETE'])
-def comment_delete():
-    idx = request.form["id_give"]
+@app.route('/comment/<id>', methods=['DELETE'])
+def comment_delete(id):
+    return {"result": "success"}
 
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    my_name = db.users.find_one({"username": payload["id"]})
-    print(my_name["username"])
 
-    db.articles.update_one({"number": int(idx)}, {"$pull": {"comment": {"user": my_name["username"]}}})
+@app.route('/comment/<id>', methods=['PUT'])
+def comment_update(id):
     return {"result": "success"}
 
 
