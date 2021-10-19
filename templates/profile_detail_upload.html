@@ -26,17 +26,16 @@
             <!--프로필 박스-->
             <div class=profile_box">
                 <!--사진 업로드-->
-                <div class="custom-file mb-3">
-                    <input type="file" class="custom-file-input file" id="file">
-                    <label class="custom-file-label" for="file" id="file">{{ profiles["image"] }}</label>
-                </div>
+{#                <div class="custom-file mb-3">#}
+{#                    <input type="file" class="custom-file-input file" id="file">#}
+{#                    <label class="custom-file-label" for="file" id="file">{{ profiles["image"] }}</label>#}
+{#                </div>#}
                 <!--강아지 이름-->
                 <div class="dog_name_box">
                     <div class="input-group mb-3">
                         <span class="input-group-text">강아지 이름</span>
-                        <div id="dog_name" type="text" class="form-control" placeholder="" aria-label="Username"
-                             aria-describedby="basic-addon1">{{ profiles["name"] }}
-                        </div>
+                        <input id="dog_name" type="text" class="form-control" placeholder="" aria-label="Username"
+                             aria-describedby="basic-addon1" value="{{ profiles["name"] }}">
                         <input type="hidden" id="profile_id" value="{{ id }}">
                     </div>
                     <!--강아지 나이-->

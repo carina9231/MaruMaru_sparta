@@ -127,3 +127,4 @@ document.addEventListener('keydown', function (e) {
         jump = true;
     }
 });
+

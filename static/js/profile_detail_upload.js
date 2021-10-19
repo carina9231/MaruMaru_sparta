@@ -1,8 +1,14 @@
 function dogdetail_upload() {
-    const new_id = $("#profile_id").val()
+    const new_name = $("#dog_name").val();
+    const new_id = $("#profile_id").val();
     const new_age = $("#dog_age").val();
     const new_gender = $("#dog_gender").val();
     const new_comment = $("#dog_comment").val();
+
+    if (new_name.length == 0) {
+        alert("이름을 입력해주세요.");
+        return;
+    }
 
     if (new_age.length == 0) {
         alert("나이를 입력해주세요.");
@@ -27,7 +33,8 @@ function dogdetail_upload() {
             id_give: new_id,
             age_give: new_age,
             gender_give: new_gender,
-            comment_give: new_comment
+            comment_give: new_comment,
+            name_give: new_name
         },
         success: function (response) {
             alert(response["msg"])

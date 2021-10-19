@@ -525,13 +525,17 @@ def profile_like():
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
 
+        return jsonify({'result': 'success', 'msg': '좋아요 취소!'})
+
     else:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$push": {'like': my_username}})
 
     pre_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_count = len(pre_like['like'])
     db.profile.update_one({'number': int(profile_id_receive)}, {'$set': {'like_count': like_count}})
+
     return jsonify({'result': 'success', 'msg': '좋아요!'})
+
 
 
 # 프로필 카드 삭제 api
@@ -556,9 +560,10 @@ def dog_detail_upload():
     age_receive = request.form["age_give"]
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
+    name_receive = request.form["name_give"]
 
     db.profile.update_one({'number': int(id_receive)},
-                          {'$set': {'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
+                          {'$set': {'name': name_receive, 'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
     return jsonify({'result': 'success', 'msg': '저장되었습니다!'})
 
 
