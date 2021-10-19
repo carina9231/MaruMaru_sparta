@@ -22,9 +22,10 @@ SECRET_KEY = 'BAEMARUMARU'
 def main():
     return render_template('index.html')
 
+
 # 에러 페이지
 @app.route('/error')
-def main():
+def error():
     return render_template('error.html')
 
 
@@ -254,7 +255,6 @@ def event_comment_upload():
 @app.route('/dog-profile/list', methods=['GET'])
 def show_dog_profile():
     dog_profiles = list(db.profile.find({}, {'_id': False}))
-    print(dog_profiles)
     return jsonify({'all_dog_profile': dog_profiles})
 
 
@@ -483,7 +483,6 @@ def profile_like():
     profile_id_receive = request.form["id_give"]
     past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_list = past_like['like']
-
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
