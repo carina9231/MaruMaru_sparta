@@ -38,6 +38,14 @@
     text-decoration-line: none;
 }
 
+.row .card{
+    display: flex;
+    justify-content: space-around;
+}
+.dog-card-body{
+    padding: 10px 20px;
+}
+
 /*.card-wrap {*/
 /*    margin-top: 20px;*/
 /*    display: grid;*/
