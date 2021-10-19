@@ -301,7 +301,7 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts', methods=['GET'])
+@app.route('/posts')
 def show_posts_upload():
     return render_template('post_upload.html')
 
@@ -480,7 +480,6 @@ def profile_like():
     past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_list = past_like['like']
 
-    print(like_list)
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
