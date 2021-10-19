@@ -650,7 +650,7 @@ def user_profile():
         return render_template('user_profile.html', user_info=user_information, baby=baby)
 
     elif request.method == 'DELETE':
-
+        db.articles.delete_many({'username': payload['id']})
         db.profile.delete_many({'username': payload['id']})
         db.events.delete_many({'username': payload['id']})
         db.users.delete_one({'username': payload['id']})
