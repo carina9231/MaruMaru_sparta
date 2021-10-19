@@ -24,7 +24,7 @@
                         <span class="input-group-text">작성자</span>
                         <div id="author_box" type="text" class="form-control" placeholder="" aria-label="Username"
                              aria-describedby="basic-addon1">
-                            {{ detail_db['author'] }}
+                            {{ detail_db['username'] }}
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                                     <li class="list-group-item">
                                         <div class="comment_wrote">내용: {{ comment.comment }}</div>
                                         <button type="button" class="btn btn-dark mt-3">수정</button>
-                                        <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                        <button onclick="comment_delete()" type="button" class="btn btn-dark mt-3">삭제</button>
                                     </li>
                                 </ul>
                             </div>

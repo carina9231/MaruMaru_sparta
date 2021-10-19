@@ -1,6 +1,3 @@
-// {% if msg %}
-//     alert("{{ msg }}")
-// {% endif %}
 function sign_in() {
     let username = $("#input-username").val()
     let password = $("#input-password").val()
@@ -123,7 +120,6 @@ function is_password(asValue) {
 
 function check_dup() {
     let username = $("#input-username").val()
-    console.log(username)
     if (username == "") {
         $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#input-username").focus()

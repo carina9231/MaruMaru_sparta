@@ -11,12 +11,17 @@
 {% endblock %}
 
 {% block content %}
+    <section class="header">
+        <h1>{{ events_db.title }}</h1>
+        <h4>{{events_db.date}}, {{ events_db.address }}</h4>
+    </section>
+    <hr>
     <div class="all">
         <div class="grid">
             <div class="wrapper">
                 <div class="inner clearfix">
                     <div class="grid-left">
-                        <img class="image_in" src="/static/eventimg/{{ events_db.file }}">
+                        <img class="image" src="/static/eventimg/{{ events_db.file }}">
                     </div>
                     <div class="grid-right">
                         <input type="hidden" id="idx" value="{{ id }}">
@@ -29,14 +34,16 @@
                                 </button>
                             </H5>
                         </div>
-                    </div>
-                    <div class="contents">
+                        <div><H5>주최자: {{ events_db.profile_name }}</H5></div>
+                        <div class="contents">
                         <div class="input-group mb-3">
                             <div class="form-control content" aria-label="With textarea" id="contents_box">
                                 {{ events_db['contents'] }}
                             </div>
                         </div>
                     </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -55,15 +62,16 @@
                 <input type="hidden" id="like" value="{{ events_db.like_count }}">
             </button>
             <input type="hidden" id="like" value="{{ events_db.like_count }}">
+            &nbsp;
             <button onclick="onClickJoin()" type="button" class="btn btn-danger" id="like">
                 참가하기
             </button>
         </div>
         <h1>참가자 목록</h1>
         <h2> {{ events_db['join']|length }}/{{ events_db.max }}명</h2>
-        {% for username in events_db['join'] %}
-            <p>{{ username }}</p>
-{#            <img src="/static/{{ username.profile_pic }}"><img>#}
+        {% for joiner_info in events_db['join'] %}
+            <img style="width: 100px" class="rounded-circle" src="/static/{{ joiner_info.profile_pic }}"><img>
+            <span>{{ joiner_info.profile_name }}님</span>
         {% endfor %}
         <!-- 댓글-->
         <div class="comment_wrap">
@@ -71,7 +79,7 @@
                 <div class="input-group">
                     <span class="input-group-text">댓글 입력</span>
                     <textarea id="comment_content" class="form-control" aria-label="comment"></textarea>
-                    <button onclick="comment_upload()" class="btn btn-primary">확인</button>
+                    <button onclick="event_comment_upload()" class="btn btn-primary">확인</button>
                 </div>
 
                 <div id="comment_list_{{ id }}">
@@ -83,7 +91,7 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
-                                        <div class="comment_wrote">내용: {{ comment.comment }}</div>
+                                        <div class="comment_wrote">{{ comment.comment }}</div>
                                         <button type="button" class="btn btn-dark mt-3">수정</button>
                                         <button type="button" class="btn btn-dark mt-3">삭제</button>
                                     </li>
