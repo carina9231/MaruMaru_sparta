@@ -36,8 +36,6 @@ function address_input() {
 };
 
 function post_upload() {
-
-    let author = $("#author_box").val()
     let title = $("#title_box").val()
     let address = $("#address-box").val()
     let content = $("#contents_box").val()
@@ -61,7 +59,6 @@ function post_upload() {
                 let form_data = new FormData()
 
                 form_data.append("file_give", file)
-                form_data.append("author_give", author)
                 form_data.append("title_give", title)
                 form_data.append("address_give", address)
                 form_data.append("content_give", content)

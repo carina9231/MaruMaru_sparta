@@ -484,13 +484,17 @@ def profile_like():
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})
 
+        return jsonify({'result': 'success', 'msg': '좋아요 취소!'})
+
     else:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$push": {'like': my_username}})
 
     pre_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
     like_count = len(pre_like['like'])
     db.profile.update_one({'number': int(profile_id_receive)}, {'$set': {'like_count': like_count}})
+
     return jsonify({'result': 'success', 'msg': '좋아요!'})
+
 
 
 # 프로필 카드 삭제 api
