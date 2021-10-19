@@ -560,9 +560,10 @@ def dog_detail_upload():
     age_receive = request.form["age_give"]
     gender_receive = request.form["gender_give"]
     comment_receive = request.form["comment_give"]
+    name_receive = request.form["name_give"]
 
     db.profile.update_one({'number': int(id_receive)},
-                          {'$set': {'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
+                          {'$set': {'name': name_receive, 'age': age_receive, 'gender': gender_receive, 'comment': comment_receive}})
     return jsonify({'result': 'success', 'msg': '저장되었습니다!'})
 
 
