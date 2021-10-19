@@ -55,11 +55,11 @@ function onClickJoin() {
 }
 
 
-
 function event_comment_upload() {
     const e_idx = $("#idx").val();
     const comment_input = $("#comment_content").val();
 
+    console.log(comment_input)
     if (comment_input.length == 0) {
         alert("댓글을 입력해주세요!");
         return;
@@ -77,4 +77,23 @@ function event_comment_upload() {
             window.location.reload()
         }
     })
+}
+
+function event_comment_delete(comment_idx) {
+    const e_idx = $("#idx").val();
+    console.log(e_idx)
+    console.log(comment_idx)
+    $.ajax({
+        type: "GET",
+        url: `/comment/event_write`,
+        data: {
+            id_give: e_idx,
+            comment_idx: comment_idx
+        },
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    })
+
 }
