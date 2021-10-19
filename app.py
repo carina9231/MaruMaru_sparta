@@ -317,9 +317,8 @@ def post_delete():
 
 
 # 게시물 작성페이지 불러오기
-@app.route('/posts', methods=['GET'])
+@app.route('/posts')
 def show_posts_upload():
-    db.articles.find_one({})
     return render_template('post_upload.html')
 
 

@@ -36,6 +36,8 @@ function address_input() {
 };
 
 function post_upload() {
+
+    let author = $("#author_box").val()
     let title = $("#title_box").val()
     let address = $("#address-box").val()
     let content = $("#contents_box").val()
@@ -59,6 +61,7 @@ function post_upload() {
                 let form_data = new FormData()
 
                 form_data.append("file_give", file)
+                form_data.append("author_give", author)
                 form_data.append("title_give", title)
                 form_data.append("address_give", address)
                 form_data.append("content_give", content)
@@ -95,19 +98,4 @@ function post_upload() {
             }
         }
     }
-}
-
-function Author_Box () {
-    $.ajax({
-                        type: "GET",
-                        url: "/posts",
-                        data: {},
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            alert(response["msg"])
-                            location.replace('/list')
-                        }
-                    })
 }
