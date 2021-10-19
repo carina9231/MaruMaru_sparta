@@ -88,7 +88,7 @@ function address_input() {
             // document.getElementById('sample4_postcode').value = data.zonecode;
             // document.getElementById("sample4_roadAddress").value = roadAddr;
             // document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
-            document.getElementById("address-box").value = roadAddr;
+            document.getElementById("address").value = roadAddr;
         }
     }).open();
 };
