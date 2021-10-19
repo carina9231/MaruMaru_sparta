@@ -4,7 +4,7 @@
 <p align='center'>
   <img src="./static/logo2.png" width="500ㅔㅌ" />
 </p>
-배포 링크 : http://ec2-13-124-236-87.ap-northeast-2.compute.amazonaws.com/
+## 🔗 라이브 : http://ec2-13-124-236-87.ap-northeast-2.compute.amazonaws.com/
 <br/>
 
 
@@ -101,5 +101,12 @@
 ```
 <br/>
 
-### 🔗 라이브
+### 1차 발표영상
 [![오지조 1차 발표](http://img.youtube.com/vi/4BzMYLfXwS0/0.jpg)](https://www.youtube.com/watch?v=4BzMYLfXwS0) 
+
+### 2차 발표영상
+[![오지조 2차 발표](http://img.youtube.com/vi/aSasz08EP7U/0.jpg)](https://www.youtube.com/watch?v=aSasz08EP7U)
+
+
+
+
