@@ -305,13 +305,18 @@ def mapping():
     return render_template('locate_map.html', lat=address_coor[0], lon=address_coor[1])
 
 
-# 디테일 페이지 불러오기
+# 디테일 데이터
 @app.route('/detail/<id>', methods=['GET'])
-def detail(id):
+def detail():
+    return render_template("detail.html")
+
+
+@app.route('/detail/show/<id>', methods=['GET'])
+def detail_data(id):
     db.articles.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     if articles:
-        return render_template("detail.html", id=id, detail_db=articles)
+        return jsonify({"post": articles})
     else:
         return render_template("error.html")
 

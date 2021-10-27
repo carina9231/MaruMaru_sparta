@@ -1,9 +1,29 @@
 $(document).ready(function () {
     //iframe url 삽입
-    const id = $("#idx").val();
-    let href = '/map?id=' + id
+    const url_list = window.location.href.split('/')
+    const idx = url_list[url_list.length - 1];
+    console.log(idx)
+    let href = '/map?id=' + idx
     $('#go-map').attr("src", href)
+    show_post(idx)
 });
+
+
+function show_post(id) {
+    const idx = id
+    $.ajax({
+        type: "GET",
+        url: `/detail/show/${idx}`,
+        data: {},
+        success: function (response) {
+            alert("성공")
+
+        },
+        error: function (request, status, error) {
+            alert(error);
+        }
+    })
+}
 
 
 function delete_post() {
