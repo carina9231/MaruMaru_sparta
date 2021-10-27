@@ -23,7 +23,7 @@ function show_all_profile() {
                                     <ul>
                                       <a href="#" onclick="ProfileLike(${number})">
                                       <li>
-                                      <i class="far fa-heart i-r w" title="좋아요">
+                                      <i class="fas fa-heart" title="좋아요"></i>
                                       </i>
                                       </li>
                                       </a>
