@@ -34,13 +34,19 @@ ul {
     margin-top: 16px;
 }
 
+.fa-heart {
+    float: right;
+    margin-right: 16px;
+    margin-top: 16px;
+}
+
 .i-r {
     float: right;
     margin-right: 16px;
     margin-top: 16px;
 }
 
-.w {
+.fas {
     color: white;
 }
 
