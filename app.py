@@ -120,14 +120,23 @@ def event_list():
 
 
 # 이벤트디테일 페이지 불러오기
-@app.route('/event/detail/<id>', methods=['GET'])
-def event_detail(id):
-    db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
-    events = db.events.find_one({'number': int(id)}, {'_id': False})
+@app.route('/event/detail', methods=['GET'])
+def event_detail():
+    id_receive = request.args.get('id_give')
+    db.events.update_one({'number': int(id_receive)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'number': int(id_receive)}, {'_id': False})
     if events:
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
+
+
+# 이벤트 정보 불러오기
+@app.route('/events/detail', methods=['GET'])
+def event_lists():
+    id_receive = request.args.get('id_give')
+    events = list(db.events.find({'number': int(id_receive)}, {'_id': False}))
+    return jsonify({'result': 'success', 'all_events': events})
 
 
 # 이벤트 삭제 api
@@ -537,7 +546,6 @@ def profile_like():
     return jsonify({'result': 'success', 'msg': '좋아요!'})
 
 
-
 # 프로필 카드 삭제 api
 @app.route('/profile', methods=['DELETE'])
 def profile_delete():
@@ -572,7 +580,7 @@ def login():
     # 로그인 버튼 클릭시 - 쿠키에 값 있으면, 바로 로그인 추가
     return render_template('login.html')
 
-#회원가입 시 중복확인
+# 회원가입 시 중복확인
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
@@ -581,7 +589,7 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
-#회원가입
+# 회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -628,7 +636,7 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
-#로그인 된 유저 정보 get
+# 로그인 된 유저 정보 get
 @app.route('/user_info', methods=['GET'])
 def user_info():
     token_receive = request.cookies.get('mytoken')
@@ -640,7 +648,8 @@ def user_info():
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
 
-#유저 프로필 
+
+# 유저 프로필
 @app.route('/user_profile', methods=['GET', 'POST', 'DELETE'])
 def user_profile():
     token_receive = request.cookies.get('mytoken')
