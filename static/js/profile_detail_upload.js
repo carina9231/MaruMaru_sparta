@@ -1,3 +1,27 @@
+let url_list = window.location.href.split('/')
+const id = url_list[url_list.length-1]
+
+$(document).ready(function () {
+    $.ajax({
+            type: "GET",
+            url: `/dog_info`,
+            data: {id: id},
+            success: function (response) {
+                profile_db = response['profile_db']
+                console.log(profile_db)
+                $('#profile_id').val(id)
+                // $('.dog_img').attr('src','/static/profileimg/'+profile_db.file)
+                $('#dog_name').val(profile_db.name)
+                $('#dog_age').val(profile_db.age)
+                $('#dog_gender').val(profile_db.gender)
+                $('#dog_comment').val(profile_db.comment)
+            },
+            error: function (request, status, error) {
+                alert(error);
+            }
+        });
+});
+
 function dogdetail_upload() {
     const new_name = $("#dog_name").val();
     const new_id = $("#profile_id").val();
