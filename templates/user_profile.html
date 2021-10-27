@@ -7,32 +7,105 @@
 {% endblock %}
 
 {% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
     <script src="/static/js/user_profile.js"></script>
 {% endblock %}
 
 
 {% block content %}
-    <h3>마이 프로필</h3>
-    <div align="center">
-        <p>프로필 사진</p>
-        <img src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
+    <div class="form">
+        <div class="wrapper">
+            <div class="header">
+                <span class="title">My Profile</span><br>
+            </div>
+            <div class="content">
+                <div class="half">
+                    <div class="message">
+                        <label for="message">
+                            <span>Profile</span>
+                            <span class="point">*</span>
+                        </label>
+                        <img class="thumbnail" style="height: 400px; width: 400px"
+                             src="/static/{{ user_info.profile_pic }}">
 
-        <p>별명</p>
-        <input type="text" disabled placeholder="{{ user_info.profile_name }}">
-
-        <p>자기 소개</p>
-        <input type="text" disabled placeholder="{{ user_info.profile_info }}">
-
-        <p>baby</p>
-        {% for baby in user_info.baby %}
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">a
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
+                    </div>
+                </div>
+                <div class="half">
+                    <div class="username">
+                        <label for="username">ID</label>
+                        <input type="text" id="username" disabled placeholder="{{ user_info.username }}">
+                    </div>
+                    <div class="nicname">
+                        <label for="nicname">
+                            <span>별명</span>
+                            <span class="point">*</span>
+                        </label>
+                        <input type="text" id="name" disabled placeholder="{{ user_info.profile_name }}">
+                    </div>
+                    <div class="description">
+                        <label for="description">
+                            <span>자기 소개</span>
+                            <span class="point">*</span>
+                        </label>
+                        <textarea type="text" id="description" disabled
+                                  placeholder="{{ user_info.profile_info }}"></textarea>
+                    </div>
+                    <div class="action">
+                        <form action="/user_profile" method="post">
+                            <button id="signup-submit" type="submit">프로필 수정하러 가기</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
+    <br>
+    <div class="form">
+        <div class="wrapper">
+            <div class="header">
+                <span class="title">나의 댕댕이들</span>
+                <div class="plus-icon add-card rounded add-baby" onclick="create_baby_profile()">
+                    <span>추가하기</span>
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            <div class="content">
+                <!-- baby list -->
+                {% for baby_profile in baby %}
+                    <div class="card color-card">
+                        <ul>
+                            <a href="javascript:void(0);" onclick="ProfileLike({{ baby_profile.number }})">
+                                <li><i class="far fa-heart i-r w"></i></li>
+                            </a>
+                        </ul>
+
+                        <div class="card_top">
+                            <div>
+                                <div class="profile_img">
+                                    <img class="dog_img" src="/static/profileimg/{{ baby_profile.file }}">
+                                </div>
+                            </div>
+                            <div>
+                                <p class="name desc">{{ baby_profile.name }}</p>
+                            </div>
+                            <div class="desc">
+                                <p class="age">나이: {{ baby_profile.age }}</p>
+                                <p class="gender">성별: {{ baby_profile.gender }}</p>
+                            </div>
+                            <hr>
+                            <div class="desc comment" style="font-size: 15px">
+                                <p>{{ baby_profile.comment }}</p>
+                                <button class="btn color-a top mt-5" onclick="location.href ='/profile/{{ baby_profile.number }}'">자세히 보기
+                            </button>
+                            </div>
+
+                        </div>
+                        <input type="hidden" value={{ baby_profile.number }} id="{{ baby_profile.number }}card">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

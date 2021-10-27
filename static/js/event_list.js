@@ -9,36 +9,42 @@ function show_event_list() {
         data: {},
         success: function (response) {
             let events = response['all_events']
+            console.log(events)
             let list_num = 0
             for (let i = 0; i < events.length; i++) {
                 let username = events[i]['username']
                 let title = events[i]['title']
-                let number = events[i]['number']
                 let time_post = events[i]['present_date']
+                let id = events[i]['number']
+                let card_img = events[i]['file']
+                let view = events[i]['view']
+                let contents = events[i]['contents']
                 let time_before = time2str(time_post)
                 if (events.length > list_num)
                     list_num = list_num + 1
                 else
                     list_num = list_num
 
-                let temp_html = `<div class="item">
-                                           <div class="num">${list_num}</div>
-                                           <div class="title"><a href="/detail/${number}">${title}</a></div>
-                                           <div class="author">${username}</div>
-                                           <div class="date" id="time">${time_before}</div>
-                                         </div>`
-                $('#event_body').append(temp_html)
+                let temp_html = `<div class="row card-event">
+                                    <div class="col-lg-4">
+                                        <img class="card-img" src="/static/eventimg/${card_img}" class="img-fluid rounded-start" alt="pic">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="card-content">
+                                            <div class="num float-right">#${list_num}</div>
+                                            <div class="evnet-title"><a href="/event/detail/${id}">${title}</a></div>
+                                            <div class="author">${username}</div>
+                                            <p class="event-content">${contents}</p>
+                                            <div class="event-sub" id="time">${time_before}</div>
+                                            <div class="view">조회수 ${view}</div>
+                                        </div>
+                                    </div>
+                                </div>`
+                $('#event-body').append(temp_html)
             }
         }
     });
 }
-
-// function formatDate(date) {
-//     let newDateYear = date.substring(0,5)
-//     let newDateMM = date.substring(5,8)
-//     let newDateDD = date.substring(8,11)
-//     return [newDateYear, newDateMM, newDateDD].join('-');
-// };
 
 function time2str(date) {
     let today = new Date()

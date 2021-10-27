@@ -3,45 +3,48 @@
 {% block title %} User Profile | 강만다 {% endblock %}
 
 {% block csslink %}
-    <link rel="stylesheet" href="/static/css/user_profile.css">
+    <link rel="stylesheet" href="/static/css/user_profile_upload.css">
+
 {% endblock %}
 
 {% block js %}
-    <script src="/static/js/user_profile_upload.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script src="/static/js/user_profile_upload.js"></script>
+
 {% endblock %}
 
 
 {% block content %}
-    <h3>마이 프로필 수정</h3>
-    <div align="center">
-        <p>프로필 사진</p>
-        <img id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px" height="150px">
-        <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
-            <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
-        </div>
-
-        <p>별명</p>
-        <input type="text" placeholder="{{ user_info.profile_name }}">
-
-        <p>자기 소개</p>
-        <input type="text" placeholder="{{ user_info.profile_info }}">
-
-        <p>baby</p>
-        {% for baby in user_info.baby %}
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">a
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
-                </div>
+    <div class="wrap">
+        <div class="user-update-wrap shadow">
+            <h1>회원 수정</h1>
+            <p>회원님의 정보를 수정해 보세요</p>
+            <p>프로필 사진</p>
+            <div style="padding-bottom: 50px; ">
+                <img class="img-thumbnail" id="profile-img" src="/static/{{ user_info.profile_pic }}" width="150px"
+                     height="150px">
             </div>
-        {% endfor %}
-        <div >
-            <i class="fas fa-plus"></i>
-        </div>
+            <div class="custom-file mb-3" style="width: 300px">
+                <input type="file" class="custom-file-input file" id="file" onchange="readFile(event);">
+                <label class="custom-file-label" for="file" id="file">사진 첨부하기</label>
+            </div>
+            <hr>
+            <br>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">별명</span>
+                <input id='name' type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" placeholder="{{ user_info.profile_name }}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">자기소개</span>
+                <textarea id='description' type="text" class="form-control" aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-default" placeholder="{{ user_info.profile_info }}"
+                          style="height: 200px"></textarea>
+            </div>
 
+            <button class="btn btn-outline-primary" onclick="user_update()" type="button">수정 하기</button>
+            <br><br><button class="btn btn btn-outline-danger" onclick="go_out()" type="button">회원 탈퇴</button>
+
+        </div>
     </div>
 {% endblock %}

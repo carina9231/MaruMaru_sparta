@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    bsCustomFileInput.init()
+    bsCustomFileInput.init();
 })
 
 function profile_upload() {
@@ -34,6 +34,7 @@ function profile_upload() {
                 form_data.append("comment_give", comment)
                 form_data.append("filename_give", filename)
 
+
                 if ($("#dog_name").val().length == 0) {
                     alert("강아지 이름을 입력하세요!");
                     $("#dog_name").focus();
@@ -44,8 +45,8 @@ function profile_upload() {
                     $("#dog_age").focus();
                     return false;
                 }
-                if ($("#dog_gender").val().length == 0) {
-                    alert("강아지 성별을 입력하세요!");
+                if ($('#dog_gender').val() == 0) {
+                    alert("강아지 성별을 선택하세요!");
                     $("#dog_gender").focus();
                     return false;
                 }
@@ -56,14 +57,14 @@ function profile_upload() {
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: "/profile",
-                        data: form_data,
+                        url: "/profile/create",
+                        data:form_data,
                         cache: false,
                         contentType: false,
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
-                            location.replace('/')
+                            window.close()
                         }
                     })
                 }

@@ -1,6 +1,5 @@
-const g_id = $("#idx").val();
-
 function save_upload() {
+    const idx = $("#idx").val()
     const new_title = $("#title_box").val();
     const new_content = $("#contents_box").val();
 
@@ -18,13 +17,13 @@ function save_upload() {
         type: "PUT",
         url: `/detail`,
         data: {
-            id_give: g_id,
+            id_give: idx,
             title_give: new_title,
             contents_give: new_content
         },
         success: function (response) {
             alert(response["msg"])
-            window.location.href = `/detail/{{ id }}`
+            window.location.href = `/detail/${idx}`
         },
         error: function (request, status, error) {
             alert(error);

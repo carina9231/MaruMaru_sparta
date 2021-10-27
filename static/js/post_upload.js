@@ -36,8 +36,6 @@ function address_input() {
 };
 
 function post_upload() {
-
-    let author = $("#author_box").val()
     let title = $("#title_box").val()
     let address = $("#address-box").val()
     let content = $("#contents_box").val()
@@ -61,17 +59,11 @@ function post_upload() {
                 let form_data = new FormData()
 
                 form_data.append("file_give", file)
-                form_data.append("author_give", author)
                 form_data.append("title_give", title)
                 form_data.append("address_give", address)
                 form_data.append("content_give", content)
                 form_data.append("filename_give", filename)
 
-                if ($("#author_box").val().length == 0) {
-                    alert("작성자를 입력하세요!");
-                    $("#author_box").focus();
-                    return false;
-                }
                 if ($("#title_box").val().length == 0) {
                     alert("제목을 입력하세요!");
                     $("#title_boxl").focus();
@@ -96,7 +88,6 @@ function post_upload() {
                         processData: false,
                         success: function (response) {
                             alert(response["msg"])
-                            console.log(form_data)
                             location.replace('/list')
                         }
                     })

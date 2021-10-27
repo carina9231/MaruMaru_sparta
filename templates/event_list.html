@@ -12,31 +12,42 @@
 {% endblock %}
 
 
-
-{% block libutton %}
-    <li><a href="/events">이벤트 작성</a></li>
-{% endblock %}
-
 {% block content %}
-</div>
-<div class="category">
-    <div class="category_name">
-        <h1>이벤트 보기</h1>
-    </div>
-</div>
-<div class="event_list_wrap">
-    <div class="event_list">
-        <div class="event_list_head">
-            <div class="num">번호</div>
-            <div class="title">제목</div>
-            <div class="author">글쓴이</div>
-            <div class="date">작성일</div>
+     <div class="container">
+        <div class="event-top">
+            <h1>
+                이벤트 보기
+            </h1>
+            <h5>오늘도 재미있는 이벤트들이 한가득</h5>
         </div>
-        <div class="event_list_body" id="event_body">
-
+        <button src="..." class="btn btn-primary rounded-pill" alt="...">조회수</button>
+        <button src="..." class="btn btn-primary rounded-pill" alt="...">제목</button>
+        <button src="..." class="btn btn-primary rounded-pill" alt="...">필터</button>
+        <button onclick="onClickCreateEvent()" type="button" class="btn btn-dark float-right">이벤트 생성</button>
+        <hr>
+        <div id="event-body">
+            <!-- 게시글 리스트 -->
         </div>
     </div>
-
-</div>
+{#<div class="container">#}
+{#    <div class="event-top">#}
+{#        <h1>이벤트 보기</h1>#}
+{#        <h5>오늘도 재미있는 행사들이 한가득</h5>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="event_list_wrap">#}
+{#    <div class="event_list">#}
+{#        <div class="event_list_head">#}
+{#            <div class="num">번호</div>#}
+{#            <div class="title">제목</div>#}
+{#            <div class="author">글쓴이</div>#}
+{#            <div class="date">작성일</div>#}
+{#        </div>#}
+{#        <div class="event_list_body" id="event_body">#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#</div>#}
 
 {% endblock %}

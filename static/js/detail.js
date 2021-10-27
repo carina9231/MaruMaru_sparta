@@ -1,6 +1,3 @@
-const g_idx = $("#idx").val();
-console.log(g_idx);
-
 $(document).ready(function () {
     //iframe url 삽입
     const id = $("#idx").val();
@@ -10,12 +7,13 @@ $(document).ready(function () {
 
 
 function delete_post() {
+    const idx = $("#idx").val();
     const result = confirm("정말로 삭제 하시겠습니까?");
     if (result) {
         $.ajax({
             type: "DELETE",
             url: `/detail`,
-            data: {id_give: g_idx},
+            data: {id_give: idx},
             success: function (response) {
                 window.location.href = `/list`
             },
@@ -34,7 +32,7 @@ function comment_upload() {
         alert("댓글을 입력해주세요!");
         return;
     }
-
+    const g_idx = $("#idx").val();
     $.ajax({
         type: "POST",
         url: `/comment`,
@@ -57,8 +55,8 @@ function comment_upload() {
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
                                             <div class="comment_wrote">내용: ${e.comment}</div>
-                                            <button type="button" class="btn btn-dark mt-3">수정</button>
-                                            <button type="button" class="btn btn-dark mt-3">삭제</button>
+                                            <button onclick="comment_update()" type="button" class="btn btn-dark mt-3">수정</button>
+                                            <button onclick="comment_delete()" type="button" class="btn btn-dark mt-3">삭제</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -73,4 +71,43 @@ function comment_upload() {
             alert(error);
         }
     });
+}
+
+
+function comment_delete() {
+    alert("삭제 기능 입니다!")
+    const idx = $("#idx").val();
+    // comment idx 찾아줘야함
+    $.ajax({
+        type: "DELETE",
+        url: `/comment/${idx}`,
+        data: {
+            id_give: idx,
+        },
+        success: function (response) {
+            console.log(response['result'])
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
+}
+
+function comment_update() {
+    alert("수정 버튼 입니다!")
+    const idx = $("#idx").val();
+    // comment idx 찾아줘야함
+    $.ajax({
+        type: "PUT",
+        url: `/comment/${idx}`,
+        data: {
+            id_give: idx,
+        },
+        success: function (response) {
+            console.log(response['result'])
+        },
+        error: function (request, status, error) {
+            console.log(error);
+        }
+    })
 }

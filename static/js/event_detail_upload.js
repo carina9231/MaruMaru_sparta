@@ -1,7 +1,3 @@
-$(document).ready(function () {
-    bsCustomFileInput.init()
-})
-
 $(function () {
     $("#datepicker").datepicker({
         dateFormat: "yy-mm-dd",
@@ -19,64 +15,49 @@ $(function () {
     });
 })
 
-function event_upload() {
-    let title = $("#name").val()
-    let address = $("#address").val()
-    let content = $("#message").val()
-    let date = $("#datepicker").val()
-    let file = $('#file')[0].files[0]
-    let max = $("#attend").val()
-    let present_date = new Date().toISOString();
+function save_event_upload() {
+    const new_id = $("#idx").val()
+    const new_title = $("#name").val()
+    const new_address = $("#address").val()
+    const new_content = $("#message").val()
+    const new_date = $("#datepicker").val()
+    const new_max = $("#attend").val()
+    if (new_title.length == 0) {
+        alert("제목을 입력해주세요.");
+        return;
+    }
+    if (new_content.length == 0) {
+        alert("수정 내용을 입력해주세요.");
+        return;
+    }
+    if (new_date.length == 0) {
+        alert("수정 내용을 입력해주세요.");
+        return;
+    }
+    if (new_max.length == 0) {
+        alert("수정 내용을 입력해주세요.");
+        return;
+    }
 
-    let form_data = new FormData()
-
-    form_data.append("file_give", file)
-    form_data.append("title_give", title)
-    form_data.append("address_give", address)
-    form_data.append("content_give", content)
-    form_data.append("date_give", date)
-    form_data.append("max_give", max)
-    form_data.append("present_date_give", present_date)
-
-    // alert창 띄우기
-    if ($("#name").val().length == 0) {
-        alert("제목을 입력하세요!");
-        return $("#title_boxl").focus();
-    }
-    if ($("#message").val().length == 0) {
-        alert("내용을 입력하세요!");
-        return $("#contents_box").focus();
-    }
-    if ($('#file')[0].files[0] == null) {
-        alert("사진를 입력하세요!");
-        return $("#file").focus();
-    }
-    if ($("#address").val().length == 0) {
-        alert("주소를 입력하세요!");
-        return $("#address-box").focus();
-    }
-    if ($("#datepicker").val().length == 0) {
-        alert("날짜를 입력하세요!");
-        return $("#datepicker").focus();
-    }
-    if ($("#attend").val().length == 0) {
-        alert("제한인원을 입력하세요!");
-        return $("#attend").focus();
-        ;
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/events",
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                alert(response["msg"])
-                location.replace('/event/list')
-            }
-        })
-    }
+    $.ajax({
+        type: "PUT",
+        url: `/event/detail`,
+        data: {
+            id_give: new_id,
+            title_give: new_title,
+            contents_give: new_content,
+            address_give: new_address,
+            date_give: new_date,
+            max_give: new_max
+        },
+        success: function (response) {
+            alert(response["msg"])
+            window.location.href = `/event/detail/${new_id}`
+        },
+        error: function (request, status, error) {
+            alert(error);
+        }
+    });
 }
 
 function address_input() {
