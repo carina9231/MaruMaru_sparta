@@ -32,7 +32,7 @@ function show_event_list() {
                                     <div class="col-lg-8">
                                         <div class="card-content">
                                             <div class="num float-right">#${list_num}</div>
-                                            <div class="evnet-title"><a href="/event/detail/${id}">${title}</a></div>
+                                            <div class="evnet-title"><a href="/event/detail?id_give=${id}">${title}</a></div>
                                             <div class="author">${username}</div>
                                             <p class="event-content">${contents}</p>
                                             <div class="event-sub" id="time">${time_before}</div>
