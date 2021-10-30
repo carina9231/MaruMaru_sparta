@@ -1,5 +1,16 @@
 $(document).ready(function () {
     bsCustomFileInput.init();
+    $.ajax({
+        type: "GET",
+        url: "/user_info",
+        data: {},
+        success: function (response) {
+            let user_info = response['user_info']
+            $('#profile-img').attr("src", "/static/" + user_info.profile_pic)
+            $('#name').attr("placeholder", user_info.profile_name)
+            $('#description').attr("placeholder", user_info.profile_info)
+        }
+    })
 })
 
 function go_out() {

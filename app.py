@@ -120,14 +120,23 @@ def event_list():
 
 
 # 이벤트디테일 페이지 불러오기
-@app.route('/event/detail/<id>', methods=['GET'])
-def event_detail(id):
-    db.events.update_one({'number': int(id)}, {'$inc': {'view': 1}})
-    events = db.events.find_one({'number': int(id)}, {'_id': False})
+@app.route('/event/detail', methods=['GET'])
+def event_detail():
+    id_receive = request.args.get('id_give')
+    db.events.update_one({'number': int(id_receive)}, {'$inc': {'view': 1}})
+    events = db.events.find_one({'number': int(id_receive)}, {'_id': False})
     if events:
         return render_template("event_detail.html", id=id, events_db=events)
     else:
         return render_template("error.html")
+
+
+# 이벤트 정보 불러오기
+@app.route('/events/detail', methods=['GET'])
+def event_lists():
+    id_receive = request.args.get('id_give')
+    events = list(db.events.find({'number': int(id_receive)}, {'_id': False}))
+    return jsonify({'result': 'success', 'all_events': events})
 
 
 # 이벤트 삭제 api
@@ -503,6 +512,14 @@ def show_profile_list():
     return render_template('profile_list.html')
 
 
+@app.route('/dog_info', methods=['GET'])
+def doginfo():
+    receive_id = request.args.get('id')
+    profile_db = db.profile.find_one({"number": int(receive_id)}, {'_id': False})
+    print(profile_db)
+    return jsonify({'profile_db': profile_db})
+
+
 @app.route('/dogprofile/list', methods=['GET'])
 def profile_list():
     profiles = list(db.profile.find({}, {'_id': False}))
@@ -512,8 +529,7 @@ def profile_list():
 # 프로필 상세 페이지 불러오기
 @app.route('/profile/<id>', methods=['GET'])
 def profile_detail(id):
-    profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
-    return render_template("profile_detail.html", id=id, profile_db=profiles)
+    return render_template("profile_detail.html")
 
 
 # 프로필 좋아요
@@ -553,8 +569,7 @@ def profile_delete():
 # 프로필 디테일 수정 화면 GET
 @app.route('/dogdetail/<id>', methods=['GET'])
 def show_dog_detail_upload(id):
-    profiles = db.profile.find_one({'number': int(id)}, {'_id': False})
-    return render_template("profile_detail_upload.html", profiles=profiles, id=id)
+    return render_template("profile_detail_upload.html")
 
 
 # 프로필 디테일 수정 api
@@ -641,7 +656,9 @@ def user_info():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_information = db.users.find_one({"username": payload["id"]}, {'_id': False})
-        return jsonify({'result': 'success', 'user_info': user_information})
+        profile_information = list(db.profile.find({"username": payload["id"]}, {'_id': False}))
+
+        return jsonify({'result': 'success', 'user_info': user_information, 'profile_info': profile_information})
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
