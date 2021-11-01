@@ -126,7 +126,7 @@ def event_detail():
     db.events.update_one({'number': int(id_receive)}, {'$inc': {'view': 1}})
     events = db.events.find_one({'number': int(id_receive)}, {'_id': False})
     if events:
-        return render_template("event_detail.html", id=id, events_db=events)
+        return render_template("event_detail.html")
     else:
         return render_template("error.html")
 
@@ -162,26 +162,37 @@ def event_delete():
 
 
 # 이벤트 디테일 수정 화면 GET
-@app.route('/pre-eventDetail/<id>', methods=['GET'])
-def event_detail_upload(id):
+@app.route('/eventDetail/modify', methods=['GET'])
+def event_detail_upload():
+    id_receive = request.args.get('id_give')
+    db.events.update_one({'number': int(id_receive)}, {'$inc': {'view': 1}})
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"username": payload["id"]}, {'_id': False})
         username = user_info['username']
-        events = db.events.find_one({'number': int(id)}, {'_id': False})
+        events = db.events.find_one({'number': int(id_receive)}, {'_id': False})
+        print(events)
         post_name = events['username']
         if username == post_name:
-            return render_template("event_detail_upload.html", events=events, id=id)
+            return render_template("event_detail_upload.html")
         else:
-            return redirect(url_for("show_events_list"))
+            return jsonify({'result': 'success', 'msg': '작성자만 수정할 수 있습니다.'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("main"))
 
 
+# 이벤트 수정 정보 불러오기
+@app.route('/event/modify', methods=['GET'])
+def event_detail_modify():
+    id_receive = request.args.get('id_give')
+    events = list(db.events.find({'number': int(id_receive)}, {'_id': False}))
+    return jsonify({'result': 'success', 'all_events': events})
+
+
 # 이벤트 디테일 수정 api
-@app.route('/event/detail', methods=['PUT'])
-def event_detail_post_upload():
+@app.route('/event/modify', methods=['PUT'])
+def event_detail_modify_upload():
     id_receive = request.form['id_give']
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']

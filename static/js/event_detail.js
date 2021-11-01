@@ -65,7 +65,7 @@ function show_events() {
                 </div>
             </div>
 <div class="detail_button">
-            <button onclick="location.href='/pre-eventDetail/${id}'" type="button" class="btn btn-primary ui button">
+            <button onclick="location.href='/eventDetail/modify?id_give=${id}'" type="button" class="btn btn-primary ui button">
                 <i class="fa fa-wrench" aria-hidden="true"> 수정</i>
             </button>
             &nbsp;
