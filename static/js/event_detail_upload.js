@@ -1,3 +1,8 @@
+$(document).ready(function () {
+    show_events();
+    console.log("hi")
+});
+
 $(function () {
     $("#datepicker").datepicker({
         dateFormat: "yy-mm-dd",
@@ -15,8 +20,62 @@ $(function () {
     });
 })
 
+function show_events() {
+    let idx = location.search.substr(location.search.indexOf("?") - 1)
+    $.ajax({
+        type: 'GET',
+        url: '/event/modify',
+        data: {id_give: idx},
+        success: function (response) {
+            let events = response['all_events']
+            console.log(events)
+            for (let i = 0; i < events.length; i++) {
+                let title = events[i]['title']
+                let date = events[i]['date']
+                let address = events[i]['address']
+                let contents = events[i]['contents']
+                let max = events[i]['max']
+
+                let temp_html = `<div class="half">
+                                    <div class="name">
+                                        <label for="name">행사 이름</label>
+                                        <input type="text" id="name" placeholder="내용을 입력해주세요" value="${title}">
+                                    </div>
+                                    <div class="address">
+                                        <label for="address">행사 장소</label>
+                                        <input onclick="address_input()" type="text" id="address" placeholder="주소를 입력해주세요" value="${address}">
+                                    </div>
+                                    <div class="date">
+                                        <label for="date">행사 날짜</label>
+                                        <input type="text" id="datepicker" placeholder="날짜를 선택해주세요" value="${date}">
+                                    </div>
+                                    <div class="attend">
+                                        <label for="attend">행사 참가 가능 인원</label>
+                                        <input type="number" id="attend" placeholder="0" min="1" max="100" value="${max}">
+                                    </div>
+                                </div>
+                                <div class="half">
+                                    <div class="message">
+                                        <label for="message">
+                                            <span>내용</span>
+                                            <span class="point">*</span>
+                                            <span class="length">(<span>0</span> / 3000)</span>
+                                        </label>
+                                        <textarea id="message" placeholder="내용을 입력주해세요">${contents}</textarea>
+                                    </div>
+                                    <div class="action">
+                                        <button onclick="save_event_upload()" onchange="save_event_upload()" type="button">저장</button>
+                                    </div>
+                                </div>`
+                $('#content').append(temp_html)
+            }
+        }
+    });
+}
+
+
 function save_event_upload() {
-    const new_id = $("#idx").val()
+    const new_id = location.search.substr(location.search.indexOf("?") - 1)
     const new_title = $("#name").val()
     const new_address = $("#address").val()
     const new_content = $("#message").val()
@@ -41,7 +100,7 @@ function save_event_upload() {
 
     $.ajax({
         type: "PUT",
-        url: `/event/detail`,
+        url: `/event/modify`,
         data: {
             id_give: new_id,
             title_give: new_title,
@@ -52,7 +111,7 @@ function save_event_upload() {
         },
         success: function (response) {
             alert(response["msg"])
-            window.location.href = `/event/detail/${new_id}`
+            window.location.href = `/event/detail?id_give=${new_id}`
         },
         error: function (request, status, error) {
             alert(error);
