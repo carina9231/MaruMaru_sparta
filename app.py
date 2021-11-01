@@ -316,25 +316,21 @@ def mapping():
 
 # 디테일 데이터
 @app.route('/detail/<id>', methods=['GET'])
-def detail():
+def detail(id):
+
     return render_template("detail.html")
 
 
-@app.route('/detail/show/<id>', methods=['GET'])
-def detail_data(id):
+@app.route('/detail', methods=['GET'])
+def detail_data():
+    id = request.args.get('id')
+    print(id)
     db.articles.update_one({'number': int(id)}, {'$inc': {'view': 1}})
     articles = db.articles.find_one({'number': int(id)}, {'_id': False})
     if articles:
         return jsonify({"post": articles})
     else:
         return render_template("error.html")
-
-
-# 디테일 수정 화면 GET
-@app.route('/per-detail/<id>/', methods=['GET'])
-def detail_upload(id):
-    post = db.articles.find_one({'number': int(id)}, {'_id': False})
-    return render_template("detail_upload.html", post=post, id=id)
 
 
 # 디테일 수정 api

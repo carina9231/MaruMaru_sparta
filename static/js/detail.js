@@ -1,22 +1,40 @@
+let url_list = window.location.href.split('/')
+const id = url_list[url_list.length - 1]
+
 $(document).ready(function () {
     //iframe url 삽입
-    const url_list = window.location.href.split('/')
-    const idx = url_list[url_list.length - 1];
-    console.log(idx)
-    let href = '/map?id=' + idx
+    let href = '/map?id=' + id
     $('#go-map').attr("src", href)
-    show_post(idx)
+    show_post(id)
 });
+
+function showModal() {
+    $('#update-modal').modal('show')
+}
 
 
 function show_post(id) {
-    const idx = id
     $.ajax({
         type: "GET",
-        url: `/detail/show/${idx}`,
-        data: {},
+        url: `/detail`,
+        data: {id: id},
         success: function (response) {
-            alert("성공")
+            const title = response["post"].title;
+            const contents = response["post"].contents;
+            const address = response["post"].address;
+            const img = response["post"].file;
+            const number = response["post"].number;
+
+            $("#idx").val(number);
+            $("#title_box").text(title);
+            $("#content-img").attr('src','/static/postimg/' + img)
+            console.log(img)
+            $("#contents_box").text(contents);
+            $("#address-box").text(address);
+
+            $("#update-title").val(title);
+            $("#update-content").text(contents);
+
 
         },
         error: function (request, status, error) {
