@@ -108,56 +108,23 @@
         <a href="javascript:void(0);" onclick="logout()" class="card-link">logout</a>
     </div>
 </div>
+<div class="form">
+    <div class="wrapper">
+        <div class="header">
+            <span class="title">이벤트 생성하기</span>
+        </div>
+        <div class="content" id="content">
 
-{% block content %}
-    <div class="form">
-        <div class="wrapper">
-            <div class="header">
-                <span class="title">이벤트 생성하기</span>
-            </div>
-            <div class="content">
-                <div class="half">
-                    <input type="hidden" id="idx" value="{{ id }}">
-                    <div class="name">
-                        <label for="name">행사 이름</label>
-                        <input type="text" id="name" placeholder="내용을 입력해주세요" value="{{ events.title }}">
-                    </div>
-                    <div class="address">
-                        <label for="address">행사 장소</label>
-                        <input onclick="address_input()" type="text" id="address" placeholder="주소를 입력해주세요" value="{{ events.address }}">
-                    </div>
-                    <div class="date">
-                        <label for="date">행사 날짜</label>
-                        <input type="text" id="datepicker" placeholder="날짜를 선택해주세요" value="{{ events.date }}">
-                    </div>
-                    <div class="attend">
-                        <label for="attend">행사 참가 가능 인원</label>
-                        <input type="number" id="attend" placeholder="0" min="1" max="100" value="{{ events.max }}">
-                    </div>
-                </div>
-                <div class="half">
-                    <div class="message">
-                        <label for="message">
-                            <span>내용</span>
-                            <span class="point">*</span>
-                            <span class="length">(<span>0</span> / 3000)</span>
-                        </label>
-                        <textarea id="message" placeholder="내용을 입력주해세요">{{ events.contents }}</textarea>
-                    </div>
-                    <div class="action">
-                        <button onclick="save_event_upload()" onchange="save_event_upload()" type="button">저장</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <script>
-        $(".form textarea").on("keyup", function () {
-            var len = $(this).val().length;
-            $(this).siblings("label").find(".length > span").text(len);
-        });
-    </script>
-{% endblock %}
+</div>
+<script>
+    $(".form textarea").on("keyup", function () {
+        var len = $(this).val().length;
+        $(this).siblings("label").find(".length > span").text(len);
+    });
+</script>
+
 
 </body>
 </html>
