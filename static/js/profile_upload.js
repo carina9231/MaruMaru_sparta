@@ -9,7 +9,6 @@ function profile_upload() {
     let gender = $("#dog_gender").val()
     let comment = $("#dog_comment").val()
 
-
     // 파일명 출력
     let fileInput = document.getElementsByClassName("file");
 

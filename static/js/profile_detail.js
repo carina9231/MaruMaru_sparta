@@ -18,7 +18,6 @@ $(document).ready(function () {
                 $('#dog-gender').text('성별: '+profile_db.gender)
                 $('#dog-comment').text(profile_db.comment)
 
-
             },
             error: function (request, status, error) {
                 alert(error);
