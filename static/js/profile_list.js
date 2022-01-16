@@ -9,7 +9,6 @@ function show_all_profile() {
         data: {},
         success: function (response) {
             let profiles = response['all_profile']
-            console.log(profiles)
             for (let i = 0; i < profiles.length; i++) {
                 let name = profiles[i]['name']
                 let age = profiles[i]['age']

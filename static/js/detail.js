@@ -19,18 +19,21 @@ function show_post(id) {
         url: `/detail`,
         data: {id: id},
         success: function (response) {
+            const user = response["post"].username;
             const title = response["post"].title;
             const contents = response["post"].contents;
             const address = response["post"].address;
             const img = response["post"].file;
             const number = response["post"].number;
+            const like = response["post"].like_count;
 
             $("#idx").val(number);
+            $("#author_box").text(user);
             $("#title_box").text(title);
             $("#content-img").attr('src','/static/postimg/' + img)
-            console.log(img)
             $("#contents_box").text(contents);
             $("#address-box").text(address);
+            $("#like_box").text(like);
 
             $("#update-title").val(title);
             $("#update-content").text(contents);
@@ -62,6 +65,20 @@ function delete_post() {
     } else {
         return false;
     }
+}
+
+function PostLike() {
+    const post_id = id
+
+    $.ajax({
+        type: "POST",
+        url: "/post/like",
+        data: {id_give: post_id},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload();
+        }
+    })
 }
 
 function comment_upload() {

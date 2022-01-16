@@ -413,11 +413,43 @@ def post_upload():
         'present_time': mytime,
         'comment': list(),
         'view': 0,
-        'username': username
+        'username': username,
+        'like': list(),
+        'like_count': 0
     }
 
     db.articles.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
+# 게시물 좋아요
+@app.route('/post/like', methods=['POST'])
+def post_like():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.users.find_one({"username": payload["id"]})
+    my_username = user_info['username']
+    post_id_receive = request.form["id_give"]
+    past_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
+    like_list = past_like['like']
+
+    if my_username in like_list:
+        db.articles.update_one({'number': int(post_id_receive)}, {"$pull": {'like': my_username}})
+
+        pre_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
+        like_count = len(pre_like['like'])
+        db.articles.update_one({'number': int(post_id_receive)}, {'$set': {'like_count': like_count}})
+
+        return jsonify({'result': 'success', 'msg': '좋아요 취소!'})
+
+    else:
+        db.articles.update_one({'number': int(post_id_receive)}, {"$push": {'like': my_username}})
+
+    pre_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
+    like_count = len(pre_like['like'])
+    db.articles.update_one({'number': int(post_id_receive)}, {'$set': {'like_count': like_count}})
+
+    return jsonify({'result': 'success', 'msg': '좋아요!'})
+
 
 
 # 댓글 작성
@@ -495,7 +527,7 @@ def profile_upload():
         'file': f'{filename}.{extension[1]}',
         'username': payload['id'],
         'like': list(),
-        'like_count': 0,
+        'like_count': 0
     }
 
     db.profile.insert_one(doc)
