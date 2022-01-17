@@ -429,14 +429,12 @@ def post_like():
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
     post_id_receive = request.form["id_give"]
-    past_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
-    like_list = past_like['like']
+    like_list = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})['like']
 
     if my_username in like_list:
         db.articles.update_one({'number': int(post_id_receive)}, {"$pull": {'like': my_username}})
 
-        pre_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
-        like_count = len(pre_like['like'])
+        like_count = len(db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})['like'])
         db.articles.update_one({'number': int(post_id_receive)}, {'$set': {'like_count': like_count}})
 
         return jsonify({'result': 'success', 'msg': '좋아요 취소!'})
@@ -444,9 +442,8 @@ def post_like():
     else:
         db.articles.update_one({'number': int(post_id_receive)}, {"$push": {'like': my_username}})
 
-    pre_like = db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})
-    like_count = len(pre_like['like'])
-    db.articles.update_one({'number': int(post_id_receive)}, {'$set': {'like_count': like_count}})
+        like_count = len(db.articles.find_one({'number': int(post_id_receive)}, {'_id': False})['like'])
+        db.articles.update_one({'number': int(post_id_receive)}, {'$set': {'like_count': like_count}})
 
     return jsonify({'result': 'success', 'msg': '좋아요!'})
 
@@ -579,8 +576,7 @@ def profile_like():
     user_info = db.users.find_one({"username": payload["id"]})
     my_username = user_info['username']
     profile_id_receive = request.form["id_give"]
-    past_like = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})
-    like_list = past_like['like']
+    like_list = db.profile.find_one({'number': int(profile_id_receive)}, {'_id': False})['like']
 
     if my_username in like_list:
         db.profile.update_one({'number': int(profile_id_receive)}, {"$pull": {'like': my_username}})

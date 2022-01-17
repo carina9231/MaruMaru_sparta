@@ -38,6 +38,7 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
     <script src="/static/js/detail.js"></script>
+    <script src="/static/js/detail_upload.js"></script>
 
     <!-- Jquery cookie-->
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -261,22 +262,24 @@
                         <div class="input-group mb-3">
                             <div>
                                 <img id="content-img"
-                                 src="/static/postimg/2021년10월30일181338-Screen%20Shot%202021-10-29%20at%2012.29"
-                                 height="200px"
-                                 width="200px"><br>
+                                     src="/static/postimg/2021년10월30일181338-Screen%20Shot%202021-10-29%20at%2012.29"
+                                     height="200px"
+                                     width="200px"><br>
                             </div>
-                            <textarea class="form-control content" aria-label="With textarea" id="update-content"></textarea>
+                            <textarea class="form-control content" aria-label="With textarea"
+                                      id="update-content"></textarea>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">저장</button>
+                    <button type="button" class="btn btn-primary" onclick="save_upload()">저장</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
     <script src="/static/js/base.js"></script>

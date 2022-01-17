@@ -38,7 +38,6 @@ function show_post(id) {
             $("#update-title").val(title);
             $("#update-content").text(contents);
 
-
         },
         error: function (request, status, error) {
             alert(error);
