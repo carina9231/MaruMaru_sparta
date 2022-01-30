@@ -65,6 +65,15 @@ function onClickCreateEvent() {
     }
 }
 
+function onClickCreatePost() {
+    if (document.cookie.match("mytoken") != null) {
+        window.location.href = "/posts"
+    } else {
+        alert("로그인 후 생성해주세요 !!")
+        window.location.href = '/login';
+    }
+}
+
 function onClickCreateProfile() {
     if (document.cookie.match("mytoken") != null) {
         window.location.href = "/profile/create"

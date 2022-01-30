@@ -380,7 +380,6 @@ def post_upload():
     title_receive = request.form['title_give']
     address_receive = request.form['address_give']
     contents_receive = request.form['content_give']
-    filename_receive = request.form['filename_give']
 
     file = request.files['file_give']
 
@@ -596,9 +595,19 @@ def profile_like():
 # 프로필 카드 삭제 api
 @app.route('/profile', methods=['DELETE'])
 def profile_delete():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    my_username = db.users.find_one({"username": payload["id"]})['username']
+
     id_receive = request.form["id_give"]
-    db.profile.delete_one({'number': int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '프로필삭제'})
+    delete_profile_user = db.profile.find_one({'number': int(id_receive)}, {'_id': False})['username']
+    print(delete_profile_user)
+    if my_username == delete_profile_user:
+        db.profile.delete_one({'number': int(id_receive)})
+        return jsonify({'result': 'success', 'msg': '프로필 삭제 완료'})
+    else:
+        return jsonify({'result': 'success', 'msg': '작성자만 삭제할 수 있습니다.'})
+
 
 
 # 프로필 디테일 수정 화면 GET

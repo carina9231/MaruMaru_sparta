@@ -53,7 +53,6 @@ function post_upload() {
     for (let i = 0; i < fileInput.length; i++) {
         if (fileInput[i].files.length > 0) {
             for (let j = 0; j < fileInput[i].files.length; j++) {
-                let filename = fileInput[i].files[j].name //
 
                 let file = $('#file')[0].files[0]
                 let form_data = new FormData()
@@ -62,7 +61,6 @@ function post_upload() {
                 form_data.append("title_give", title)
                 form_data.append("address_give", address)
                 form_data.append("content_give", content)
-                form_data.append("filename_give", filename)
 
                 if ($("#title_box").val().length == 0) {
                     alert("제목을 입력하세요!");
