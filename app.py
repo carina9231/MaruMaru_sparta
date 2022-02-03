@@ -1,3 +1,4 @@
+import boto3
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from pymongo import MongoClient
 
@@ -494,19 +495,27 @@ def profile_upload():
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
     file = request.files['file_give']
+    s3 = boto3.client('s3')
+    s3.put_object(
+        ACL = "public-read",
+        Bucket="maruflaskproject",
+        Body=file,
+        Key=file.filename,
+        ContentType=file.content_type
+    )
 
-    extension = file.filename.split('.')
-
-    today = datetime.now()
-    mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
-
-    filename = f'{mytime}-{extension[0]}'
-    filename = "".join(i for i in filename if i not in "\/:*?<>|")
-    filename = filename.strip()
-
-    save_to = f'static/profileimg/{filename}.{extension[1]}'
-
-    file.save(save_to)
+    # extension = file.filename.split('.')
+    #
+    # today = datetime.now()
+    # mytime = today.strftime('%Y년%m월%d일%H:%M:%S')
+    #
+    # filename = f'{mytime}-{extension[0]}'
+    # filename = "".join(i for i in filename if i not in "\/:*?<>|")
+    # filename = filename.strip()
+    #
+    # save_to = f'static/profileimg/{filename}.{extension[1]}'
+    #
+    # file.save(save_to)
 
     count = db.profile.count()
     if count == 0:
@@ -520,7 +529,7 @@ def profile_upload():
         'gender': gender_receive,
         'comment': comment_receive,
         'number': max_value,
-        'file': f'{filename}.{extension[1]}',
+        # 'file': f'{filename}.{extension[1]}',
         'username': payload['id'],
         'like': list(),
         'like_count': 0
