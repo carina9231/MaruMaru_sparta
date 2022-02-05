@@ -12,7 +12,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: 'ap-northeast-2'
   steps:
-    - name: Checkout source code.
+    - name: Checkout source.
       uses: actions/checkout@sy_develope2
 
     - name: Upload binary to S3 bucket
