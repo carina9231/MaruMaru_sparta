@@ -2,7 +2,7 @@ name: maruaws
 on:
   push:
     branches:
-    - main
+    - sy_develope2
 
 jobs:
   build:
