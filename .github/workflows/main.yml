@@ -2,6 +2,7 @@ name: maruaws
 on:
   push:
     branches:
+#    브랜치 이름 확인
     - sy_develope2
 
 jobs:
